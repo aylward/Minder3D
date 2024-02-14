@@ -39,98 +39,20 @@
     <property name="currentIndex">
      <number>0</number>
     </property>
-    <widget class="QWidget" name="viewTab">
+    <widget class="QWidget" name="tabView">
      <attribute name="title">
       <string>View</string>
      </attribute>
-     <widget class="QSlider" name="viewIntensityMinSlider">
+     <widget class="QWidget" name="verticalLayoutWidget_3">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>160</width>
-        <height>22</height>
+        <x>9</x>
+        <y>9</y>
+        <width>541</width>
+        <height>121</height>
        </rect>
       </property>
-      <property name="autoFillBackground">
-       <bool>true</bool>
-      </property>
-      <property name="minimum">
-       <number>-50</number>
-      </property>
-      <property name="maximum">
-       <number>150</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="invertedAppearance">
-       <bool>false</bool>
-      </property>
-     </widget>
-     <widget class="QSlider" name="viewIntensityMaxSlider">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>40</y>
-        <width>160</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="autoFillBackground">
-       <bool>true</bool>
-      </property>
-      <property name="minimum">
-       <number>-50</number>
-      </property>
-      <property name="maximum">
-       <number>150</number>
-      </property>
-      <property name="value">
-       <number>99</number>
-      </property>
-      <property name="tracking">
-       <bool>true</bool>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="invertedControls">
-       <bool>false</bool>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="viewIntensityMinSpinBox">
-      <property name="geometry">
-       <rect>
-        <x>180</x>
-        <y>10</y>
-        <width>81</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="viewIntensityMaxSpinBox">
-      <property name="geometry">
-       <rect>
-        <x>180</x>
-        <y>40</y>
-        <width>81</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="viewIntensityMinMaxReset">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>28</y>
-        <width>41</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Reset</string>
-      </property>
+      <layout class="QVBoxLayout" name="tabViewLayout"/>
      </widget>
     </widget>
     <widget class="QWidget" name="preprocessTab">
@@ -552,8 +474,12 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionLoad_Scene"/>
     <addaction name="loadImageMenuItem"/>
+    <addaction name="separator"/>
+    <addaction name="actionSave_Scene"/>
     <addaction name="saveImageMenuItem"/>
+    <addaction name="separator"/>
     <addaction name="saveOverlayMenuItem"/>
     <addaction name="saveModelsMenuItem"/>
    </widget>
@@ -578,6 +504,16 @@
   <action name="saveModelsMenuItem">
    <property name="text">
     <string>Save Models</string>
+   </property>
+  </action>
+  <action name="actionLoad_Scene">
+   <property name="text">
+    <string>Load Scene</string>
+   </property>
+  </action>
+  <action name="actionSave_Scene">
+   <property name="text">
+    <string>Save Scene</string>
    </property>
   </action>
  </widget>
