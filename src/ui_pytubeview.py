@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'pytubeviewkHAlfW.ui'
+## Form generated from reading UI file 'pytubeviewtTlaAB.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -16,11 +16,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDoubleSpinBox,
-    QLabel, QMainWindow, QMenu, QMenuBar,
-    QPlainTextEdit, QPushButton, QSizePolicy, QSlider,
-    QSpinBox, QStatusBar, QTabWidget, QTextBrowser,
-    QTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QLabel,
+    QMainWindow, QMenu, QMenuBar, QPlainTextEdit,
+    QPushButton, QSizePolicy, QSlider, QSpinBox,
+    QStatusBar, QTabWidget, QTextBrowser, QTextEdit,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -35,6 +35,10 @@ class Ui_MainWindow(object):
         self.saveOverlayMenuItem.setObjectName(u"saveOverlayMenuItem")
         self.saveModelsMenuItem = QAction(MainWindow)
         self.saveModelsMenuItem.setObjectName(u"saveModelsMenuItem")
+        self.actionLoad_Scene = QAction(MainWindow)
+        self.actionLoad_Scene.setObjectName(u"actionLoad_Scene")
+        self.actionSave_Scene = QAction(MainWindow)
+        self.actionSave_Scene.setObjectName(u"actionSave_Scene")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.view2DSliceSlider = QSlider(self.centralwidget)
@@ -44,36 +48,15 @@ class Ui_MainWindow(object):
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tabWidget.setGeometry(QRect(170, 400, 571, 171))
-        self.viewTab = QWidget()
-        self.viewTab.setObjectName(u"viewTab")
-        self.viewIntensityMinSlider = QSlider(self.viewTab)
-        self.viewIntensityMinSlider.setObjectName(u"viewIntensityMinSlider")
-        self.viewIntensityMinSlider.setGeometry(QRect(10, 10, 160, 22))
-        self.viewIntensityMinSlider.setAutoFillBackground(True)
-        self.viewIntensityMinSlider.setMinimum(-50)
-        self.viewIntensityMinSlider.setMaximum(150)
-        self.viewIntensityMinSlider.setOrientation(Qt.Horizontal)
-        self.viewIntensityMinSlider.setInvertedAppearance(False)
-        self.viewIntensityMaxSlider = QSlider(self.viewTab)
-        self.viewIntensityMaxSlider.setObjectName(u"viewIntensityMaxSlider")
-        self.viewIntensityMaxSlider.setGeometry(QRect(10, 40, 160, 22))
-        self.viewIntensityMaxSlider.setAutoFillBackground(True)
-        self.viewIntensityMaxSlider.setMinimum(-50)
-        self.viewIntensityMaxSlider.setMaximum(150)
-        self.viewIntensityMaxSlider.setValue(99)
-        self.viewIntensityMaxSlider.setTracking(True)
-        self.viewIntensityMaxSlider.setOrientation(Qt.Horizontal)
-        self.viewIntensityMaxSlider.setInvertedControls(False)
-        self.viewIntensityMinSpinBox = QDoubleSpinBox(self.viewTab)
-        self.viewIntensityMinSpinBox.setObjectName(u"viewIntensityMinSpinBox")
-        self.viewIntensityMinSpinBox.setGeometry(QRect(180, 10, 81, 22))
-        self.viewIntensityMaxSpinBox = QDoubleSpinBox(self.viewTab)
-        self.viewIntensityMaxSpinBox.setObjectName(u"viewIntensityMaxSpinBox")
-        self.viewIntensityMaxSpinBox.setGeometry(QRect(180, 40, 81, 22))
-        self.viewIntensityMinMaxReset = QPushButton(self.viewTab)
-        self.viewIntensityMinMaxReset.setObjectName(u"viewIntensityMinMaxReset")
-        self.viewIntensityMinMaxReset.setGeometry(QRect(270, 28, 41, 20))
-        self.tabWidget.addTab(self.viewTab, "")
+        self.tabView = QWidget()
+        self.tabView.setObjectName(u"tabView")
+        self.verticalLayoutWidget_3 = QWidget(self.tabView)
+        self.verticalLayoutWidget_3.setObjectName(u"verticalLayoutWidget_3")
+        self.verticalLayoutWidget_3.setGeometry(QRect(9, 9, 541, 121))
+        self.tabViewLayout = QVBoxLayout(self.verticalLayoutWidget_3)
+        self.tabViewLayout.setObjectName(u"tabViewLayout")
+        self.tabViewLayout.setContentsMargins(0, 0, 0, 0)
+        self.tabWidget.addTab(self.tabView, "")
         self.preprocessTab = QWidget()
         self.preprocessTab.setObjectName(u"preprocessTab")
         self.preprocMedianFilterButton = QPushButton(self.preprocessTab)
@@ -199,8 +182,12 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.menubar.addAction(self.menuMIDAS_Qt.menuAction())
+        self.menuMIDAS_Qt.addAction(self.actionLoad_Scene)
         self.menuMIDAS_Qt.addAction(self.loadImageMenuItem)
+        self.menuMIDAS_Qt.addSeparator()
+        self.menuMIDAS_Qt.addAction(self.actionSave_Scene)
         self.menuMIDAS_Qt.addAction(self.saveImageMenuItem)
+        self.menuMIDAS_Qt.addSeparator()
         self.menuMIDAS_Qt.addAction(self.saveOverlayMenuItem)
         self.menuMIDAS_Qt.addAction(self.saveModelsMenuItem)
 
@@ -218,8 +205,9 @@ class Ui_MainWindow(object):
         self.saveImageMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Image", None))
         self.saveOverlayMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Overlay", None))
         self.saveModelsMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Models", None))
-        self.viewIntensityMinMaxReset.setText(QCoreApplication.translate("MainWindow", u"Reset", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.viewTab), QCoreApplication.translate("MainWindow", u"View", None))
+        self.actionLoad_Scene.setText(QCoreApplication.translate("MainWindow", u"Load Scene", None))
+        self.actionSave_Scene.setText(QCoreApplication.translate("MainWindow", u"Save Scene", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabView), QCoreApplication.translate("MainWindow", u"View", None))
         self.preprocMedianFilterButton.setText(QCoreApplication.translate("MainWindow", u"Median Filter", None))
         self.preprocLowResIsoButton.setText(QCoreApplication.translate("MainWindow", u"Make Low-Res Isotropic", None))
         self.preprocHighResIsoButton.setText(QCoreApplication.translate("MainWindow", u"Make High-Res Isotropic", None))
