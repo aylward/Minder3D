@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>761</width>
+    <width>1052</width>
     <height>615</height>
    </rect>
   </property>
@@ -14,210 +14,73 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QSlider" name="view2DSliceSlider">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>10</y>
-      <width>22</width>
-      <height>311</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>220</x>
       <y>400</y>
-      <width>571</width>
+      <width>531</width>
       <height>171</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
-    <widget class="QWidget" name="tabView">
+    <widget class="QWidget" name="tabVisualization">
      <attribute name="title">
-      <string>View</string>
+      <string>Visualization</string>
      </attribute>
      <widget class="QWidget" name="verticalLayoutWidget_3">
       <property name="geometry">
        <rect>
         <x>9</x>
         <y>9</y>
-        <width>541</width>
-        <height>121</height>
+        <width>501</width>
+        <height>131</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="tabViewLayout"/>
+      <layout class="QVBoxLayout" name="tabVisualizationLayout"/>
      </widget>
     </widget>
-    <widget class="QWidget" name="preprocessTab">
+    <widget class="QWidget" name="tabPreprocess">
      <attribute name="title">
       <string>PreProcess</string>
      </attribute>
-     <widget class="QPushButton" name="preprocMedianFilterButton">
-      <property name="geometry">
-       <rect>
-        <x>230</x>
-        <y>20</y>
-        <width>121</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Median Filter</string>
-      </property>
-     </widget>
-     <widget class="QSpinBox" name="preprocMedianRadiusBox">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>20</y>
-        <width>42</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="preprocLowResIsoButton">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>181</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Make Low-Res Isotropic</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="preprocHighResIsoButton">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>50</y>
-        <width>181</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Make High-Res Isotropic</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="lungTab">
-     <attribute name="title">
-      <string>Lung</string>
-     </attribute>
-     <widget class="QPushButton" name="pushButton">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>10</y>
-        <width>91</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Force Load AI</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label">
+     <widget class="QWidget" name="verticalLayoutWidget_7">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>61</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>AI Status:</string>
-      </property>
-     </widget>
-     <widget class="QTextBrowser" name="textBrowser">
-      <property name="geometry">
-       <rect>
-        <x>70</x>
-        <y>10</y>
-        <width>261</width>
+        <width>511</width>
         <height>121</height>
        </rect>
       </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_2">
-      <property name="geometry">
-       <rect>
-        <x>400</x>
-        <y>100</y>
-        <width>141</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Segment Lungs</string>
-      </property>
+      <layout class="QVBoxLayout" name="tabPreProcessLayout"/>
      </widget>
     </widget>
-   </widget>
-   <widget class="QPlainTextEdit" name="view2DSliceText">
-    <property name="geometry">
-     <rect>
-      <x>365</x>
-      <y>330</y>
-      <width>31</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>31</width>
-      <height>21</height>
-     </size>
-    </property>
-    <property name="baseSize">
-     <size>
-      <width>31</width>
-      <height>21</height>
-     </size>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
-    <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
-    </property>
-    <property name="horizontalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QAbstractScrollArea::AdjustIgnored</enum>
-    </property>
-    <property name="lineWrapMode">
-     <enum>QPlainTextEdit::NoWrap</enum>
-    </property>
-    <property name="plainText">
-     <string>100</string>
-    </property>
+    <widget class="QWidget" name="tabLungAI">
+     <attribute name="title">
+      <string>Lung AI</string>
+     </attribute>
+     <widget class="QWidget" name="verticalLayoutWidget_6">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>511</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="tabLungAILayout"/>
+     </widget>
+    </widget>
    </widget>
    <widget class="QComboBox" name="objectComboBox">
     <property name="geometry">
      <rect>
       <x>60</x>
       <y>407</y>
-      <width>101</width>
+      <width>141</width>
       <height>26</height>
      </rect>
     </property>
@@ -254,79 +117,6 @@
      <string>Info:</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="view2DXYButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>370</y>
-      <width>61</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>XY</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="view2DXZButton">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>370</y>
-      <width>61</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>XZ</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="view2DYZButton">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>370</y>
-      <width>61</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>YZ</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="view2DOverlayOpacitySlider">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>374</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="view2DOverlayOpacityLabel">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>360</y>
-      <width>51</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Overlay Opacity</string>
-    </property>
-    <property name="wordWrap">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QLabel" name="objectColorLabel">
     <property name="geometry">
      <rect>
@@ -345,7 +135,7 @@
      <rect>
       <x>60</x>
       <y>437</y>
-      <width>101</width>
+      <width>141</width>
       <height>26</height>
      </rect>
     </property>
@@ -387,7 +177,7 @@
      <rect>
       <x>60</x>
       <y>467</y>
-      <width>101</width>
+      <width>141</width>
       <height>20</height>
      </rect>
     </property>
@@ -400,7 +190,7 @@
      <rect>
       <x>60</x>
       <y>487</y>
-      <width>101</width>
+      <width>141</width>
       <height>26</height>
      </rect>
     </property>
@@ -416,7 +206,7 @@
      <rect>
       <x>60</x>
       <y>520</y>
-      <width>101</width>
+      <width>141</width>
       <height>51</height>
      </rect>
     </property>
@@ -438,17 +228,6 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>351</width>
-      <height>351</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="view2DWidget"/>
-   </widget>
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
@@ -458,7 +237,50 @@
       <height>351</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="view3DWidget"/>
+    <layout class="QVBoxLayout" name="tabView3DLayout"/>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>10</y>
+      <width>281</width>
+      <height>221</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>240</y>
+      <width>281</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="tabScreenCaptureLayout"/>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_5">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>370</y>
+      <width>281</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="tabChatLayout"/>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_8">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>391</width>
+      <height>351</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="tabView2DLayout"/>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -466,7 +288,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>761</width>
+     <width>1052</width>
      <height>22</height>
     </rect>
    </property>
@@ -474,10 +296,10 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionLoad_Scene"/>
+    <addaction name="loadSceneMenuItem"/>
     <addaction name="loadImageMenuItem"/>
     <addaction name="separator"/>
-    <addaction name="actionSave_Scene"/>
+    <addaction name="saveSceneMenuItem"/>
     <addaction name="saveImageMenuItem"/>
     <addaction name="separator"/>
     <addaction name="saveOverlayMenuItem"/>
@@ -506,12 +328,12 @@
     <string>Save Models</string>
    </property>
   </action>
-  <action name="actionLoad_Scene">
+  <action name="loadSceneMenuItem">
    <property name="text">
     <string>Load Scene</string>
    </property>
   </action>
-  <action name="actionSave_Scene">
+  <action name="saveSceneMenuItem">
    <property name="text">
     <string>Save Scene</string>
    </property>

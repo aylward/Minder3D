@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'tabViewvVaiVq.ui'
+## Form generated from reading UI file 'tabViewFJlRDd.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -18,26 +18,20 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QDoubleSpinBox, QPushButton, QSizePolicy,
     QSlider, QWidget)
 
-class Ui_tabView(object):
-    def setupUi(self, tabView):
-        if not tabView.objectName():
-            tabView.setObjectName(u"tabView")
-        tabView.resize(322, 69)
-        self.widget = QWidget(tabView)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(0, 0, 321, 61))
-        self.viewIntensityMaxSpinBox = QDoubleSpinBox(self.widget)
-        self.viewIntensityMaxSpinBox.setObjectName(u"viewIntensityMaxSpinBox")
-        self.viewIntensityMaxSpinBox.setGeometry(QRect(180, 32, 81, 22))
-        self.viewIntensityMinSpinBox = QDoubleSpinBox(self.widget)
-        self.viewIntensityMinSpinBox.setObjectName(u"viewIntensityMinSpinBox")
-        self.viewIntensityMinSpinBox.setGeometry(QRect(180, 2, 81, 22))
-        self.viewIntensityMinMaxReset = QPushButton(self.widget)
+class Ui_tabViewWidget(object):
+    def setupUi(self, tabViewWidget):
+        if not tabViewWidget.objectName():
+            tabViewWidget.setObjectName(u"tabViewWidget")
+        tabViewWidget.resize(307, 54)
+        self.viewIntensityMinMaxReset = QPushButton(tabViewWidget)
         self.viewIntensityMinMaxReset.setObjectName(u"viewIntensityMinMaxReset")
-        self.viewIntensityMinMaxReset.setGeometry(QRect(270, 20, 41, 20))
-        self.viewIntensityMaxSlider = QSlider(self.widget)
+        self.viewIntensityMinMaxReset.setGeometry(QRect(260, 18, 41, 20))
+        self.viewIntensityMinSpinBox = QDoubleSpinBox(tabViewWidget)
+        self.viewIntensityMinSpinBox.setObjectName(u"viewIntensityMinSpinBox")
+        self.viewIntensityMinSpinBox.setGeometry(QRect(170, 0, 81, 22))
+        self.viewIntensityMaxSlider = QSlider(tabViewWidget)
         self.viewIntensityMaxSlider.setObjectName(u"viewIntensityMaxSlider")
-        self.viewIntensityMaxSlider.setGeometry(QRect(10, 32, 160, 22))
+        self.viewIntensityMaxSlider.setGeometry(QRect(0, 30, 160, 22))
         self.viewIntensityMaxSlider.setAutoFillBackground(True)
         self.viewIntensityMaxSlider.setMinimum(-50)
         self.viewIntensityMaxSlider.setMaximum(150)
@@ -45,9 +39,12 @@ class Ui_tabView(object):
         self.viewIntensityMaxSlider.setTracking(True)
         self.viewIntensityMaxSlider.setOrientation(Qt.Horizontal)
         self.viewIntensityMaxSlider.setInvertedControls(False)
-        self.viewIntensityMinSlider = QSlider(self.widget)
+        self.viewIntensityMaxSpinBox = QDoubleSpinBox(tabViewWidget)
+        self.viewIntensityMaxSpinBox.setObjectName(u"viewIntensityMaxSpinBox")
+        self.viewIntensityMaxSpinBox.setGeometry(QRect(170, 30, 81, 22))
+        self.viewIntensityMinSlider = QSlider(tabViewWidget)
         self.viewIntensityMinSlider.setObjectName(u"viewIntensityMinSlider")
-        self.viewIntensityMinSlider.setGeometry(QRect(10, 2, 160, 22))
+        self.viewIntensityMinSlider.setGeometry(QRect(0, 0, 160, 22))
         self.viewIntensityMinSlider.setMouseTracking(False)
         self.viewIntensityMinSlider.setAutoFillBackground(True)
         self.viewIntensityMinSlider.setMinimum(-50)
@@ -56,13 +53,13 @@ class Ui_tabView(object):
         self.viewIntensityMinSlider.setOrientation(Qt.Horizontal)
         self.viewIntensityMinSlider.setInvertedAppearance(False)
 
-        self.retranslateUi(tabView)
+        self.retranslateUi(tabViewWidget)
 
-        QMetaObject.connectSlotsByName(tabView)
+        QMetaObject.connectSlotsByName(tabViewWidget)
     # setupUi
 
-    def retranslateUi(self, tabView):
-        tabView.setWindowTitle(QCoreApplication.translate("tabView", u"Form", None))
-        self.viewIntensityMinMaxReset.setText(QCoreApplication.translate("tabView", u"Reset", None))
+    def retranslateUi(self, tabViewWidget):
+        tabViewWidget.setWindowTitle(QCoreApplication.translate("tabViewWidget", u"Form", None))
+        self.viewIntensityMinMaxReset.setText(QCoreApplication.translate("tabViewWidget", u"Reset", None))
     # retranslateUi
 
