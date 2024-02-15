@@ -1,8 +1,7 @@
 import itk
 
-import vtk
 
-class ptvState():
+class PTVState():
     def __init__(self):
         # Types
         self.image_pixel_type = itk.F
