@@ -11,7 +11,9 @@ if __name__ == "__main__":
 
     pytubeview = PTVWindow()
 
-    if len(sys.argv)>1:
+    if len(sys.argv) > 1:
         pytubeview.load_image(sys.argv[1])
+        if len(sys.argv) > 2:
+            pytubeview.load_scene(sys.argv[2])
 
     sys.exit(app.exec())

@@ -53,12 +53,19 @@ class TabView3DWidget(QWidget, Ui_tabView3DWidget):
 
         ren.AddActor(coneActor)
 
+    def closeEvent(self, QCloseEvent):
+        super().closeEvent(QCloseEvent)
+        self.vtk3DViewWidget.close()
+
     def initialize(self):
         self.vtk3DViewWidget.Initialize()
 
     def update_image(self):
         if self.view3D is None:
             self.update()
+
+    def update_scene(self):
+        print("Update Scene in 3D View")
 
     def update(self):
         print("Update 3D View")

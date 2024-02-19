@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'pytubeviewvStdnY.ui'
+## Form generated from reading UI file 'pytubeviewvThNrT.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -131,7 +131,7 @@ class Ui_MainWindow(object):
         self.tabChatLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayoutWidget_8 = QWidget(self.centralwidget)
         self.verticalLayoutWidget_8.setObjectName(u"verticalLayoutWidget_8")
-        self.verticalLayoutWidget_8.setGeometry(QRect(10, 10, 391, 351))
+        self.verticalLayoutWidget_8.setGeometry(QRect(10, 10, 391, 391))
         self.tabView2DLayout = QVBoxLayout(self.verticalLayoutWidget_8)
         self.tabView2DLayout.setObjectName(u"tabView2DLayout")
         self.tabView2DLayout.setContentsMargins(0, 0, 0, 0)

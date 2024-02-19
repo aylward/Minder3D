@@ -277,7 +277,7 @@
       <x>10</x>
       <y>10</y>
       <width>391</width>
-      <height>351</height>
+      <height>391</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="tabView2DLayout"/>

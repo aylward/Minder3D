@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'tabView2DvgRoqv.ui'
+## Form generated from reading UI file 'tabView2DquBFIH.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -33,6 +33,7 @@ class Ui_tabView2DWidget(object):
         self.view2DOverlayOpacitySlider = QSlider(tabView2DWidget)
         self.view2DOverlayOpacitySlider.setObjectName(u"view2DOverlayOpacitySlider")
         self.view2DOverlayOpacitySlider.setGeometry(QRect(260, 364, 91, 16))
+        self.view2DOverlayOpacitySlider.setValue(50)
         self.view2DOverlayOpacitySlider.setOrientation(Qt.Horizontal)
         self.verticalLayoutWidget = QWidget(tabView2DWidget)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
@@ -42,7 +43,7 @@ class Ui_tabView2DWidget(object):
         self.view2DLayout.setContentsMargins(0, 0, 0, 0)
         self.view2DOverlayOpacityLabel = QLabel(tabView2DWidget)
         self.view2DOverlayOpacityLabel.setObjectName(u"view2DOverlayOpacityLabel")
-        self.view2DOverlayOpacityLabel.setGeometry(QRect(220, 350, 51, 41))
+        self.view2DOverlayOpacityLabel.setGeometry(QRect(220, 355, 51, 31))
         font = QFont()
         font.setPointSize(7)
         self.view2DOverlayOpacityLabel.setFont(font)

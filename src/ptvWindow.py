@@ -4,14 +4,18 @@ import numpy as np
 
 import itk
 
-
-
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QMainWindow,
+    QFileDialog,
 )
 
 from ptvState import PTVState
+
+from ptvUtils import (
+    read_group,
+    write_group
+)
 
 from tabView2D import TabView2DWidget
 from tabView3D import TabView3DWidget
@@ -68,6 +72,11 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.tabView2D.initialize()
         self.tabView3D.initialize()
 
+    def closeEvent(self, QCloseEvent):
+        super().closeEvent(QCloseEvent)
+        self.tabView2D.close()
+        self.tabView3D.close()
+
     def load_image(self, filename=None):
         if not filename:
             filename, _ = QFileDialog.getOpenFileName(
@@ -78,43 +87,50 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             )
         if filename:
             self.state.loaded_image_filename = filename
-            self.state.loaded_image = itk.imread(filename, self.state.image_pixel_type)
+            self.state.loaded_image = itk.imread(
+                filename,
+                self.state.image_pixel_type
+            )
             self.state.image = self.state.loaded_image
+            self.state.image_array = itk.GetArrayFromImage(self.state.image)
             self.state.overlay = self.state.overlay_type.New()
-            self.state.overlay.SetRegions(self.state.image.GetLargestPossibleRegion())
+            self.state.overlay.SetRegions(
+                self.state.image.GetLargestPossibleRegion()
+            )
             self.state.overlay.CopyInformation(self.state.image)
             self.state.overlay.Allocate()
+            self.state.overlay.FillBuffer(self.state.overlay_pixel_type(0))
+            self.state.overlay_array = itk.GetArrayFromImage(
+                self.state.overlay
+            )
             self.update_image()
+            self.update_overlay()
 
     def load_scene(self, filename=None):
         if not filename:
             filename, _ = QFileDialog.getOpenFileName(
-                self, "Open File", self.state.loaded_scene_filename, "All Files (*)"
+                self,
+                "Open File",
+                self.state.loaded_scene_filename,
+                "All Files (*)"
             )
         if filename:
             self.state.loaded_scene_filename = filename
-            soreader = itk.SpatialObjectReader()
-            soreader.SetFileName(filename)
-            soreader.Update()
-            self.state.scene = soreader.GetGroup()
-            self.update_overlay()
+            self.state.scene = read_group(filename)
+            self.update_scene()
 
     def update_image(self):
-        self.state.image_array = itk.GetArrayFromImage(self.state.image)
-
         self.state.image_min = float(np.min(self.state.image_array))
         self.state.image_max = float(np.max(self.state.image_array))
-        self.state.image_intensity_window_min = self.state.image_min
-        self.state.image_intensity_window_max = self.state.image_max
 
         self.tabView2D.update_image()
         self.tabView3D.update_image()
 
         self.tabVisualization.update_image()
-        #self.tabPreProcess.update_image()
-        #self.tabLungAI.update_image()
-        #self.tabScreenCapture.update_image()
-        #self.tabChat.update_image()
 
     def update_overlay(self):
-        self.state.overlay_array = itk.GetArrayFromImage(self.state.overlay)
+        self.tabView2D.update_overlay()
+
+    def update_scene(self):
+        self.tabView2D.update_scene()
+        self.tabView3D.update_scene()
