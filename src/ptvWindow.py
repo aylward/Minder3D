@@ -12,9 +12,9 @@ from PySide6.QtWidgets import (
 
 from ptvState import PTVState
 
-from ptvUtils import (
+from soViewerUtils import (
     read_group,
-    write_group
+    get_children_as_list
 )
 
 from tabView2D import TabView2DWidget
@@ -117,6 +117,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         if filename:
             self.state.loaded_scene_filename = filename
             self.state.scene = read_group(filename)
+            self.state.scene_list = get_children_as_list(self.state.scene)
             self.update_scene()
 
     def update_image(self):

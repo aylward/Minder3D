@@ -1,6 +1,3 @@
-import itk
-from itk import TubeTK as tube
-
 from vtkmodules.vtkCommonCore import vtkDoubleArray, vtkPoints
 from vtkmodules.vtkCommonDataModel import (
     vtkCellArray,
@@ -8,6 +5,8 @@ from vtkmodules.vtkCommonDataModel import (
     vtkPolyLine,
 )
 from vtkmodules.vtkFiltersCore import vtkTubeFilter
+
+from soViewerUtils import get_children_as_list
 
 
 def convert_tubes_to_polylines(tube_list):
@@ -116,30 +115,34 @@ def convert_tubes_to_polylines(tube_list):
         tube_polylines[-1].GetPointData().AddArray(data_a1)
         tube_polylines[-1].GetPointData().AddArray(data_a2)
         tube_polylines[-1].GetPointData().AddArray(data_a3)
-        tube_polylines[-1].GetPointData().SetActiveScalars("Radius")
+        
+        color_by = "Radius"
+        tube.GetProperty().GetTagStringValue("ColorBy", color_by)
+        tube_polylines[-1].GetPointData().SetActiveScalars(color_by)
 
     return tube_polylines
+
 
 def convert_tubes_to_surfaces(tube_list, number_of_sides=5):
     num_tubes = len(tube_list)
     tube_surfaces = []
-    if num_tubes>0:
-        tube_polylines = convert_tubes_to_polylines(tubes)
+    if num_tubes > 0:
+        tube_polylines = convert_tubes_to_polylines(tube_list)
         for i in range(num_tubes):
-            tFilter = vtkTubeFilter()
-            tFilter.SetVaryRadiusToVaryRadiusByAbsoluteScalar()
-            tFilter.CappingOn()
-            tFilter.SetNumberOfSides(number_of_sides)
-            tFilter.SetInputData(tube_polylines[i])
-            tFilter.Update()
-            tube_surfaces.append(tFilter.GetOutput())
+            tube_filter = vtkTubeFilter()
+            tube_filter.SetVaryRadiusToVaryRadiusByAbsoluteScalar()
+            tube_filter.CappingOn()
+            tube_filter.SetNumberOfSides(number_of_sides)
+            tube_filter.SetInputData(tube_polylines[i])
+            tube_filter.Update()
+            tube_surfaces.append(tube_filter.GetOutput())
 
     return tube_surfaces
 
-def convert_scene_to_surfaces(scene):
-    surfaces = []
-    tube_list = get_children_as_list(tubes, "Tube")
-    if len(tube_list)>0:
-        surfaces.append(convert_tubes_to_surfaces(tube_list)
-    return surfaces
 
+def convert_scene_to_surfaces(scene):
+    surfaces = None
+    tube_list = get_children_as_list(scene, "Tube")
+    if len(tube_list) > 0:
+        surfaces = convert_tubes_to_surfaces(tube_list)
+    return surfaces

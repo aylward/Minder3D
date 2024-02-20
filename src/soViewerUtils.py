@@ -1,7 +1,7 @@
 """
-Utility functions for working with tubes.
+Utility functions for working with spatial objects.
 
-This module contains utility functions for working with tubes.
+This module contains utility functions for working with spatial objects.
 
 Functions:
     get_children_as_list: Finds all children of a given type in a
@@ -36,20 +36,20 @@ def get_children_as_list(
     ]
 
 
-def get_tube_index_in_list(
-    tube_id: int, tube_list: list
+def get_so_index_in_list(
+    so_id: int, so_list: list
 ) -> int:
-    """Finds the index of a tube in a list of tubes.
+    """Finds the index of a so in a list of sos.
 
     Args:
-        tube_id (int): The id of the tube to find.
-        tube_list (list): The list of tubes to search.
+        so_id (int): The id of the so to find.
+        so_list (list): The list of sos to search.
 
     Returns:
-        int: The index of the tube in the list.
+        int: The index of the so in the list.
     """
-    id_list = [tube_list[i].GetId() for i in range(len(tube_list))]
-    index = id_list.index(tube_id)
+    id_list = [so.GetId() for so in so_list]
+    index = id_list.index(so_id)
     return index
 
 
