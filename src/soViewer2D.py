@@ -1,6 +1,6 @@
 import itk
 
-from ptvUtils import get_children_as_list
+from soViewerUtils import get_children_as_list
 
 
 def render_tubes_in_overlay(scene, image, overlay_array):
@@ -22,17 +22,14 @@ def render_tubes_in_overlay(scene, image, overlay_array):
             for o2 in range(-point_radius_index[2],
                             point_radius_index[2]):
                 r2 = (o2*spacing[2])**2
-                #print(r2, rr, o2, point_radius_index[2])
                 if r2 <= rr:
                     for o1 in range(-point_radius_index[1],
                                     point_radius_index[1]):
                         r1 = (o1*spacing[1])**2
-                        #print(r1, rr, o1, point_radius_index[1])
                         if r2+r1 <= rr:
                             for o0 in range(-point_radius_index[0],
                                             point_radius_index[0]):
                                 r0 = (o0*spacing[0])**2
-                                #print(r0, rr, o0, point_radius_index[0])
                                 if r2+r1+r0 <= rr:
                                     tp = [point_index[0]+o0,
                                           point_index[1]+o1,
@@ -43,11 +40,9 @@ def render_tubes_in_overlay(scene, image, overlay_array):
                                         tp[1] < overlay_array.shape[1] and
                                         tp[2] >= 0 and
                                         tp[2] < overlay_array.shape[0]):
-                                        #print(".")
                                         overlay_array[tp[2],tp[1],tp[0]] = c
 
 
 def render_scene_in_overlay_array(scene, image, overlay_array):
-    print("render_scene_in_overlay: starting")
     scene.Update()
     render_tubes_in_overlay(scene, image, overlay_array)

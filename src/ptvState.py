@@ -28,4 +28,11 @@ class PTVState():
 
         # Scene
         self.scene = None
+        self.scene_list = []
         self.loaded_scene_filename = "./test.mha"
+
+        # Selected Spatial Objects
+        self.multiple_selections_enabled = False
+        self.selected_so_ids = []
+        self.selected_so_actors = []
+        self.selected_so_point_ids = []
