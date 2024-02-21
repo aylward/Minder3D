@@ -29,6 +29,7 @@ class PTVState():
         # Scene
         self.scene = None
         self.scene_list = []
+        self.scene_list_properties = dict()
         self.loaded_scene_filename = "./test.mha"
 
         # Selected Spatial Objects

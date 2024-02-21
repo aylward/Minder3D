@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'pytubeviewvThNrT.ui'
+## Form generated from reading UI file 'pytubeviewspHngG.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -17,9 +17,10 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QHeaderView, QLabel,
-    QMainWindow, QMenu, QMenuBar, QSizePolicy,
-    QSlider, QStatusBar, QTabWidget, QTableWidget,
-    QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget)
+    QLayout, QMainWindow, QMenu, QMenuBar,
+    QPushButton, QSizePolicy, QSlider, QStatusBar,
+    QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -70,12 +71,12 @@ class Ui_MainWindow(object):
         self.tabLungAILayout.setObjectName(u"tabLungAILayout")
         self.tabLungAILayout.setContentsMargins(0, 0, 0, 0)
         self.tabWidget.addTab(self.tabLungAI, "")
-        self.objectComboBox = QComboBox(self.centralwidget)
-        self.objectComboBox.setObjectName(u"objectComboBox")
-        self.objectComboBox.setGeometry(QRect(60, 407, 141, 26))
-        self.objectLabel = QLabel(self.centralwidget)
-        self.objectLabel.setObjectName(u"objectLabel")
-        self.objectLabel.setGeometry(QRect(10, 407, 49, 20))
+        self.objectNameComboBox = QComboBox(self.centralwidget)
+        self.objectNameComboBox.setObjectName(u"objectNameComboBox")
+        self.objectNameComboBox.setGeometry(QRect(50, 407, 161, 26))
+        self.objectNameLabel = QLabel(self.centralwidget)
+        self.objectNameLabel.setObjectName(u"objectNameLabel")
+        self.objectNameLabel.setGeometry(QRect(10, 407, 49, 20))
         self.objectInfoLabel = QLabel(self.centralwidget)
         self.objectInfoLabel.setObjectName(u"objectInfoLabel")
         self.objectInfoLabel.setGeometry(QRect(10, 520, 49, 16))
@@ -84,7 +85,7 @@ class Ui_MainWindow(object):
         self.objectColorLabel.setGeometry(QRect(10, 439, 49, 24))
         self.objectColorComboBox = QComboBox(self.centralwidget)
         self.objectColorComboBox.setObjectName(u"objectColorComboBox")
-        self.objectColorComboBox.setGeometry(QRect(60, 437, 141, 26))
+        self.objectColorComboBox.setGeometry(QRect(50, 437, 71, 26))
         self.objectFormLabel = QLabel(self.centralwidget)
         self.objectFormLabel.setObjectName(u"objectFormLabel")
         self.objectFormLabel.setGeometry(QRect(10, 490, 49, 20))
@@ -93,26 +94,31 @@ class Ui_MainWindow(object):
         self.objectOpacityLabel.setGeometry(QRect(10, 466, 49, 20))
         self.objectOpacitySlider = QSlider(self.centralwidget)
         self.objectOpacitySlider.setObjectName(u"objectOpacitySlider")
-        self.objectOpacitySlider.setGeometry(QRect(60, 467, 141, 20))
+        self.objectOpacitySlider.setGeometry(QRect(58, 468, 61, 16))
+        font = QFont()
+        font.setPointSize(5)
+        self.objectOpacitySlider.setFont(font)
+        self.objectOpacitySlider.setValue(50)
         self.objectOpacitySlider.setOrientation(Qt.Horizontal)
         self.objectFormComboBox = QComboBox(self.centralwidget)
         self.objectFormComboBox.setObjectName(u"objectFormComboBox")
-        self.objectFormComboBox.setGeometry(QRect(60, 487, 141, 26))
+        self.objectFormComboBox.setGeometry(QRect(50, 487, 71, 26))
         self.objectInfoText = QTextEdit(self.centralwidget)
         self.objectInfoText.setObjectName(u"objectInfoText")
-        self.objectInfoText.setGeometry(QRect(60, 520, 141, 51))
-        font = QFont()
-        font.setPointSize(7)
-        self.objectInfoText.setFont(font)
+        self.objectInfoText.setGeometry(QRect(40, 520, 171, 51))
+        font1 = QFont()
+        font1.setPointSize(7)
+        self.objectInfoText.setFont(font1)
         self.objectInfoText.setMouseTracking(False)
         self.objectInfoText.setAcceptDrops(False)
         self.objectInfoText.setUndoRedoEnabled(False)
         self.objectInfoText.setReadOnly(True)
         self.verticalLayoutWidget_2 = QWidget(self.centralwidget)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(400, 10, 351, 351))
+        self.verticalLayoutWidget_2.setGeometry(QRect(400, 10, 351, 391))
         self.tabView3DLayout = QVBoxLayout(self.verticalLayoutWidget_2)
         self.tabView3DLayout.setObjectName(u"tabView3DLayout")
+        self.tabView3DLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.tabView3DLayout.setContentsMargins(0, 0, 0, 0)
         self.tableWidget = QTableWidget(self.centralwidget)
         self.tableWidget.setObjectName(u"tableWidget")
@@ -134,7 +140,28 @@ class Ui_MainWindow(object):
         self.verticalLayoutWidget_8.setGeometry(QRect(10, 10, 391, 391))
         self.tabView2DLayout = QVBoxLayout(self.verticalLayoutWidget_8)
         self.tabView2DLayout.setObjectName(u"tabView2DLayout")
+        self.tabView2DLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.tabView2DLayout.setContentsMargins(0, 0, 0, 0)
+        self.objectPropertiesToAllButton = QPushButton(self.centralwidget)
+        self.objectPropertiesToAllButton.setObjectName(u"objectPropertiesToAllButton")
+        self.objectPropertiesToAllButton.setGeometry(QRect(130, 489, 41, 24))
+        self.objectPropertiesToAllButton.setFont(font1)
+        self.objectPropertiesToChildrenButton = QPushButton(self.centralwidget)
+        self.objectPropertiesToChildrenButton.setObjectName(u"objectPropertiesToChildrenButton")
+        self.objectPropertiesToChildrenButton.setGeometry(QRect(170, 489, 41, 24))
+        self.objectPropertiesToChildrenButton.setFont(font1)
+        self.objectPropertiesToLabel = QLabel(self.centralwidget)
+        self.objectPropertiesToLabel.setObjectName(u"objectPropertiesToLabel")
+        self.objectPropertiesToLabel.setGeometry(QRect(133, 474, 81, 20))
+        self.objectPropertiesToLabel.setFont(font1)
+        self.objectDeleteButton = QPushButton(self.centralwidget)
+        self.objectDeleteButton.setObjectName(u"objectDeleteButton")
+        self.objectDeleteButton.setGeometry(QRect(170, 440, 41, 24))
+        self.objectDeleteButton.setFont(font1)
+        self.objectRenameButton = QPushButton(self.centralwidget)
+        self.objectRenameButton.setObjectName(u"objectRenameButton")
+        self.objectRenameButton.setGeometry(QRect(130, 440, 41, 24))
+        self.objectRenameButton.setFont(font1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -158,7 +185,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -176,10 +203,10 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabPreprocess), QCoreApplication.translate("MainWindow", u"PreProcess", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabLungAI), QCoreApplication.translate("MainWindow", u"Lung AI", None))
 #if QT_CONFIG(accessibility)
-        self.objectComboBox.setAccessibleName("")
+        self.objectNameComboBox.setAccessibleName("")
 #endif // QT_CONFIG(accessibility)
-        self.objectComboBox.setCurrentText("")
-        self.objectLabel.setText(QCoreApplication.translate("MainWindow", u"Object:", None))
+        self.objectNameComboBox.setCurrentText("")
+        self.objectNameLabel.setText(QCoreApplication.translate("MainWindow", u"Object:", None))
         self.objectInfoLabel.setText(QCoreApplication.translate("MainWindow", u"Info:", None))
         self.objectColorLabel.setText(QCoreApplication.translate("MainWindow", u"Color:", None))
 #if QT_CONFIG(accessibility)
@@ -192,6 +219,11 @@ class Ui_MainWindow(object):
         self.objectFormComboBox.setAccessibleName("")
 #endif // QT_CONFIG(accessibility)
         self.objectFormComboBox.setCurrentText("")
+        self.objectPropertiesToAllButton.setText(QCoreApplication.translate("MainWindow", u"All", None))
+        self.objectPropertiesToChildrenButton.setText(QCoreApplication.translate("MainWindow", u"Children", None))
+        self.objectPropertiesToLabel.setText(QCoreApplication.translate("MainWindow", u"Apply properties to", None))
+        self.objectDeleteButton.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
+        self.objectRenameButton.setText(QCoreApplication.translate("MainWindow", u"Rename", None))
         self.menuMIDAS_Qt.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
 

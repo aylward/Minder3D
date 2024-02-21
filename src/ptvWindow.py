@@ -1,5 +1,3 @@
-import sys
-
 import numpy as np
 
 import itk
@@ -14,7 +12,8 @@ from ptvState import PTVState
 
 from soViewerUtils import (
     read_group,
-    get_children_as_list
+    get_children_as_list,
+    get_so_index_in_list
 )
 
 from tabView2D import TabView2DWidget
@@ -117,8 +116,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         if filename:
             self.state.loaded_scene_filename = filename
             self.state.scene = read_group(filename)
-            self.state.scene_list = get_children_as_list(self.state.scene)
-            self.update_scene()
+        self.update_scene()
 
     def update_image(self):
         self.state.image_min = float(np.min(self.state.image_array))
@@ -133,5 +131,39 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.tabView2D.update_overlay()
 
     def update_scene(self):
+        self.state.scene_list = get_children_as_list(self.state.scene)
+        self.state.scene_list_properties = []
+        self.objectNameComboBox.clear()
+        for so in self.state.scene_list:
+            self.state.scene_list_properties.append(
+                dict(ColorBy="Color", Form="Surface")
+                )
+            self.objectNameComboBox.addItem(f"{so.GetTypeName()} {so.GetId()}")
         self.tabView2D.update_scene()
         self.tabView3D.update_scene()
+
+    def update_object(self, so, update_2D=True, update_3D=True):
+        so_id = so.GetId()
+        idx = get_so_index_in_list(so_id, self.state.scene_list)
+        so_size = so.GetNumberOfPoints()
+        self.objectNameComboBox.setCurrentIndex(idx)
+        #self.objectViewComboBox.select(self.state.scene_list_properties[idx]["ColorBy"])
+        #self.objectColorComboBox.select(so.GetProperty().GetColor())
+        self.objectOpacitySlider.setValue(so.GetProperty().GetAlpha())
+        self.objectInfoText.clear()
+        self.objectInfoText.insertPlainText(f"Object size: {so_size}\n")
+        if so_id in self.state.selected_so_ids:
+            selected_idx = self.state.selected_so_ids.index(so_id)
+            point_id = self.state.selected_so_point_ids[selected_idx]
+            point = so.GetPoint(point_id)
+            point_pos = point.GetPositionInWorldSpace()
+            self.objectInfoText.insertPlainText(f"   Selected point\n")
+            self.objectInfoText.insertPlainText(f"      Id: {point_id}\n")
+            self.objectInfoText.insertPlainText(f"      Position: {point_pos}\n")
+            if "Tube" in so.GetTypeName():
+                point_radius = point.GetRadiusInWorldSpace()
+                self.objectInfoText.insertPlainText(f"      Radius: {point_radius}\n")
+        if update_2D:
+            self.tabView2D.update_object(so)
+        if update_3D:
+            self.tabView3D.update_object(so)
