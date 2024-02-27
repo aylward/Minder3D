@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1052</width>
-    <height>615</height>
+    <height>632</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,7 +26,7 @@
     <property name="currentIndex">
      <number>0</number>
     </property>
-    <widget class="QWidget" name="tabVisualization">
+    <widget class="QWidget" name="visualizationPanel">
      <attribute name="title">
       <string>Visualization</string>
      </attribute>
@@ -35,14 +35,14 @@
        <rect>
         <x>9</x>
         <y>9</y>
-        <width>501</width>
+        <width>511</width>
         <height>131</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="tabVisualizationLayout"/>
+      <layout class="QVBoxLayout" name="visualizationPanelLayout"/>
      </widget>
     </widget>
-    <widget class="QWidget" name="tabPreprocess">
+    <widget class="QWidget" name="preProcessPanel">
      <attribute name="title">
       <string>PreProcess</string>
      </attribute>
@@ -52,13 +52,13 @@
         <x>10</x>
         <y>10</y>
         <width>511</width>
-        <height>121</height>
+        <height>131</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="tabPreProcessLayout"/>
+      <layout class="QVBoxLayout" name="preProcessPanelLayout"/>
      </widget>
     </widget>
-    <widget class="QWidget" name="tabLungAI">
+    <widget class="QWidget" name="lungAIPanel">
      <attribute name="title">
       <string>Lung AI</string>
      </attribute>
@@ -66,12 +66,12 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>0</y>
+        <y>10</y>
         <width>511</width>
-        <height>121</height>
+        <height>131</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="tabLungAILayout"/>
+      <layout class="QVBoxLayout" name="lungAIPanelLayout"/>
      </widget>
     </widget>
    </widget>
@@ -80,7 +80,7 @@
      <rect>
       <x>50</x>
       <y>407</y>
-      <width>161</width>
+      <width>111</width>
       <height>26</height>
      </rect>
     </property>
@@ -95,7 +95,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>407</y>
+      <y>410</y>
       <width>49</width>
       <height>20</height>
      </rect>
@@ -104,38 +104,25 @@
      <string>Object:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="objectInfoLabel">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>520</y>
-      <width>49</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Info:</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="objectColorLabel">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>439</y>
-      <width>49</width>
+      <x>30</x>
+      <y>497</y>
+      <width>61</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>Color:</string>
+     <string>Solid Color:</string>
     </property>
    </widget>
    <widget class="QComboBox" name="objectColorComboBox">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>437</y>
-      <width>71</width>
+      <x>100</x>
+      <y>497</y>
+      <width>101</width>
       <height>26</height>
      </rect>
     </property>
@@ -146,25 +133,12 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="objectFormLabel">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>490</y>
-      <width>49</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Form:</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="objectOpacityLabel">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>466</y>
-      <width>49</width>
+      <x>30</x>
+      <y>526</y>
+      <width>51</width>
       <height>20</height>
      </rect>
     </property>
@@ -175,10 +149,10 @@
    <widget class="QSlider" name="objectOpacitySlider">
     <property name="geometry">
      <rect>
-      <x>58</x>
-      <y>468</y>
-      <width>61</width>
-      <height>16</height>
+      <x>100</x>
+      <y>530</y>
+      <width>101</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="font">
@@ -186,54 +160,14 @@
       <pointsize>5</pointsize>
      </font>
     </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
     <property name="value">
      <number>50</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="objectFormComboBox">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>487</y>
-      <width>71</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="accessibleName">
-     <string/>
-    </property>
-    <property name="currentText">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="objectInfoText">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>520</y>
-      <width>171</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
-    <property name="mouseTracking">
-     <bool>false</bool>
-    </property>
-    <property name="acceptDrops">
-     <bool>false</bool>
-    </property>
-    <property name="undoRedoEnabled">
-     <bool>false</bool>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_2">
@@ -245,7 +179,7 @@
       <height>391</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="tabView3DLayout">
+    <layout class="QVBoxLayout" name="view3DPanelLayout">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
@@ -270,7 +204,7 @@
       <height>121</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="tabScreenCaptureLayout"/>
+    <layout class="QVBoxLayout" name="screenCapturePanelLayout"/>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_5">
     <property name="geometry">
@@ -281,7 +215,7 @@
       <height>201</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="tabChatLayout"/>
+    <layout class="QVBoxLayout" name="chatPanelLayout"/>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_8">
     <property name="geometry">
@@ -292,17 +226,85 @@
       <height>391</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="tabView2DLayout">
+    <layout class="QVBoxLayout" name="view2DPanelLayout">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
     </layout>
    </widget>
+   <widget class="QPushButton" name="objectDeleteButton">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>407</y>
+      <width>41</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Delete</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="objectColorByLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>467</y>
+      <width>71</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Color by:</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="objectColorByComboBox">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>467</y>
+      <width>101</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="accessibleName">
+     <string/>
+    </property>
+    <property name="currentText">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="objectHightlightSelectedCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>440</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Highlight</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
    <widget class="QPushButton" name="objectPropertiesToAllButton">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>489</y>
+      <x>160</x>
+      <y>554</y>
       <width>41</width>
       <height>24</height>
      </rect>
@@ -319,8 +321,8 @@
    <widget class="QPushButton" name="objectPropertiesToChildrenButton">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>489</y>
+      <x>100</x>
+      <y>554</y>
       <width>41</width>
       <height>24</height>
      </rect>
@@ -334,58 +336,17 @@
      <string>Children</string>
     </property>
    </widget>
-   <widget class="QLabel" name="objectPropertiesToLabel">
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>133</x>
-      <y>474</y>
-      <width>81</width>
-      <height>20</height>
+      <x>30</x>
+      <y>556</y>
+      <width>49</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
     <property name="text">
-     <string>Apply properties to</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="objectDeleteButton">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>440</y>
-      <width>41</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Delete</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="objectRenameButton">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>440</y>
-      <width>41</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Rename</string>
+     <string>Apply to:</string>
     </property>
    </widget>
   </widget>

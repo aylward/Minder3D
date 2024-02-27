@@ -1,6 +1,4 @@
-import itk
-
-from soViewerUtils import get_children_as_list
+from sovUtils import get_children_as_list
 
 
 def render_tube_in_overlay_array(tube, image, overlay_array, color=None):

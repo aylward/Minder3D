@@ -1,10 +1,10 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget
 
-from ui_tabChat import Ui_tabChatWidget
+from ui_sovScreenCapturePanelWidget import Ui_ScreenCapturePanelWidget
 
 
-class TabChatWidget(QWidget, Ui_tabChatWidget):
+class ScreenCapturePanelWidget(QWidget, Ui_ScreenCapturePanelWidget):
     def __init__(self, gui, state, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -12,9 +12,9 @@ class TabChatWidget(QWidget, Ui_tabChatWidget):
         self.gui = gui
         self.state = state
 
-        self.chatGoButton.clicked.connect(
-            self.go
+        self.scCapture2DButton.clicked.connect(
+            self.capture_2d
         )
 
-    def go(self):
+    def capture_2d(self):
         print("click")

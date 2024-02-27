@@ -3,10 +3,10 @@ import numpy as np
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget
 
-from ui_tabVisualization import Ui_tabVisualizationWidget
+from ui_sovVisualizationPanelWidget import Ui_VisualizationPanelWidget
 
 
-class TabVisualizationWidget(QWidget, Ui_tabVisualizationWidget):
+class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
     def __init__(self, gui, state, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -44,7 +44,7 @@ class TabVisualizationWidget(QWidget, Ui_tabVisualizationWidget):
             self.vizIntensityMaxSpinBox.setValue(intensityMax)
             self.state.image_intensity_window_min = intensityMin
             self.state.image_intensity_window_max = intensityMax
-            self.gui.tabView2D.update()
+            self.gui.view2DPanel.update()
             self.redraw = True
 
     def update_viz_intensity_min_max_spin_boxes(self):
@@ -61,7 +61,7 @@ class TabVisualizationWidget(QWidget, Ui_tabVisualizationWidget):
             self.vizIntensityMaxSlider.setValue(maxI)
             self.state.image_intensity_window_min = intensityMin
             self.state.image_intensity_window_max = intensityMax
-            self.gui.tabView2D.update()
+            self.gui.view2DPanel.update()
             self.redraw = True
 
     def update_image(self):

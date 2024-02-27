@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>tabView3DWidget</class>
- <widget class="QWidget" name="tabView3DWidget">
+ <class>View3DPanelWidget</class>
+ <widget class="QWidget" name="View3DPanelWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -171,6 +171,9 @@
     <font>
      <pointsize>7</pointsize>
     </font>
+   </property>
+   <property name="maximum">
+    <number>100</number>
    </property>
    <property name="value">
     <number>99</number>

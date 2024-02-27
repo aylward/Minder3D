@@ -10,20 +10,27 @@ from PySide6.QtWidgets import (
 
 from ptvState import PTVState
 
-from soViewerUtils import (
-    read_group,
-    get_children_as_list,
-    get_so_index_in_list
+from sovColorMapUtils import (
+    get_nearest_color_index_and_name
 )
 
-from tabView2D import TabView2DWidget
-from tabView3D import TabView3DWidget
+from sovUtils import (
+    read_group,
+    get_children_as_list,
+)
 
-from tabVisualization import TabVisualizationWidget
-from tabPreProcess import TabPreProcessWidget
-from tabLungAI import TabLungAIWidget
-from tabScreenCapture import TabScreenCaptureWidget
-from tabChat import TabChatWidget
+from sovView3DUtils import (
+    get_object_forms
+)
+
+from sovView2DPanelWidget import View2DPanelWidget
+from sovView3DPanelWidget import View3DPanelWidget
+
+from sovVisualizationPanelWidget import VisualizationPanelWidget
+from sovPreProcessPanelWidget import PreProcessPanelWidget
+from sovLungAIPanelWidget import LungAIPanelWidget
+from sovScreenCapturePanelWidget import ScreenCapturePanelWidget
+from sovChatPanelWidget import ChatPanelWidget
 
 from ui_pytubeview import Ui_MainWindow
 
@@ -39,42 +46,97 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.loadImageMenuItem.triggered.connect(self.load_image)
         self.loadSceneMenuItem.triggered.connect(self.load_scene)
 
+        for color_name, _ in self.state.colormap.items():
+            self.objectColorComboBox.addItem(color_name)
+
+        self.connect_object_gui()
+
+        self.objectDeleteButton.pressed.connect(
+            self.delete_current_object
+            )
+
+        self.objectPropertiesToAllButton.pressed.connect(
+            self.propogate_properties_to_all
+            )
+
+        self.objectPropertiesToChildrenButton.pressed.connect(
+            self.propogate_properties_to_children
+            )
+        
+        self.objectHightlightSelectedCheckBox.stateChanged.connect(
+            self.update_highlight_selected
+        )
+
         # View 2D Widget
-        self.tabView2D = TabView2DWidget(self, self.state)
-        self.tabView2DLayout.addWidget(self.tabView2D)
+        self.view2DPanel = View2DPanelWidget(self, self.state)
+        self.view2DPanelLayout.addWidget(self.view2DPanel)
 
         # View 3D Widget
-        self.tabView3D = TabView3DWidget(self, self.state)
-        self.tabView3DLayout.addWidget(self.tabView3D)
+        self.view3DPanel = View3DPanelWidget(self, self.state)
+        self.view3DPanelLayout.addWidget(self.view3DPanel)
 
         # Visualization Tab
-        self.tabVisualization = TabVisualizationWidget(self, self.state)
-        self.tabVisualizationLayout.addWidget(self.tabVisualization)
+        self.visualizationPanel = VisualizationPanelWidget(self, self.state)
+        self.visualizationPanelLayout.addWidget(self.visualizationPanel)
 
         # PreProcess Tab
-        self.tabPreProcess = TabPreProcessWidget(self, self.state)
-        self.tabPreProcessLayout.addWidget(self.tabPreProcess)
+        self.preProcessPanel = PreProcessPanelWidget(self, self.state)
+        self.preProcessPanelLayout.addWidget(self.preProcessPanel)
 
         # LungAI Tab
-        self.tabLungAI = TabLungAIWidget(self, self.state)
-        self.tabLungAILayout.addWidget(self.tabLungAI)
+        self.lungAIPanel = LungAIPanelWidget(self, self.state)
+        self.lungAIPanelLayout.addWidget(self.lungAIPanel)
 
         # ScreenCapture Tab
-        self.tabScreenCapture = TabScreenCaptureWidget(self, self.state)
-        self.tabScreenCaptureLayout.addWidget(self.tabScreenCapture)
+        self.screenCapturePanel = ScreenCapturePanelWidget(self, self.state)
+        self.screenCapturePanelLayout.addWidget(self.screenCapturePanel)
 
         # Chat Tab
-        self.tabChat = TabChatWidget(self, self.state)
-        self.tabChatLayout.addWidget(self.tabChat)
+        self.chatPanel = ChatPanelWidget(self, self.state)
+        self.chatPanelLayout.addWidget(self.chatPanel)
 
         self.show()
-        self.tabView2D.initialize()
-        self.tabView3D.initialize()
+        self.view2DPanel.initialize()
+        self.view3DPanel.initialize()
+
+    def connect_object_gui(self):
+        self.objectNameComboBox.currentIndexChanged.connect(
+            self.select_object_by_name_combobox
+            )
+
+        self.objectColorByComboBox.currentIndexChanged.connect(
+            self.modify_current_object
+            )
+
+        self.objectColorComboBox.currentIndexChanged.connect(
+            self.modify_current_object
+            )
+
+        self.objectOpacitySlider.valueChanged.connect(
+            self.modify_current_object
+            )
+
+    def disconnect_object_gui(self):
+        self.objectNameComboBox.currentIndexChanged.disconnect(
+            self.select_object_by_name_combobox
+        )
+
+        self.objectColorByComboBox.currentIndexChanged.disconnect(
+            self.modify_current_object
+        )
+
+        self.objectColorComboBox.currentIndexChanged.disconnect(
+            self.modify_current_object
+        )
+
+        self.objectOpacitySlider.valueChanged.disconnect(
+            self.modify_current_object
+        )
 
     def closeEvent(self, QCloseEvent):
         super().closeEvent(QCloseEvent)
-        self.tabView2D.close()
-        self.tabView3D.close()
+        self.view2DPanel.close()
+        self.view3DPanel.close()
 
     def load_image(self, filename=None):
         if not filename:
@@ -122,48 +184,170 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.state.image_min = float(np.min(self.state.image_array))
         self.state.image_max = float(np.max(self.state.image_array))
 
-        self.tabView2D.update_image()
-        self.tabView3D.update_image()
+        self.view2DPanel.update_image()
+        self.view3DPanel.update_image()
 
-        self.tabVisualization.update_image()
+        self.visualizationPanel.update_image()
 
     def update_overlay(self):
-        self.tabView2D.update_overlay()
+        self.view2DPanel.update_overlay()
 
     def update_scene(self):
+        print("ptv update_scene")
         self.state.scene_list = get_children_as_list(self.state.scene)
+        self.state.scene_list_ids = []
         self.state.scene_list_properties = []
+
+        self.disconnect_object_gui()
         self.objectNameComboBox.clear()
+        self.objectNameComboBox.addItem("None")
         for so in self.state.scene_list:
+            self.state.scene_list_ids.append(so.GetId())
             self.state.scene_list_properties.append(
-                dict(ColorBy="Color", Form="Surface")
+                dict(ColorBy="Solid Color")
                 )
             self.objectNameComboBox.addItem(f"{so.GetTypeName()} {so.GetId()}")
-        self.tabView2D.update_scene()
-        self.tabView3D.update_scene()
+        self.view2DPanel.update_scene()
+        self.view3DPanel.update_scene()
+        self.connect_object_gui()
 
-    def update_object(self, so, update_2D=True, update_3D=True):
+    def select_object_by_name_combobox(self):
+        print("ptv select_object_by_name_combobox")
+        idx = self.objectNameComboBox.currentIndex()
+        if idx == 0:
+            return
+        idx -= 1
+        so = self.state.scene_list[idx]
         so_id = so.GetId()
-        idx = get_so_index_in_list(so_id, self.state.scene_list)
-        so_size = so.GetNumberOfPoints()
-        self.objectNameComboBox.setCurrentIndex(idx)
-        #self.objectViewComboBox.select(self.state.scene_list_properties[idx]["ColorBy"])
-        #self.objectColorComboBox.select(so.GetProperty().GetColor())
-        self.objectOpacitySlider.setValue(so.GetProperty().GetAlpha())
-        self.objectInfoText.clear()
-        self.objectInfoText.insertPlainText(f"Object size: {so_size}\n")
-        if so_id in self.state.selected_so_ids:
-            selected_idx = self.state.selected_so_ids.index(so_id)
-            point_id = self.state.selected_so_point_ids[selected_idx]
-            point = so.GetPoint(point_id)
-            point_pos = point.GetPositionInWorldSpace()
-            self.objectInfoText.insertPlainText(f"   Selected point\n")
-            self.objectInfoText.insertPlainText(f"      Id: {point_id}\n")
-            self.objectInfoText.insertPlainText(f"      Position: {point_pos}\n")
-            if "Tube" in so.GetTypeName():
-                point_radius = point.GetRadiusInWorldSpace()
-                self.objectInfoText.insertPlainText(f"      Radius: {point_radius}\n")
+        # Unselect currently selected objects
+        for selected_idx,selected_so_id in enumerate(self.state.selected_ids):
+            if selected_so_id != -1 and selected_so_id != so_id:
+                scene_idx = self.state.scene_list_ids.index(selected_so_id)
+                selected_so = self.state.scene_list[scene_idx]
+                self.state.selected_ids[selected_idx] = -1
+                self.redraw_object(selected_so)
+        self.state.selected_ids = [so_id]
+        self.state.selected_point_ids = [0]
+        self.redraw_object(so)
+
+    def redraw_object(self, so, update_2D=True, update_3D=True):
+        print("ptv redraw_object")
+        so_id = so.GetId()
+        if so_id not in self.state.scene_list_ids:
+            print("ERROR: so_id not in scene_list_ids")
+            return
+        scene_idx = self.state.scene_list_ids.index(so_id)
+
+        self.disconnect_object_gui()
+
+        self.objectNameComboBox.setCurrentIndex(scene_idx+1)
+
+        c = so.GetProperty().GetColor()
+        color = [c.GetRed(), c.GetGreen(), c.GetBlue(), c.GetAlpha()]
+        color[0:3] = np.array(color)[0:3]*self.state.colormap_scale_factor
+        color[3] = color[3]*100.0
+        self.objectOpacitySlider.setValue(color[3])
+        _, color_name = get_nearest_color_index_and_name(
+            color[0:3], self.state.colormap
+        )
+        self.objectColorComboBox.setCurrentText(color_name)
+
         if update_2D:
-            self.tabView2D.update_object(so)
+            self.view2DPanel.redraw_object(so)
         if update_3D:
-            self.tabView3D.update_object(so)
+            self.view3DPanel.redraw_object(so)
+
+        # Must call after view3DPanel.redraw_object() so that actors defined.
+        self.objectColorByComboBox.clear()
+        self.objectColorByComboBox.addItem("Solid Color")
+        actor = self.state.scene_list_properties[scene_idx].get("Actor")
+        if actor is not None:
+            pdata = actor.GetMapper().GetInput()
+            for i in range(pdata.GetPointData().GetNumberOfArrays()):
+                pname = pdata.GetPointData().GetArrayName(i)
+                self.objectColorByComboBox.addItem(pname)
+
+            self.objectColorByComboBox.setCurrentText(
+                self.state.scene_list_properties[scene_idx]["ColorBy"])
+
+        self.connect_object_gui()
+
+    def modify_current_object(self):
+        print("ptv modify_current_object")
+        idx = self.objectNameComboBox.currentIndex()
+        if idx == 0:
+            return
+        idx -= 1
+        so = self.state.scene_list[idx]
+        color = np.empty(4)
+        color[0:3] = self.state.colormap[self.objectColorComboBox.currentText()]
+        color[0:3] /= self.state.colormap_scale_factor
+        color[3] = self.objectOpacitySlider.value()/100.0
+        so.GetProperty().SetColor(color)
+        self.state.scene_list_properties[idx]["ColorBy"] = self.objectColorByComboBox.currentText()
+        
+        self.view2DPanel.redraw_object(so)
+        self.view3DPanel.redraw_object(so)
+
+    def delete_current_object(self):
+        print("ptv delete_current_object")
+        scene_idx = self.objectNameComboBox.currentIndex()
+        if scene_idx == 0:
+            return
+        scene_idx -= 1
+        self.state.scene_list.pop(scene_idx)
+        self.state.scene_list_properties.pop(scene_idx)
+        self.objectNameComboBox.removeItem(scene_idx+1)
+        self.update_scene()
+        if scene_idx in self.state.selected_ids:
+            self.state.selected_ids.pop(scene_idx)
+            self.state.selected_point_ids.pop(scene_idx)
+            if len(self.state.selected_ids) > 0:
+                next_so_id = self.state.selected_ids[-1]
+                next_scene_idx = self.state.scene_list_ids.index(next_so_id)
+                next_so = self.state.scene_list[next_scene_idx]
+                self.redraw_object(next_so)
+
+    def propogate_properties_to_all(self):
+        print("ptv propogate_properties_to_all")
+        scene_idx = self.objectNameComboBox.currentIndex()-1
+        color_by = self.objectColorByComboBox.currentText()
+        color = np.empty(4)
+        color[0:3] = self.state.colormap[self.objectColorComboBox.currentText()]
+        color[0:3] /= self.state.colormap_scale_factor
+        color[3] = self.objectOpacitySlider.value()/100.0
+        for idx in range(len(self.state.scene_list)):
+            if idx != scene_idx:
+                self.state.scene_list_properties[idx]["ColorBy"] = color_by
+                self.state.scene_list[idx].GetProperty().SetColor(color)
+                self.redraw_object(self.state.scene_list[idx])
+
+    def propogate_properties_to_children(self):
+        print("ptv propogate_properties_to_children")
+        idx = self.objectNameComboBox.currentIndex()
+        if idx == 0:
+            return
+        idx -= 1
+        so = self.state.scene_list[idx]
+        color_by = self.objectColorByComboBox.currentText()
+        color = np.empty(4)
+        color[0:3] = self.state.colormap[self.objectColorComboBox.currentText()]
+        print("color", color)
+        color[0:3] /= self.state.colormap_scale_factor
+        color[3] = self.objectOpacitySlider.value()/100.0
+        print("color", color)
+        children = get_children_as_list(so)
+        for child_so in children:
+            idx = self.state.scene_list.index(child_so)
+            self.state.scene_list_properties[idx]["ColorBy"] = color_by
+            self.state.scene_list[idx].GetProperty().SetColor(color)
+            self.redraw_object(self.state.scene_list[idx])
+
+    def update_highlight_selected(self):
+        print("ptv update_highlight_selected")
+        self.state.highlight_selected = self.objectHightlightSelectedCheckBox.isChecked()
+        idx = self.objectNameComboBox.currentIndex()
+        if idx == 0:
+            return
+        so = self.state.scene_list[idx-1]
+        self.redraw_object(so)

@@ -2,17 +2,17 @@ import itk
 
 from PySide6.QtWidgets import QWidget
 
-from soViewer2D import (
+from sovView2DUtils import (
     render_scene_in_overlay_array,
     render_object_in_overlay_array,
 )
 
-from ui_tabView2D import Ui_tabView2DWidget
+from ui_sovView2DPanelWidget import Ui_View2DPanelWidget
 
-from soViewer2DRenderWindowInteractor import SOViewer2DRenderWindowInteractor
+from sovView2DRenderWindowInteractor import View2DRenderWindowInteractor
 
 
-class TabView2DWidget(QWidget, Ui_tabView2DWidget):
+class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
     def __init__(self, gui, state, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -20,7 +20,7 @@ class TabView2DWidget(QWidget, Ui_tabView2DWidget):
         self.gui = gui
         self.state = state
 
-        self.vtk2DViewWidget = SOViewer2DRenderWindowInteractor(gui, state, self)
+        self.vtk2DViewWidget = View2DRenderWindowInteractor(gui, state, self)
         self.view2DLayout.addWidget(self.vtk2DViewWidget)
 
         self.view2DSliceSlider.valueChanged.connect(self.update_slice_from_slider)
@@ -30,6 +30,9 @@ class TabView2DWidget(QWidget, Ui_tabView2DWidget):
         self.view2DXYButton.clicked.connect(self.update_axis_xy)
         self.view2DXZButton.clicked.connect(self.update_axis_xz)
         self.view2DYZButton.clicked.connect(self.update_axis_yz)
+
+        self.view2DFlipXCheckBox.stateChanged.connect(self.update_flip)
+        self.view2DFlipYCheckBox.stateChanged.connect(self.update_flip)
 
         self.redraw_slice = True
 
@@ -58,6 +61,7 @@ class TabView2DWidget(QWidget, Ui_tabView2DWidget):
         )
         self.redraw_slice = True
         self.update()
+        self.vtk2DViewWidget.reset_camera()
 
     def update_axis_xz(self):
         self.state.image_axis = 1
@@ -73,6 +77,7 @@ class TabView2DWidget(QWidget, Ui_tabView2DWidget):
         )
         self.redraw_slice = True
         self.update()
+        self.vtk2DViewWidget.reset_camera()
 
     def update_axis_yz(self):
         self.state.image_axis = 0
@@ -88,8 +93,15 @@ class TabView2DWidget(QWidget, Ui_tabView2DWidget):
         )
         self.redraw_slice = True
         self.update()
+        self.vtk2DViewWidget.reset_camera()
 
+    def update_flip(self):
+        self.state.image_flip_x = self.view2DFlipXCheckBox.isChecked()
+        self.state.image_flip_y = self.view2DFlipYCheckBox.isChecked()
+        self.update()
+        
     def update_image(self):
+        print("2d update_image")
         self.state.image_intensity_window_min = self.state.image_min
         self.state.image_intensity_window_max = self.state.image_max
 
@@ -107,6 +119,7 @@ class TabView2DWidget(QWidget, Ui_tabView2DWidget):
         self.vtk2DViewWidget.update_image()
 
     def update_overlay(self):
+        print("2d update_overlay")
         if self.state.scene is not None:
             render_scene_in_overlay_array(
                 self.state.scene,
@@ -121,6 +134,7 @@ class TabView2DWidget(QWidget, Ui_tabView2DWidget):
             self.update()
 
     def update_scene(self):
+        print("2d update_scene")
         if self.state.scene is not None:
             render_scene_in_overlay_array(
                 self.state.scene,
@@ -135,6 +149,7 @@ class TabView2DWidget(QWidget, Ui_tabView2DWidget):
             self.update()
 
     def update_slice_from_slider(self):
+        print("2d update_slice_from_slider")
         if (self.redraw_slice and self.view2DSliceSlider.value() != self.state.image_slice[self.state.image_axis]):
             self.redraw_slice = False
             self.state.image_slice[self.state.image_axis] = self.view2DSliceSlider.value()
@@ -156,6 +171,7 @@ class TabView2DWidget(QWidget, Ui_tabView2DWidget):
             self.update()
 
     def update_slice_from_text(self):
+        print("2d update_slice_from_text")
         if self.redraw_slice == True and int(self.view2DSliceText.toPlainText()) != self.state.image_slice[self.state.image_axis]:
             self.redraw_slice = False
             self.state.image_slice[self.state.image_axis] = int(self.view2DSliceText.toPlainText())
@@ -176,11 +192,9 @@ class TabView2DWidget(QWidget, Ui_tabView2DWidget):
             self.redraw_slice = True
             self.update()
 
-    def update(self):
-        self.vtk2DViewWidget.update_view()
-
-    def update_object(self, so):
-        if so.GetId() in self.state.selected_so_ids:
+    def redraw_object(self, so):
+        print("2d redraw_object")
+        if self.state.highlight_selected and so.GetId() in self.state.selected_ids:
             render_object_in_overlay_array(
                 so,
                 self.state.image,
@@ -199,3 +213,7 @@ class TabView2DWidget(QWidget, Ui_tabView2DWidget):
         )
         self.state.overlay.CopyInformation(self.state.image)
         self.update()
+
+    def update(self):
+        print("2d update")
+        self.vtk2DViewWidget.update_view()
