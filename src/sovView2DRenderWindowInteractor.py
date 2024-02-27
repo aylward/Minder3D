@@ -7,7 +7,7 @@ from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from vtk.util.numpy_support import numpy_to_vtk
 
 
-class SOViewer2DRenderWindowInteractor(QVTKRenderWindowInteractor):
+class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
     def __init__(self, gui, state, parent=None):
         super().__init__(parent)
 
@@ -26,7 +26,13 @@ class SOViewer2DRenderWindowInteractor(QVTKRenderWindowInteractor):
         if ctrl is False and shift is True:
             super().mouseMoveEvent(event)
 
+    def reset_camera(self):
+        self.view2D.GetRenderer().ResetCamera()
+        self.view2D.Render()
+        self.view2D.GetRenderWindow().Render()
+
     def update_image(self):
+        print("2dw update_image")
         if self.view2D is None:
             self.view2D = vtk.vtkImageViewer2()
             self.view2D.SetupInteractor(self)
@@ -37,6 +43,7 @@ class SOViewer2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             self.view2D.GetRenderWindow().Render()
 
     def update_view(self):
+        print("2dw update_view")
         if self.view2D is not None and self.state.image is not None:
             if self.state.image_array is None:
                 self.state.image_array = itk.GetArrayFromImage(
@@ -87,6 +94,12 @@ class SOViewer2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             )
             image_slice = np.clip(image_slice, 0, 255)
 
+            if self.state.image_flip_x:
+                image_slice = np.flip(image_slice, axis=1)
+
+            if self.state.image_flip_y:
+                image_slice = np.flip(image_slice, axis=0)
+
             image_slice_rgba = np.empty(
                 (image_slice.shape[0], image_slice.shape[1], 4),
                 dtype=np.uint8
@@ -115,6 +128,12 @@ class SOViewer2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             )
             image_slice_vtk.GetPointData().SetScalars(vtk_data)
 
+            if self.state.image_flip_x:
+                overlay_slice_rgba = np.flip(overlay_slice_rgba, axis=1)
+
+            if self.state.image_flip_y:
+                overlay_slice_rgba = np.flip(overlay_slice_rgba, axis=0)
+
             # Import overlay to RGBA
             overlay_slice_vtk = vtk.vtkImageData()
             overlay_slice_vtk.SetSpacing(
@@ -141,7 +160,7 @@ class SOViewer2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             imgBlender.AddInputData(image_slice_vtk)
             imgBlender.AddInputData(overlay_slice_vtk)
             imgBlender.SetOpacity(1, self.state.overlay_opacity)
-            imgBlender.SetOpacity(0, 0.5)
+            imgBlender.SetOpacity(0, 1.0)
             imgBlender.Update()
             blended_slice_vtk = imgBlender.GetOutput()
 

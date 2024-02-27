@@ -1,10 +1,10 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget
 
-from ui_tabLungAI import Ui_tabLungAIWidget
+from ui_sovLungAIPanelWidget import Ui_LungAIPanelWidget
 
 
-class TabLungAIWidget(QWidget, Ui_tabLungAIWidget):
+class LungAIPanelWidget(QWidget, Ui_LungAIPanelWidget):
     def __init__(self, gui, state, parent=None):
         super().__init__(parent)
         self.setupUi(self)

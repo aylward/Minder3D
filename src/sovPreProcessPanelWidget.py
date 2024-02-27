@@ -1,10 +1,10 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget
 
-from ui_tabPreProcess import Ui_tabPreProcessWidget
+from ui_sovPreProcessPanelWidget import Ui_PreProcessPanelWidget
 
 
-class TabPreProcessWidget(QWidget, Ui_tabPreProcessWidget):
+class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
     def __init__(self, gui, state, parent=None):
         super().__init__(parent)
         self.setupUi(self)

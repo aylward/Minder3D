@@ -52,6 +52,23 @@ def get_so_index_in_list(
     index = id_list.index(so_id)
     return index
 
+def get_tag_value_index_in_list_of_dict(
+    tag, value, list_of_dict
+) -> int:
+    """Finds the index of a value for a tag in a list of dicts
+
+    Args:
+        tag: The dictionary tag to be used
+        value: The tag value being sought
+        list_of_dict: List of dictionaries to be searched
+
+    Returns:
+        int: The index of the dictionary with that tag/value pair in the list.
+    """
+    matchings_indexes = [d.get(tag) == value for d in list_of_dict]
+    idx = matchings_indexes.index(True)
+    return idx
+
 
 def read_group(filename: str, dims: int = 3) -> itk.GroupSpatialObject:
     """Reads a group from a file.

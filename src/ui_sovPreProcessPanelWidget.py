@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'tabPreProcessPXdzHr.ui'
+## Form generated from reading UI file 'preProcessPanelfuzErn.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -18,33 +18,33 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QPushButton, QSizePolicy, QSpinBox,
     QWidget)
 
-class Ui_tabPreProcessWidget(object):
-    def setupUi(self, tabPreProcessWidget):
-        if not tabPreProcessWidget.objectName():
-            tabPreProcessWidget.setObjectName(u"tabPreProcessWidget")
-        tabPreProcessWidget.resize(390, 142)
-        self.preprocLowResIsoButton = QPushButton(tabPreProcessWidget)
+class Ui_PreProcessPanelWidget(object):
+    def setupUi(self, PreProcessPanelWidget):
+        if not PreProcessPanelWidget.objectName():
+            PreProcessPanelWidget.setObjectName(u"PreProcessPanelWidget")
+        PreProcessPanelWidget.resize(390, 142)
+        self.preprocLowResIsoButton = QPushButton(PreProcessPanelWidget)
         self.preprocLowResIsoButton.setObjectName(u"preprocLowResIsoButton")
         self.preprocLowResIsoButton.setGeometry(QRect(0, 0, 181, 24))
-        self.preprocMedianFilterButton = QPushButton(tabPreProcessWidget)
+        self.preprocMedianFilterButton = QPushButton(PreProcessPanelWidget)
         self.preprocMedianFilterButton.setObjectName(u"preprocMedianFilterButton")
         self.preprocMedianFilterButton.setGeometry(QRect(210, 0, 121, 24))
-        self.preprocHighResIsoButton = QPushButton(tabPreProcessWidget)
+        self.preprocHighResIsoButton = QPushButton(PreProcessPanelWidget)
         self.preprocHighResIsoButton.setObjectName(u"preprocHighResIsoButton")
         self.preprocHighResIsoButton.setGeometry(QRect(0, 30, 181, 24))
-        self.preprocMedianRadiusBox = QSpinBox(tabPreProcessWidget)
+        self.preprocMedianRadiusBox = QSpinBox(PreProcessPanelWidget)
         self.preprocMedianRadiusBox.setObjectName(u"preprocMedianRadiusBox")
         self.preprocMedianRadiusBox.setGeometry(QRect(340, 0, 42, 22))
 
-        self.retranslateUi(tabPreProcessWidget)
+        self.retranslateUi(PreProcessPanelWidget)
 
-        QMetaObject.connectSlotsByName(tabPreProcessWidget)
+        QMetaObject.connectSlotsByName(PreProcessPanelWidget)
     # setupUi
 
-    def retranslateUi(self, tabPreProcessWidget):
-        tabPreProcessWidget.setWindowTitle(QCoreApplication.translate("tabPreProcessWidget", u"Form", None))
-        self.preprocLowResIsoButton.setText(QCoreApplication.translate("tabPreProcessWidget", u"Make Low-Res Isotropic", None))
-        self.preprocMedianFilterButton.setText(QCoreApplication.translate("tabPreProcessWidget", u"Median Filter", None))
-        self.preprocHighResIsoButton.setText(QCoreApplication.translate("tabPreProcessWidget", u"Make High-Res Isotropic", None))
+    def retranslateUi(self, PreProcessPanelWidget):
+        PreProcessPanelWidget.setWindowTitle(QCoreApplication.translate("PreProcessPanelWidget", u"Form", None))
+        self.preprocLowResIsoButton.setText(QCoreApplication.translate("PreProcessPanelWidget", u"Make Low-Res Isotropic", None))
+        self.preprocMedianFilterButton.setText(QCoreApplication.translate("PreProcessPanelWidget", u"Median Filter", None))
+        self.preprocHighResIsoButton.setText(QCoreApplication.translate("PreProcessPanelWidget", u"Make High-Res Isotropic", None))
     # retranslateUi
 

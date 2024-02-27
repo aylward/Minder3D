@@ -6,7 +6,7 @@ from vtkmodules.vtkCommonDataModel import (
 )
 from vtkmodules.vtkFiltersCore import vtkTubeFilter
 
-from soViewerUtils import get_children_as_list
+from sovUtils import get_children_as_list
 
 
 def convert_tubes_to_polylines(tube_list):
@@ -116,9 +116,7 @@ def convert_tubes_to_polylines(tube_list):
         tube_polylines[-1].GetPointData().AddArray(data_a2)
         tube_polylines[-1].GetPointData().AddArray(data_a3)
         
-        color_by = "Radius"
-        tube.GetProperty().GetTagStringValue("ColorBy", color_by)
-        tube_polylines[-1].GetPointData().SetActiveScalars(color_by)
+        tube_polylines[-1].GetPointData().SetActiveScalars("Radius")
 
     return tube_polylines
 
@@ -146,3 +144,11 @@ def convert_scene_to_surfaces(scene):
     if len(tube_list) > 0:
         surfaces = convert_tubes_to_surfaces(tube_list)
     return surfaces
+
+
+def get_object_forms(obj):
+    if "Tube" in obj.GetTypeName():
+        forms = ["Surface", "Wireframe", "Points"]
+    elif "Mask" in obj.GetTypeName():
+        forms = ["Volume", "Contours"]
+    return forms

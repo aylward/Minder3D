@@ -1,5 +1,12 @@
 import itk
 
+from sovColorMapUtils import (
+    standard_anatomy_colormap,
+    standard_anatomy_colormap_scale_factor,
+    short_colormap,
+    short_colormap_scale_factor,
+)
+
 
 class PTVState():
     def __init__(self):
@@ -20,20 +27,26 @@ class PTVState():
         self.image_intensity_window_max = 0
         self.image_slice = [0,0,0]
         self.image_axis = 2
+        self.image_flip_x = False
+        self.image_flip_y = False
 
         # Overlay
         self.overlay = None
         self.overlay_array = None
         self.overlay_opacity = 0.5
 
+        self.colormap = short_colormap
+        self.colormap_scale_factor = short_colormap_scale_factor
+
         # Scene
         self.scene = None
         self.scene_list = []
+        self.scene_list_ids = []
         self.scene_list_properties = dict()
         self.loaded_scene_filename = "./test.mha"
 
         # Selected Spatial Objects
         self.multiple_selections_enabled = False
-        self.selected_so_ids = []
-        self.selected_so_actors = []
-        self.selected_so_point_ids = []
+        self.selected_ids = []
+        self.selected_point_ids = []
+        self.highlight_selected = True

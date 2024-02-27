@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'tabLungAIdGEVFg.ui'
+## Form generated from reading UI file 'lungAIPaneluPUhwa.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -18,33 +18,33 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QLabel, QPushButton, QSizePolicy,
     QTextBrowser, QWidget)
 
-class Ui_tabLungAIWidget(object):
-    def setupUi(self, tabLungAIWidget):
-        if not tabLungAIWidget.objectName():
-            tabLungAIWidget.setObjectName(u"tabLungAIWidget")
-        tabLungAIWidget.resize(451, 134)
-        self.lungAIStatusLabel = QLabel(tabLungAIWidget)
+class Ui_LungAIPanelWidget(object):
+    def setupUi(self, LungAIPanelWidget):
+        if not LungAIPanelWidget.objectName():
+            LungAIPanelWidget.setObjectName(u"LungAIPanelWidget")
+        LungAIPanelWidget.resize(451, 134)
+        self.lungAIStatusLabel = QLabel(LungAIPanelWidget)
         self.lungAIStatusLabel.setObjectName(u"lungAIStatusLabel")
         self.lungAIStatusLabel.setGeometry(QRect(10, 10, 61, 16))
-        self.lungAIStatusTextBrowser = QTextBrowser(tabLungAIWidget)
+        self.lungAIStatusTextBrowser = QTextBrowser(LungAIPanelWidget)
         self.lungAIStatusTextBrowser.setObjectName(u"lungAIStatusTextBrowser")
         self.lungAIStatusTextBrowser.setGeometry(QRect(70, 10, 261, 101))
-        self.lungAIForceLoadButton = QPushButton(tabLungAIWidget)
+        self.lungAIForceLoadButton = QPushButton(LungAIPanelWidget)
         self.lungAIForceLoadButton.setObjectName(u"lungAIForceLoadButton")
         self.lungAIForceLoadButton.setGeometry(QRect(340, 10, 91, 24))
-        self.lungAISegmentButton = QPushButton(tabLungAIWidget)
+        self.lungAISegmentButton = QPushButton(LungAIPanelWidget)
         self.lungAISegmentButton.setObjectName(u"lungAISegmentButton")
         self.lungAISegmentButton.setGeometry(QRect(340, 90, 91, 24))
 
-        self.retranslateUi(tabLungAIWidget)
+        self.retranslateUi(LungAIPanelWidget)
 
-        QMetaObject.connectSlotsByName(tabLungAIWidget)
+        QMetaObject.connectSlotsByName(LungAIPanelWidget)
     # setupUi
 
-    def retranslateUi(self, tabLungAIWidget):
-        tabLungAIWidget.setWindowTitle(QCoreApplication.translate("tabLungAIWidget", u"Form", None))
-        self.lungAIStatusLabel.setText(QCoreApplication.translate("tabLungAIWidget", u"AI Status:", None))
-        self.lungAIForceLoadButton.setText(QCoreApplication.translate("tabLungAIWidget", u"Force Load AI", None))
-        self.lungAISegmentButton.setText(QCoreApplication.translate("tabLungAIWidget", u"Segment Lungs", None))
+    def retranslateUi(self, LungAIPanelWidget):
+        LungAIPanelWidget.setWindowTitle(QCoreApplication.translate("LungAIPanelWidget", u"Form", None))
+        self.lungAIStatusLabel.setText(QCoreApplication.translate("LungAIPanelWidget", u"AI Status:", None))
+        self.lungAIForceLoadButton.setText(QCoreApplication.translate("LungAIPanelWidget", u"Force Load AI", None))
+        self.lungAISegmentButton.setText(QCoreApplication.translate("LungAIPanelWidget", u"Segment Lungs", None))
     # retranslateUi
 

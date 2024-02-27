@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>tabChatWidget</class>
- <widget class="QWidget" name="tabChatWidget">
+ <class>ChatPanelWidget</class>
+ <widget class="QWidget" name="ChatPanelWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
