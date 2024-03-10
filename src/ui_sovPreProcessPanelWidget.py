@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'preProcessPanelfuzErn.ui'
+## Form generated from reading UI file 'sovPreProcessPanelWidgetVmsBOn.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -15,26 +15,53 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QPushButton, QSizePolicy, QSpinBox,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QDoubleSpinBox, QFrame,
+    QPushButton, QSizePolicy, QSpinBox, QWidget)
 
 class Ui_PreProcessPanelWidget(object):
     def setupUi(self, PreProcessPanelWidget):
         if not PreProcessPanelWidget.objectName():
             PreProcessPanelWidget.setObjectName(u"PreProcessPanelWidget")
-        PreProcessPanelWidget.resize(390, 142)
-        self.preprocLowResIsoButton = QPushButton(PreProcessPanelWidget)
-        self.preprocLowResIsoButton.setObjectName(u"preprocLowResIsoButton")
-        self.preprocLowResIsoButton.setGeometry(QRect(0, 0, 181, 24))
-        self.preprocMedianFilterButton = QPushButton(PreProcessPanelWidget)
-        self.preprocMedianFilterButton.setObjectName(u"preprocMedianFilterButton")
-        self.preprocMedianFilterButton.setGeometry(QRect(210, 0, 121, 24))
-        self.preprocHighResIsoButton = QPushButton(PreProcessPanelWidget)
-        self.preprocHighResIsoButton.setObjectName(u"preprocHighResIsoButton")
-        self.preprocHighResIsoButton.setGeometry(QRect(0, 30, 181, 24))
-        self.preprocMedianRadiusBox = QSpinBox(PreProcessPanelWidget)
-        self.preprocMedianRadiusBox.setObjectName(u"preprocMedianRadiusBox")
-        self.preprocMedianRadiusBox.setGeometry(QRect(340, 0, 42, 22))
+        PreProcessPanelWidget.resize(415, 142)
+        self.frame = QFrame(PreProcessPanelWidget)
+        self.frame.setObjectName(u"frame")
+        self.frame.setGeometry(QRect(0, 30, 201, 101))
+        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Raised)
+        self.preProcessHighResIsoButton = QPushButton(self.frame)
+        self.preProcessHighResIsoButton.setObjectName(u"preProcessHighResIsoButton")
+        self.preProcessHighResIsoButton.setGeometry(QRect(10, 40, 181, 24))
+        self.preProcessIsoButton = QPushButton(self.frame)
+        self.preProcessIsoButton.setObjectName(u"preProcessIsoButton")
+        self.preProcessIsoButton.setGeometry(QRect(10, 70, 101, 24))
+        self.preProcessIsoSpinBox = QDoubleSpinBox(self.frame)
+        self.preProcessIsoSpinBox.setObjectName(u"preProcessIsoSpinBox")
+        self.preProcessIsoSpinBox.setGeometry(QRect(121, 70, 71, 22))
+        self.preProcessLowResIsoButton = QPushButton(self.frame)
+        self.preProcessLowResIsoButton.setObjectName(u"preProcessLowResIsoButton")
+        self.preProcessLowResIsoButton.setGeometry(QRect(10, 10, 181, 24))
+        self.frame_2 = QFrame(PreProcessPanelWidget)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setGeometry(QRect(200, 30, 201, 51))
+        self.frame_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Raised)
+        self.preProcessClipWindowLevelButton = QPushButton(self.frame_2)
+        self.preProcessClipWindowLevelButton.setObjectName(u"preProcessClipWindowLevelButton")
+        self.preProcessClipWindowLevelButton.setGeometry(QRect(10, 13, 181, 24))
+        self.frame_3 = QFrame(PreProcessPanelWidget)
+        self.frame_3.setObjectName(u"frame_3")
+        self.frame_3.setGeometry(QRect(200, 80, 201, 51))
+        self.frame_3.setFrameShape(QFrame.StyledPanel)
+        self.frame_3.setFrameShadow(QFrame.Raised)
+        self.preProcessMedianRadiusSpinBox = QSpinBox(self.frame_3)
+        self.preProcessMedianRadiusSpinBox.setObjectName(u"preProcessMedianRadiusSpinBox")
+        self.preProcessMedianRadiusSpinBox.setGeometry(QRect(121, 10, 71, 22))
+        self.preProcessMedianFilterButton = QPushButton(self.frame_3)
+        self.preProcessMedianFilterButton.setObjectName(u"preProcessMedianFilterButton")
+        self.preProcessMedianFilterButton.setGeometry(QRect(10, 10, 101, 24))
+        self.preProcessUsePreProcessedCheckBox = QCheckBox(PreProcessPanelWidget)
+        self.preProcessUsePreProcessedCheckBox.setObjectName(u"preProcessUsePreProcessedCheckBox")
+        self.preProcessUsePreProcessedCheckBox.setGeometry(QRect(10, 10, 151, 20))
 
         self.retranslateUi(PreProcessPanelWidget)
 
@@ -43,8 +70,11 @@ class Ui_PreProcessPanelWidget(object):
 
     def retranslateUi(self, PreProcessPanelWidget):
         PreProcessPanelWidget.setWindowTitle(QCoreApplication.translate("PreProcessPanelWidget", u"Form", None))
-        self.preprocLowResIsoButton.setText(QCoreApplication.translate("PreProcessPanelWidget", u"Make Low-Res Isotropic", None))
-        self.preprocMedianFilterButton.setText(QCoreApplication.translate("PreProcessPanelWidget", u"Median Filter", None))
-        self.preprocHighResIsoButton.setText(QCoreApplication.translate("PreProcessPanelWidget", u"Make High-Res Isotropic", None))
+        self.preProcessHighResIsoButton.setText(QCoreApplication.translate("PreProcessPanelWidget", u"Make High-Res Isotropic", None))
+        self.preProcessIsoButton.setText(QCoreApplication.translate("PreProcessPanelWidget", u"Make Isotropic", None))
+        self.preProcessLowResIsoButton.setText(QCoreApplication.translate("PreProcessPanelWidget", u"Make Low-Res Isotropic", None))
+        self.preProcessClipWindowLevelButton.setText(QCoreApplication.translate("PreProcessPanelWidget", u"Clip to Window and Level", None))
+        self.preProcessMedianFilterButton.setText(QCoreApplication.translate("PreProcessPanelWidget", u"Median Filter", None))
+        self.preProcessUsePreProcessedCheckBox.setText(QCoreApplication.translate("PreProcessPanelWidget", u"Use preprocessed image", None))
     # retranslateUi
 

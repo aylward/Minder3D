@@ -4,6 +4,8 @@ from ui_sovView3DPanelWidget import Ui_View3DPanelWidget
 
 from sovView3DRenderWindowInteractor import View3DRenderWindowInteractor
 
+from sovUtils import time_and_log
+
 
 class View3DPanelWidget(QWidget, Ui_View3DPanelWidget):
     def __init__(self, gui, state, parent=None):
@@ -23,18 +25,22 @@ class View3DPanelWidget(QWidget, Ui_View3DPanelWidget):
         super().closeEvent(QCloseEvent)
         self.vtk3DViewWidget.close()
 
+    @time_and_log
     def initialize(self):
         self.vtk3DViewWidget.Initialize()
 
+    @time_and_log
     def reset_camera(self):
         self.vtk3DViewWidget.reset_camera()
 
+    @time_and_log
     def update_image(self):
-        print("Updating 3D image")
-        #self.update()
+        pass #self.update()
 
+    @time_and_log
     def update_scene(self):
         self.vtk3DViewWidget.update_scene()
 
+    @time_and_log
     def redraw_object(self, so):
         self.vtk3DViewWidget.redraw_object(so)

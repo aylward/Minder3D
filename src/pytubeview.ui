@@ -6,360 +6,471 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1052</width>
-    <height>632</height>
+    <width>1024</width>
+    <height>676</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>0</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>PyTubeView</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTabWidget" name="tabWidget">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>400</y>
-      <width>531</width>
-      <height>171</height>
-     </rect>
-    </property>
-    <property name="currentIndex">
-     <number>0</number>
-    </property>
-    <widget class="QWidget" name="visualizationPanel">
-     <attribute name="title">
-      <string>Visualization</string>
-     </attribute>
-     <widget class="QWidget" name="verticalLayoutWidget_3">
-      <property name="geometry">
-       <rect>
-        <x>9</x>
-        <y>9</y>
-        <width>511</width>
-        <height>131</height>
-       </rect>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+     <horstretch>1</horstretch>
+     <verstretch>1</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>1024</width>
+     <height>0</height>
+    </size>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
       </property>
-      <layout class="QVBoxLayout" name="visualizationPanelLayout"/>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="preProcessPanel">
-     <attribute name="title">
-      <string>PreProcess</string>
-     </attribute>
-     <widget class="QWidget" name="verticalLayoutWidget_7">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>511</width>
-        <height>131</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="preProcessPanelLayout"/>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="lungAIPanel">
-     <attribute name="title">
-      <string>Lung AI</string>
-     </attribute>
-     <widget class="QWidget" name="verticalLayoutWidget_6">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>511</width>
-        <height>131</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="lungAIPanelLayout"/>
-     </widget>
-    </widget>
-   </widget>
-   <widget class="QComboBox" name="objectNameComboBox">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>407</y>
-      <width>111</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="accessibleName">
-     <string/>
-    </property>
-    <property name="currentText">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="objectNameLabel">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>410</y>
-      <width>49</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Object:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="objectColorLabel">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>497</y>
-      <width>61</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Solid Color:</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="objectColorComboBox">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>497</y>
-      <width>101</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="accessibleName">
-     <string/>
-    </property>
-    <property name="currentText">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="objectOpacityLabel">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>526</y>
-      <width>51</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Opacity:</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="objectOpacitySlider">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>530</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>5</pointsize>
-     </font>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="value">
-     <number>50</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>10</y>
-      <width>351</width>
-      <height>391</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="view3DPanelLayout">
-     <property name="sizeConstraint">
-      <enum>QLayout::SetDefaultConstraint</enum>
-     </property>
-    </layout>
-   </widget>
-   <widget class="QTableWidget" name="tableWidget">
-    <property name="geometry">
-     <rect>
-      <x>760</x>
-      <y>10</y>
-      <width>281</width>
-      <height>221</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_4">
-    <property name="geometry">
-     <rect>
-      <x>760</x>
-      <y>240</y>
-      <width>281</width>
-      <height>121</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="screenCapturePanelLayout"/>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_5">
-    <property name="geometry">
-     <rect>
-      <x>760</x>
-      <y>370</y>
-      <width>281</width>
-      <height>201</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="chatPanelLayout"/>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_8">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>391</width>
-      <height>391</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="view2DPanelLayout">
-     <property name="sizeConstraint">
-      <enum>QLayout::SetDefaultConstraint</enum>
-     </property>
-    </layout>
-   </widget>
-   <widget class="QPushButton" name="objectDeleteButton">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>407</y>
-      <width>41</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Delete</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="objectColorByLabel">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>467</y>
-      <width>71</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Color by:</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="objectColorByComboBox">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>467</y>
-      <width>101</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="accessibleName">
-     <string/>
-    </property>
-    <property name="currentText">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="objectHightlightSelectedCheckBox">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>440</y>
-      <width>71</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Highlight</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="objectPropertiesToAllButton">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>554</y>
-      <width>41</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>All</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="objectPropertiesToChildrenButton">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>554</y>
-      <width>41</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Children</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>556</y>
-      <width>49</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Apply to:</string>
-    </property>
-   </widget>
+      <item>
+       <layout class="QHBoxLayout" name="topPanelLayout">
+        <item>
+         <layout class="QVBoxLayout" name="view2DPanelLayout">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <item>
+           <spacer name="view2DPanelSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>391</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="topPanelSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>391</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="view3DPanelLayout">
+          <item>
+           <spacer name="view3DPanelSpacer">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>351</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="tablePanelLayout">
+          <item>
+           <spacer name="tablePanelSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>175</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="middlePanelLayout">
+        <item>
+         <widget class="QGroupBox" name="objectGroupBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>211</width>
+            <height>181</height>
+           </size>
+          </property>
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="1" column="0">
+            <widget class="QLabel" name="objectNameLabel">
+             <property name="text">
+              <string>Object:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="objectColorByLabel">
+             <property name="text">
+              <string>Color by:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1" colspan="3">
+            <widget class="QComboBox" name="objectColorByComboBox">
+             <property name="accessibleName">
+              <string/>
+             </property>
+             <property name="currentText">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="objectColorLabel">
+             <property name="text">
+              <string>Solid Color:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1" colspan="3">
+            <widget class="QComboBox" name="objectColorComboBox">
+             <property name="accessibleName">
+              <string/>
+             </property>
+             <property name="currentText">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="objectOpacityLabel">
+             <property name="text">
+              <string>Opacity:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1" colspan="3">
+            <widget class="QSlider" name="objectOpacitySlider">
+             <property name="font">
+              <font>
+               <pointsize>5</pointsize>
+              </font>
+             </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
+             <property name="value">
+              <number>50</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="objectApplyToLabel">
+             <property name="text">
+              <string>Apply to:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="QPushButton" name="objectPropertiesToChildrenButton">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Children</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="2" colspan="2">
+            <widget class="QPushButton" name="objectPropertiesToAllButton">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>All</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="3">
+            <widget class="QPushButton" name="objectDeleteButton">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Delete</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" colspan="3">
+            <widget class="QComboBox" name="objectNameComboBox">
+             <property name="accessibleName">
+              <string/>
+             </property>
+             <property name="currentText">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QCheckBox" name="objectHightlightSelectedCheckBox">
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Highlight</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>701</width>
+            <height>181</height>
+           </size>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="visualizationPanel">
+           <attribute name="title">
+            <string>Visualization</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="visualizationPanelLayout"/>
+          </widget>
+          <widget class="QWidget" name="preProcessPanel">
+           <attribute name="title">
+            <string>Pre-process</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="preProcessPanelLayout"/>
+          </widget>
+          <widget class="QWidget" name="lungAIPanel">
+           <attribute name="title">
+            <string>Lung AI</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="lungAIPanelLayout"/>
+          </widget>
+          <widget class="QWidget" name="tubePanel">
+           <attribute name="title">
+            <string>Tubes</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="tubePanelLayout"/>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="bottomPanelLayout">
+        <item>
+         <widget class="QGroupBox" name="statusGroupBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>1020</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="3">
+            <widget class="QProgressBar" name="statusMajorProgressBar">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>12</height>
+              </size>
+             </property>
+             <property name="value">
+              <number>0</number>
+             </property>
+             <property name="textVisible">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" rowspan="2">
+            <widget class="QLabel" name="statusLabel">
+             <property name="text">
+              <string>Status:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1" rowspan="2">
+            <widget class="QLabel" name="status">
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="autoFillBackground">
+              <bool>true</bool>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="text">
+              <string>Ready</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="6" rowspan="2">
+            <widget class="QPushButton" name="statusViewLogButton">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Log</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="5">
+            <spacer name="statusGroupBoxSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="4">
+            <widget class="QProgressBar" name="statusMinorProgressBar">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>12</height>
+              </size>
+             </property>
+             <property name="value">
+              <number>0</number>
+             </property>
+             <property name="textVisible">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1052</width>
+     <width>1024</width>
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuMIDAS_Qt">
+   <widget class="QMenu" name="fileMenu">
     <property name="title">
      <string>File</string>
     </property>
@@ -367,22 +478,23 @@
     <addaction name="loadImageMenuItem"/>
     <addaction name="separator"/>
     <addaction name="saveSceneMenuItem"/>
-    <addaction name="saveImageMenuItem"/>
+    <addaction name="savePreProcessedImageMenuItem"/>
     <addaction name="separator"/>
     <addaction name="saveOverlayMenuItem"/>
-    <addaction name="saveModelsMenuItem"/>
+    <addaction name="savePreProcessedOverlayMenuItem"/>
+    <addaction name="separator"/>
+    <addaction name="saveVTKModelsMenuItem"/>
    </widget>
-   <addaction name="menuMIDAS_Qt"/>
+   <addaction name="fileMenu"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="loadImageMenuItem">
    <property name="text">
     <string>Load Image</string>
    </property>
   </action>
-  <action name="saveImageMenuItem">
+  <action name="savePreProcessedImageMenuItem">
    <property name="text">
-    <string>Save Image</string>
+    <string>Save Pre-Processed Image</string>
    </property>
   </action>
   <action name="saveOverlayMenuItem">
@@ -390,19 +502,24 @@
     <string>Save Overlay</string>
    </property>
   </action>
-  <action name="saveModelsMenuItem">
+  <action name="saveVTKModelsMenuItem">
    <property name="text">
-    <string>Save Models</string>
+    <string>Save VTK Models</string>
    </property>
   </action>
   <action name="loadSceneMenuItem">
    <property name="text">
-    <string>Load Scene</string>
+    <string>Load Spatial Objects</string>
    </property>
   </action>
   <action name="saveSceneMenuItem">
    <property name="text">
-    <string>Save Scene</string>
+    <string>Save Spatial Objects</string>
+   </property>
+  </action>
+  <action name="savePreProcessedOverlayMenuItem">
+   <property name="text">
+    <string>Save Pre-Processed Overlay</string>
    </property>
   </action>
  </widget>

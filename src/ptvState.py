@@ -1,8 +1,8 @@
 import itk
 
+import logging
+
 from sovColorMapUtils import (
-    standard_anatomy_colormap,
-    standard_anatomy_colormap_scale_factor,
     short_colormap,
     short_colormap_scale_factor,
 )
@@ -17,23 +17,31 @@ class PTVState():
         self.overlay_type = itk.Image[self.overlay_pixel_type, 3]
 
         # Image
+        self.loaded_image = None
+        self.loaded_image_array = None
+        self.loaded_image_filename = "./test.mha"
+        self.loaded_image_min = 0
+        self.loaded_image_max = 1
+
         self.image = None
         self.image_array = None
         self.image_min = 0
         self.image_max = 1
-        self.loaded_image = None
-        self.loaded_image_filename = "./test.mha"
-        self.image_intensity_window_min = 0
-        self.image_intensity_window_max = 0
-        self.image_slice = [0,0,0]
-        self.image_axis = 2
-        self.image_flip_x = False
-        self.image_flip_y = False
+
+        self.view_intensity_window_min = 0
+        self.view_intensity_window_max = 1
+        self.view_slice = [0,0,0]
+        self.view_axis = 2
+        self.view_flip = [False, False, False]
+        self.view_image_num = 0
 
         # Overlay
         self.overlay = None
         self.overlay_array = None
         self.overlay_opacity = 0.5
+
+        self.loaded_overlay = None
+        self.loaded_overlay_array = None
 
         self.colormap = short_colormap
         self.colormap_scale_factor = short_colormap_scale_factor
@@ -50,3 +58,5 @@ class PTVState():
         self.selected_ids = []
         self.selected_point_ids = []
         self.highlight_selected = True
+
+        self.logger = logging.getLogger("sov")

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'pytubeviewpKzIqc.ui'
+## Form generated from reading UI file 'pytubeviewWMwhFX.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -16,164 +16,295 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QHeaderView,
-    QLabel, QLayout, QMainWindow, QMenu,
-    QMenuBar, QPushButton, QSizePolicy, QSlider,
-    QStatusBar, QTabWidget, QTableWidget, QTableWidgetItem,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFrame,
+    QGridLayout, QGroupBox, QHBoxLayout, QLabel,
+    QLayout, QMainWindow, QMenu, QMenuBar,
+    QProgressBar, QPushButton, QSizePolicy, QSlider,
+    QSpacerItem, QTabWidget, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1052, 632)
+        MainWindow.resize(1024, 676)
+        MainWindow.setMinimumSize(QSize(1024, 0))
         self.loadImageMenuItem = QAction(MainWindow)
         self.loadImageMenuItem.setObjectName(u"loadImageMenuItem")
-        self.saveImageMenuItem = QAction(MainWindow)
-        self.saveImageMenuItem.setObjectName(u"saveImageMenuItem")
+        self.savePreProcessedImageMenuItem = QAction(MainWindow)
+        self.savePreProcessedImageMenuItem.setObjectName(u"savePreProcessedImageMenuItem")
         self.saveOverlayMenuItem = QAction(MainWindow)
         self.saveOverlayMenuItem.setObjectName(u"saveOverlayMenuItem")
-        self.saveModelsMenuItem = QAction(MainWindow)
-        self.saveModelsMenuItem.setObjectName(u"saveModelsMenuItem")
+        self.saveVTKModelsMenuItem = QAction(MainWindow)
+        self.saveVTKModelsMenuItem.setObjectName(u"saveVTKModelsMenuItem")
         self.loadSceneMenuItem = QAction(MainWindow)
         self.loadSceneMenuItem.setObjectName(u"loadSceneMenuItem")
         self.saveSceneMenuItem = QAction(MainWindow)
         self.saveSceneMenuItem.setObjectName(u"saveSceneMenuItem")
+        self.savePreProcessedOverlayMenuItem = QAction(MainWindow)
+        self.savePreProcessedOverlayMenuItem.setObjectName(u"savePreProcessedOverlayMenuItem")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.tabWidget = QTabWidget(self.centralwidget)
-        self.tabWidget.setObjectName(u"tabWidget")
-        self.tabWidget.setGeometry(QRect(220, 400, 531, 171))
-        self.visualizationPanel = QWidget()
-        self.visualizationPanel.setObjectName(u"visualizationPanel")
-        self.verticalLayoutWidget_3 = QWidget(self.visualizationPanel)
-        self.verticalLayoutWidget_3.setObjectName(u"verticalLayoutWidget_3")
-        self.verticalLayoutWidget_3.setGeometry(QRect(9, 9, 511, 131))
-        self.visualizationPanelLayout = QVBoxLayout(self.verticalLayoutWidget_3)
-        self.visualizationPanelLayout.setObjectName(u"visualizationPanelLayout")
-        self.visualizationPanelLayout.setContentsMargins(0, 0, 0, 0)
-        self.tabWidget.addTab(self.visualizationPanel, "")
-        self.preProcessPanel = QWidget()
-        self.preProcessPanel.setObjectName(u"preProcessPanel")
-        self.verticalLayoutWidget_7 = QWidget(self.preProcessPanel)
-        self.verticalLayoutWidget_7.setObjectName(u"verticalLayoutWidget_7")
-        self.verticalLayoutWidget_7.setGeometry(QRect(10, 10, 511, 131))
-        self.preProcessPanelLayout = QVBoxLayout(self.verticalLayoutWidget_7)
-        self.preProcessPanelLayout.setObjectName(u"preProcessPanelLayout")
-        self.preProcessPanelLayout.setContentsMargins(0, 0, 0, 0)
-        self.tabWidget.addTab(self.preProcessPanel, "")
-        self.lungAIPanel = QWidget()
-        self.lungAIPanel.setObjectName(u"lungAIPanel")
-        self.verticalLayoutWidget_6 = QWidget(self.lungAIPanel)
-        self.verticalLayoutWidget_6.setObjectName(u"verticalLayoutWidget_6")
-        self.verticalLayoutWidget_6.setGeometry(QRect(10, 10, 511, 131))
-        self.lungAIPanelLayout = QVBoxLayout(self.verticalLayoutWidget_6)
-        self.lungAIPanelLayout.setObjectName(u"lungAIPanelLayout")
-        self.lungAIPanelLayout.setContentsMargins(0, 0, 0, 0)
-        self.tabWidget.addTab(self.lungAIPanel, "")
-        self.objectNameComboBox = QComboBox(self.centralwidget)
-        self.objectNameComboBox.setObjectName(u"objectNameComboBox")
-        self.objectNameComboBox.setGeometry(QRect(50, 407, 111, 26))
-        self.objectNameLabel = QLabel(self.centralwidget)
+        sizePolicy = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
+        sizePolicy.setHorizontalStretch(1)
+        sizePolicy.setVerticalStretch(1)
+        sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
+        self.centralwidget.setSizePolicy(sizePolicy)
+        self.centralwidget.setMinimumSize(QSize(1024, 0))
+        self.gridLayout_3 = QGridLayout(self.centralwidget)
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
+        self.topPanelLayout = QHBoxLayout()
+        self.topPanelLayout.setObjectName(u"topPanelLayout")
+        self.view2DPanelLayout = QVBoxLayout()
+        self.view2DPanelLayout.setObjectName(u"view2DPanelLayout")
+        self.view2DPanelLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
+        self.view2DPanelSpacer = QSpacerItem(391, 0, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.view2DPanelLayout.addItem(self.view2DPanelSpacer)
+
+
+        self.topPanelLayout.addLayout(self.view2DPanelLayout)
+
+        self.topPanelSpacer = QSpacerItem(0, 391, QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.topPanelLayout.addItem(self.topPanelSpacer)
+
+        self.view3DPanelLayout = QVBoxLayout()
+        self.view3DPanelLayout.setObjectName(u"view3DPanelLayout")
+        self.view3DPanelSpacer = QSpacerItem(351, 0, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.view3DPanelLayout.addItem(self.view3DPanelSpacer)
+
+
+        self.topPanelLayout.addLayout(self.view3DPanelLayout)
+
+        self.tablePanelLayout = QVBoxLayout()
+        self.tablePanelLayout.setObjectName(u"tablePanelLayout")
+        self.tablePanelSpacer = QSpacerItem(175, 0, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.tablePanelLayout.addItem(self.tablePanelSpacer)
+
+
+        self.topPanelLayout.addLayout(self.tablePanelLayout)
+
+
+        self.verticalLayout.addLayout(self.topPanelLayout)
+
+        self.middlePanelLayout = QHBoxLayout()
+        self.middlePanelLayout.setObjectName(u"middlePanelLayout")
+        self.objectGroupBox = QGroupBox(self.centralwidget)
+        self.objectGroupBox.setObjectName(u"objectGroupBox")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.objectGroupBox.sizePolicy().hasHeightForWidth())
+        self.objectGroupBox.setSizePolicy(sizePolicy1)
+        self.objectGroupBox.setMinimumSize(QSize(211, 181))
+        self.objectGroupBox.setAutoFillBackground(True)
+        self.gridLayout_2 = QGridLayout(self.objectGroupBox)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.objectNameLabel = QLabel(self.objectGroupBox)
         self.objectNameLabel.setObjectName(u"objectNameLabel")
-        self.objectNameLabel.setGeometry(QRect(10, 410, 49, 20))
-        self.objectColorLabel = QLabel(self.centralwidget)
+
+        self.gridLayout_2.addWidget(self.objectNameLabel, 1, 0, 1, 1)
+
+        self.objectColorByLabel = QLabel(self.objectGroupBox)
+        self.objectColorByLabel.setObjectName(u"objectColorByLabel")
+
+        self.gridLayout_2.addWidget(self.objectColorByLabel, 4, 0, 1, 1)
+
+        self.objectColorByComboBox = QComboBox(self.objectGroupBox)
+        self.objectColorByComboBox.setObjectName(u"objectColorByComboBox")
+
+        self.gridLayout_2.addWidget(self.objectColorByComboBox, 4, 1, 1, 3)
+
+        self.objectColorLabel = QLabel(self.objectGroupBox)
         self.objectColorLabel.setObjectName(u"objectColorLabel")
-        self.objectColorLabel.setGeometry(QRect(30, 497, 61, 24))
-        self.objectColorComboBox = QComboBox(self.centralwidget)
+
+        self.gridLayout_2.addWidget(self.objectColorLabel, 5, 0, 1, 1)
+
+        self.objectColorComboBox = QComboBox(self.objectGroupBox)
         self.objectColorComboBox.setObjectName(u"objectColorComboBox")
-        self.objectColorComboBox.setGeometry(QRect(100, 497, 101, 26))
-        self.objectOpacityLabel = QLabel(self.centralwidget)
+
+        self.gridLayout_2.addWidget(self.objectColorComboBox, 5, 1, 1, 3)
+
+        self.objectOpacityLabel = QLabel(self.objectGroupBox)
         self.objectOpacityLabel.setObjectName(u"objectOpacityLabel")
-        self.objectOpacityLabel.setGeometry(QRect(30, 526, 51, 20))
-        self.objectOpacitySlider = QSlider(self.centralwidget)
+
+        self.gridLayout_2.addWidget(self.objectOpacityLabel, 6, 0, 1, 1)
+
+        self.objectOpacitySlider = QSlider(self.objectGroupBox)
         self.objectOpacitySlider.setObjectName(u"objectOpacitySlider")
-        self.objectOpacitySlider.setGeometry(QRect(100, 530, 101, 20))
         font = QFont()
         font.setPointSize(5)
         self.objectOpacitySlider.setFont(font)
         self.objectOpacitySlider.setMaximum(100)
         self.objectOpacitySlider.setValue(50)
         self.objectOpacitySlider.setOrientation(Qt.Horizontal)
-        self.verticalLayoutWidget_2 = QWidget(self.centralwidget)
-        self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(400, 10, 351, 391))
-        self.view3DPanelLayout = QVBoxLayout(self.verticalLayoutWidget_2)
-        self.view3DPanelLayout.setObjectName(u"view3DPanelLayout")
-        self.view3DPanelLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
-        self.view3DPanelLayout.setContentsMargins(0, 0, 0, 0)
-        self.tableWidget = QTableWidget(self.centralwidget)
-        self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setGeometry(QRect(760, 10, 281, 221))
-        self.verticalLayoutWidget_4 = QWidget(self.centralwidget)
-        self.verticalLayoutWidget_4.setObjectName(u"verticalLayoutWidget_4")
-        self.verticalLayoutWidget_4.setGeometry(QRect(760, 240, 281, 121))
-        self.screenCapturePanelLayout = QVBoxLayout(self.verticalLayoutWidget_4)
-        self.screenCapturePanelLayout.setObjectName(u"screenCapturePanelLayout")
-        self.screenCapturePanelLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayoutWidget_5 = QWidget(self.centralwidget)
-        self.verticalLayoutWidget_5.setObjectName(u"verticalLayoutWidget_5")
-        self.verticalLayoutWidget_5.setGeometry(QRect(760, 370, 281, 201))
-        self.chatPanelLayout = QVBoxLayout(self.verticalLayoutWidget_5)
-        self.chatPanelLayout.setObjectName(u"chatPanelLayout")
-        self.chatPanelLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayoutWidget_8 = QWidget(self.centralwidget)
-        self.verticalLayoutWidget_8.setObjectName(u"verticalLayoutWidget_8")
-        self.verticalLayoutWidget_8.setGeometry(QRect(10, 10, 391, 391))
-        self.view2DPanelLayout = QVBoxLayout(self.verticalLayoutWidget_8)
-        self.view2DPanelLayout.setObjectName(u"view2DPanelLayout")
-        self.view2DPanelLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
-        self.view2DPanelLayout.setContentsMargins(0, 0, 0, 0)
-        self.objectDeleteButton = QPushButton(self.centralwidget)
-        self.objectDeleteButton.setObjectName(u"objectDeleteButton")
-        self.objectDeleteButton.setGeometry(QRect(170, 407, 41, 24))
+
+        self.gridLayout_2.addWidget(self.objectOpacitySlider, 6, 1, 1, 3)
+
+        self.objectApplyToLabel = QLabel(self.objectGroupBox)
+        self.objectApplyToLabel.setObjectName(u"objectApplyToLabel")
+
+        self.gridLayout_2.addWidget(self.objectApplyToLabel, 7, 0, 1, 1)
+
+        self.objectPropertiesToChildrenButton = QPushButton(self.objectGroupBox)
+        self.objectPropertiesToChildrenButton.setObjectName(u"objectPropertiesToChildrenButton")
         font1 = QFont()
         font1.setPointSize(7)
+        self.objectPropertiesToChildrenButton.setFont(font1)
+
+        self.gridLayout_2.addWidget(self.objectPropertiesToChildrenButton, 7, 1, 1, 1)
+
+        self.objectPropertiesToAllButton = QPushButton(self.objectGroupBox)
+        self.objectPropertiesToAllButton.setObjectName(u"objectPropertiesToAllButton")
+        self.objectPropertiesToAllButton.setFont(font1)
+
+        self.gridLayout_2.addWidget(self.objectPropertiesToAllButton, 7, 2, 1, 2)
+
+        self.objectDeleteButton = QPushButton(self.objectGroupBox)
+        self.objectDeleteButton.setObjectName(u"objectDeleteButton")
         self.objectDeleteButton.setFont(font1)
-        self.objectColorByLabel = QLabel(self.centralwidget)
-        self.objectColorByLabel.setObjectName(u"objectColorByLabel")
-        self.objectColorByLabel.setGeometry(QRect(30, 467, 71, 24))
-        self.objectColorByComboBox = QComboBox(self.centralwidget)
-        self.objectColorByComboBox.setObjectName(u"objectColorByComboBox")
-        self.objectColorByComboBox.setGeometry(QRect(100, 467, 101, 26))
-        self.objectHightlightSelectedCheckBox = QCheckBox(self.centralwidget)
+
+        self.gridLayout_2.addWidget(self.objectDeleteButton, 3, 3, 1, 1)
+
+        self.objectNameComboBox = QComboBox(self.objectGroupBox)
+        self.objectNameComboBox.setObjectName(u"objectNameComboBox")
+
+        self.gridLayout_2.addWidget(self.objectNameComboBox, 1, 1, 1, 3)
+
+        self.objectHightlightSelectedCheckBox = QCheckBox(self.objectGroupBox)
         self.objectHightlightSelectedCheckBox.setObjectName(u"objectHightlightSelectedCheckBox")
-        self.objectHightlightSelectedCheckBox.setGeometry(QRect(20, 440, 71, 20))
         font2 = QFont()
         font2.setPointSize(9)
         self.objectHightlightSelectedCheckBox.setFont(font2)
         self.objectHightlightSelectedCheckBox.setChecked(True)
-        self.objectPropertiesToAllButton = QPushButton(self.centralwidget)
-        self.objectPropertiesToAllButton.setObjectName(u"objectPropertiesToAllButton")
-        self.objectPropertiesToAllButton.setGeometry(QRect(160, 554, 41, 24))
-        self.objectPropertiesToAllButton.setFont(font1)
-        self.objectPropertiesToChildrenButton = QPushButton(self.centralwidget)
-        self.objectPropertiesToChildrenButton.setObjectName(u"objectPropertiesToChildrenButton")
-        self.objectPropertiesToChildrenButton.setGeometry(QRect(100, 554, 41, 24))
-        self.objectPropertiesToChildrenButton.setFont(font1)
-        self.label = QLabel(self.centralwidget)
-        self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(30, 556, 49, 16))
+
+        self.gridLayout_2.addWidget(self.objectHightlightSelectedCheckBox, 3, 1, 1, 1)
+
+
+        self.middlePanelLayout.addWidget(self.objectGroupBox)
+
+        self.tabWidget = QTabWidget(self.centralwidget)
+        self.tabWidget.setObjectName(u"tabWidget")
+        sizePolicy2 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
+        self.tabWidget.setSizePolicy(sizePolicy2)
+        self.tabWidget.setMinimumSize(QSize(701, 181))
+        self.visualizationPanel = QWidget()
+        self.visualizationPanel.setObjectName(u"visualizationPanel")
+        self.visualizationPanelLayout = QHBoxLayout(self.visualizationPanel)
+        self.visualizationPanelLayout.setObjectName(u"visualizationPanelLayout")
+        self.tabWidget.addTab(self.visualizationPanel, "")
+        self.preProcessPanel = QWidget()
+        self.preProcessPanel.setObjectName(u"preProcessPanel")
+        self.preProcessPanelLayout = QVBoxLayout(self.preProcessPanel)
+        self.preProcessPanelLayout.setObjectName(u"preProcessPanelLayout")
+        self.tabWidget.addTab(self.preProcessPanel, "")
+        self.lungAIPanel = QWidget()
+        self.lungAIPanel.setObjectName(u"lungAIPanel")
+        self.lungAIPanelLayout = QVBoxLayout(self.lungAIPanel)
+        self.lungAIPanelLayout.setObjectName(u"lungAIPanelLayout")
+        self.tabWidget.addTab(self.lungAIPanel, "")
+        self.tubePanel = QWidget()
+        self.tubePanel.setObjectName(u"tubePanel")
+        self.tubePanelLayout = QHBoxLayout(self.tubePanel)
+        self.tubePanelLayout.setObjectName(u"tubePanelLayout")
+        self.tabWidget.addTab(self.tubePanel, "")
+
+        self.middlePanelLayout.addWidget(self.tabWidget)
+
+
+        self.verticalLayout.addLayout(self.middlePanelLayout)
+
+        self.bottomPanelLayout = QHBoxLayout()
+        self.bottomPanelLayout.setObjectName(u"bottomPanelLayout")
+        self.statusGroupBox = QGroupBox(self.centralwidget)
+        self.statusGroupBox.setObjectName(u"statusGroupBox")
+        sizePolicy2.setHeightForWidth(self.statusGroupBox.sizePolicy().hasHeightForWidth())
+        self.statusGroupBox.setSizePolicy(sizePolicy2)
+        self.statusGroupBox.setMinimumSize(QSize(1020, 24))
+        self.statusGroupBox.setAutoFillBackground(True)
+        self.gridLayout = QGridLayout(self.statusGroupBox)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.statusMajorProgressBar = QProgressBar(self.statusGroupBox)
+        self.statusMajorProgressBar.setObjectName(u"statusMajorProgressBar")
+        sizePolicy1.setHeightForWidth(self.statusMajorProgressBar.sizePolicy().hasHeightForWidth())
+        self.statusMajorProgressBar.setSizePolicy(sizePolicy1)
+        self.statusMajorProgressBar.setMinimumSize(QSize(150, 12))
+        self.statusMajorProgressBar.setValue(0)
+        self.statusMajorProgressBar.setTextVisible(False)
+
+        self.gridLayout.addWidget(self.statusMajorProgressBar, 0, 3, 1, 1)
+
+        self.statusLabel = QLabel(self.statusGroupBox)
+        self.statusLabel.setObjectName(u"statusLabel")
+
+        self.gridLayout.addWidget(self.statusLabel, 0, 0, 2, 1)
+
+        self.status = QLabel(self.statusGroupBox)
+        self.status.setObjectName(u"status")
+        self.status.setMinimumSize(QSize(200, 0))
+        self.status.setFont(font2)
+        self.status.setAutoFillBackground(True)
+        self.status.setFrameShape(QFrame.NoFrame)
+        self.status.setFrameShadow(QFrame.Plain)
+
+        self.gridLayout.addWidget(self.status, 0, 1, 2, 1)
+
+        self.statusViewLogButton = QPushButton(self.statusGroupBox)
+        self.statusViewLogButton.setObjectName(u"statusViewLogButton")
+        self.statusViewLogButton.setFont(font1)
+
+        self.gridLayout.addWidget(self.statusViewLogButton, 0, 6, 2, 1)
+
+        self.statusGroupBoxSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.gridLayout.addItem(self.statusGroupBoxSpacer, 0, 5, 1, 1)
+
+        self.statusMinorProgressBar = QProgressBar(self.statusGroupBox)
+        self.statusMinorProgressBar.setObjectName(u"statusMinorProgressBar")
+        sizePolicy1.setHeightForWidth(self.statusMinorProgressBar.sizePolicy().hasHeightForWidth())
+        self.statusMinorProgressBar.setSizePolicy(sizePolicy1)
+        self.statusMinorProgressBar.setMinimumSize(QSize(150, 12))
+        self.statusMinorProgressBar.setValue(0)
+        self.statusMinorProgressBar.setTextVisible(False)
+
+        self.gridLayout.addWidget(self.statusMinorProgressBar, 0, 4, 1, 1)
+
+
+        self.bottomPanelLayout.addWidget(self.statusGroupBox)
+
+
+        self.verticalLayout.addLayout(self.bottomPanelLayout)
+
+
+        self.gridLayout_3.addLayout(self.verticalLayout, 0, 0, 1, 1)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1052, 22))
-        self.menuMIDAS_Qt = QMenu(self.menubar)
-        self.menuMIDAS_Qt.setObjectName(u"menuMIDAS_Qt")
+        self.menubar.setGeometry(QRect(0, 0, 1024, 22))
+        self.fileMenu = QMenu(self.menubar)
+        self.fileMenu.setObjectName(u"fileMenu")
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QStatusBar(MainWindow)
-        self.statusbar.setObjectName(u"statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
-        self.menubar.addAction(self.menuMIDAS_Qt.menuAction())
-        self.menuMIDAS_Qt.addAction(self.loadSceneMenuItem)
-        self.menuMIDAS_Qt.addAction(self.loadImageMenuItem)
-        self.menuMIDAS_Qt.addSeparator()
-        self.menuMIDAS_Qt.addAction(self.saveSceneMenuItem)
-        self.menuMIDAS_Qt.addAction(self.saveImageMenuItem)
-        self.menuMIDAS_Qt.addSeparator()
-        self.menuMIDAS_Qt.addAction(self.saveOverlayMenuItem)
-        self.menuMIDAS_Qt.addAction(self.saveModelsMenuItem)
+        self.menubar.addAction(self.fileMenu.menuAction())
+        self.fileMenu.addAction(self.loadSceneMenuItem)
+        self.fileMenu.addAction(self.loadImageMenuItem)
+        self.fileMenu.addSeparator()
+        self.fileMenu.addAction(self.saveSceneMenuItem)
+        self.fileMenu.addAction(self.savePreProcessedImageMenuItem)
+        self.fileMenu.addSeparator()
+        self.fileMenu.addAction(self.saveOverlayMenuItem)
+        self.fileMenu.addAction(self.savePreProcessedOverlayMenuItem)
+        self.fileMenu.addSeparator()
+        self.fileMenu.addAction(self.saveVTKModelsMenuItem)
 
         self.retranslateUi(MainWindow)
 
@@ -184,37 +315,42 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"PyTubeView", None))
         self.loadImageMenuItem.setText(QCoreApplication.translate("MainWindow", u"Load Image", None))
-        self.saveImageMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Image", None))
+        self.savePreProcessedImageMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Pre-Processed Image", None))
         self.saveOverlayMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Overlay", None))
-        self.saveModelsMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Models", None))
-        self.loadSceneMenuItem.setText(QCoreApplication.translate("MainWindow", u"Load Scene", None))
-        self.saveSceneMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Scene", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.visualizationPanel), QCoreApplication.translate("MainWindow", u"Visualization", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.preProcessPanel), QCoreApplication.translate("MainWindow", u"PreProcess", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.lungAIPanel), QCoreApplication.translate("MainWindow", u"Lung AI", None))
-#if QT_CONFIG(accessibility)
-        self.objectNameComboBox.setAccessibleName("")
-#endif // QT_CONFIG(accessibility)
-        self.objectNameComboBox.setCurrentText("")
+        self.saveVTKModelsMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save VTK Models", None))
+        self.loadSceneMenuItem.setText(QCoreApplication.translate("MainWindow", u"Load Spatial Objects", None))
+        self.saveSceneMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Spatial Objects", None))
+        self.savePreProcessedOverlayMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Pre-Processed Overlay", None))
         self.objectNameLabel.setText(QCoreApplication.translate("MainWindow", u"Object:", None))
+        self.objectColorByLabel.setText(QCoreApplication.translate("MainWindow", u"Color by:", None))
+#if QT_CONFIG(accessibility)
+        self.objectColorByComboBox.setAccessibleName("")
+#endif // QT_CONFIG(accessibility)
+        self.objectColorByComboBox.setCurrentText("")
         self.objectColorLabel.setText(QCoreApplication.translate("MainWindow", u"Solid Color:", None))
 #if QT_CONFIG(accessibility)
         self.objectColorComboBox.setAccessibleName("")
 #endif // QT_CONFIG(accessibility)
         self.objectColorComboBox.setCurrentText("")
         self.objectOpacityLabel.setText(QCoreApplication.translate("MainWindow", u"Opacity:", None))
-        self.objectDeleteButton.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
-        self.objectColorByLabel.setText(QCoreApplication.translate("MainWindow", u"Color by:", None))
-#if QT_CONFIG(accessibility)
-        self.objectColorByComboBox.setAccessibleName("")
-#endif // QT_CONFIG(accessibility)
-        self.objectColorByComboBox.setCurrentText("")
-        self.objectHightlightSelectedCheckBox.setText(QCoreApplication.translate("MainWindow", u"Highlight", None))
-        self.objectPropertiesToAllButton.setText(QCoreApplication.translate("MainWindow", u"All", None))
+        self.objectApplyToLabel.setText(QCoreApplication.translate("MainWindow", u"Apply to:", None))
         self.objectPropertiesToChildrenButton.setText(QCoreApplication.translate("MainWindow", u"Children", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Apply to:", None))
-        self.menuMIDAS_Qt.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
+        self.objectPropertiesToAllButton.setText(QCoreApplication.translate("MainWindow", u"All", None))
+        self.objectDeleteButton.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
+#if QT_CONFIG(accessibility)
+        self.objectNameComboBox.setAccessibleName("")
+#endif // QT_CONFIG(accessibility)
+        self.objectNameComboBox.setCurrentText("")
+        self.objectHightlightSelectedCheckBox.setText(QCoreApplication.translate("MainWindow", u"Highlight", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.visualizationPanel), QCoreApplication.translate("MainWindow", u"Visualization", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.preProcessPanel), QCoreApplication.translate("MainWindow", u"Pre-process", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.lungAIPanel), QCoreApplication.translate("MainWindow", u"Lung AI", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tubePanel), QCoreApplication.translate("MainWindow", u"Tubes", None))
+        self.statusLabel.setText(QCoreApplication.translate("MainWindow", u"Status:", None))
+        self.status.setText(QCoreApplication.translate("MainWindow", u"Ready", None))
+        self.statusViewLogButton.setText(QCoreApplication.translate("MainWindow", u"Log", None))
+        self.fileMenu.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
 

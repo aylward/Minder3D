@@ -14,12 +14,12 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
         self.gui = gui
         self.state = state
 
-        self.redraw = True
+        self.update_gui = True
 
-        self.vizIntensityMinSlider.sliderMoved.connect(
+        self.vizIntensityMinSlider.valueChanged.connect(
             self.update_viz_intensity_min_max_sliders
         )
-        self.vizIntensityMaxSlider.sliderMoved.connect(
+        self.vizIntensityMaxSlider.valueChanged.connect(
             self.update_viz_intensity_min_max_sliders
         )
 
@@ -31,56 +31,102 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
         )
 
     def update_viz_intensity_min_max_sliders(self):
+        if not self.update_gui:
+            return
+
         minI = self.vizIntensityMinSlider.value()
         maxI = self.vizIntensityMaxSlider.value()
 
-        intensityRange = self.state.image_max - self.state.image_min
-        intensityMin = minI / 100.0 * intensityRange + self.state.image_min
-        intensityMax = maxI / 100.0 * intensityRange + self.state.image_min
+        imin = 0
+        imax = 1
+        if self.state.view_image_num == 0:
+            imin = self.state.loaded_image_min
+            imax = self.state.loaded_image_max
+        else:
+            imin = self.state.image_min
+            imax = self.state.image_max
+        intensityRange = imax - imin
+        intensityMin = (minI / 100.0) * intensityRange + imin
+        intensityMax = (maxI / 100.0) * intensityRange + imin
 
-        if self.redraw:
-            self.redraw = False
-            self.vizIntensityMinSpinBox.setValue(intensityMin)
-            self.vizIntensityMaxSpinBox.setValue(intensityMax)
-            self.state.image_intensity_window_min = intensityMin
-            self.state.image_intensity_window_max = intensityMax
-            self.gui.view2DPanel.update()
-            self.redraw = True
+        self.state.view_intensity_window_min = intensityMin
+        self.state.view_intensity_window_max = intensityMax
+
+        self.update_gui = False
+        self.vizIntensityMinSpinBox.setValue(intensityMin)
+        self.vizIntensityMaxSpinBox.setValue(intensityMax)
+        self.update_gui = True
+
+        self.update()
 
     def update_viz_intensity_min_max_spin_boxes(self):
+        if not self.update_gui:
+            return
+
         intensityMin = self.vizIntensityMinSpinBox.value()
         intensityMax = self.vizIntensityMaxSpinBox.value()
 
-        intensityRange = self.state.image_max - self.state.image_min
-        minI = int(((intensityMin - self.state.image_min) / intensityRange) * 100 + 0.5)
-        maxI = int(((intensityMax - self.state.image_min) / intensityRange) * 100 + 0.5)
+        imin = 0
+        imax = 1
+        if self.state.view_image_num == 0:
+            imin = self.state.loaded_image_min
+            imax = self.state.loaded_image_max
+        else:
+            imin = self.state.image_min
+            imax = self.state.image_max
+        intensityRange = imax - imin
+        minI = int(((intensityMin - imin) / intensityRange) * 100 + 0.5)
+        maxI = int(((intensityMax - imin) / intensityRange) * 100 + 0.5)
 
-        if self.redraw:
-            self.redraw = False
-            self.vizIntensityMinSlider.setValue(minI)
-            self.vizIntensityMaxSlider.setValue(maxI)
-            self.state.image_intensity_window_min = intensityMin
-            self.state.image_intensity_window_max = intensityMax
-            self.gui.view2DPanel.update()
-            self.redraw = True
+        self.state.view_intensity_window_min = intensityMin
+        self.state.view_intensity_window_max = intensityMax
+
+        self.update_gui = False
+        self.vizIntensityMinSlider.setValue(minI)
+        self.vizIntensityMaxSlider.setValue(maxI)
+        self.update_gui = True
+
+        self.update()
 
     def update_image(self):
-        image_range = self.state.image_max - self.state.image_min
+        imin = 0
+        imax = 1
+        if self.state.view_image_num == 0:
+            imin = self.state.loaded_image_min
+            imax = self.state.loaded_image_max
+        else:
+            imin = self.state.image_min
+            imax = self.state.image_max
+        image_range = imax - imin
+
+        self.state.intensity_window_min = imin
+        self.state.intensity_window_max = imax
+
+        self.update_gui = False
 
         self.vizIntensityMinSlider.setValue(0)
         self.vizIntensityMinSpinBox.setRange(
-            self.state.image_min - 0.5 * image_range,
-            self.state.image_max + 0.5 * image_range
+            imin - 0.5 * image_range,
+            imax + 0.5 * image_range
         )
         self.vizIntensityMinSpinBox.setSingleStep(image_range / 500)
-        self.vizIntensityMinSpinBox.setValue(self.state.image_min)
-        self.state.intensity_window_min = self.state.image_min
+        self.vizIntensityMinSpinBox.setValue(imin)
 
         self.vizIntensityMaxSlider.setValue(100)
         self.vizIntensityMaxSpinBox.setRange(
-            self.state.image_min - 0.5 * image_range,
-            self.state.image_max + 0.5 * image_range
+            imin - 0.5 * image_range,
+            imax + 0.5 * image_range
         )
         self.vizIntensityMaxSpinBox.setSingleStep(image_range / 500)
-        self.vizIntensityMaxSpinBox.setValue(self.state.image_max)
-        self.state.intensity_window_max = self.state.image_max
+        self.vizIntensityMaxSpinBox.setValue(imax)
+
+        self.update_gui = True
+
+        self.update()
+
+    def update(self):
+        if not self.update_gui:
+            return
+
+        self.gui.view2DPanel.update()
+        super().update()
