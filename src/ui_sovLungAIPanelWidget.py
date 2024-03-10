@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'lungAIPaneluPUhwa.ui'
+## Form generated from reading UI file 'sovLungAIPanelWidgetsRqMzS.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -25,16 +25,13 @@ class Ui_LungAIPanelWidget(object):
         LungAIPanelWidget.resize(451, 134)
         self.lungAIStatusLabel = QLabel(LungAIPanelWidget)
         self.lungAIStatusLabel.setObjectName(u"lungAIStatusLabel")
-        self.lungAIStatusLabel.setGeometry(QRect(10, 10, 61, 16))
+        self.lungAIStatusLabel.setGeometry(QRect(50, 50, 51, 16))
         self.lungAIStatusTextBrowser = QTextBrowser(LungAIPanelWidget)
         self.lungAIStatusTextBrowser.setObjectName(u"lungAIStatusTextBrowser")
-        self.lungAIStatusTextBrowser.setGeometry(QRect(70, 10, 261, 101))
-        self.lungAIForceLoadButton = QPushButton(LungAIPanelWidget)
-        self.lungAIForceLoadButton.setObjectName(u"lungAIForceLoadButton")
-        self.lungAIForceLoadButton.setGeometry(QRect(340, 10, 91, 24))
+        self.lungAIStatusTextBrowser.setGeometry(QRect(100, 20, 341, 91))
         self.lungAISegmentButton = QPushButton(LungAIPanelWidget)
         self.lungAISegmentButton.setObjectName(u"lungAISegmentButton")
-        self.lungAISegmentButton.setGeometry(QRect(340, 90, 91, 24))
+        self.lungAISegmentButton.setGeometry(QRect(3, 3, 91, 24))
 
         self.retranslateUi(LungAIPanelWidget)
 
@@ -44,7 +41,6 @@ class Ui_LungAIPanelWidget(object):
     def retranslateUi(self, LungAIPanelWidget):
         LungAIPanelWidget.setWindowTitle(QCoreApplication.translate("LungAIPanelWidget", u"Form", None))
         self.lungAIStatusLabel.setText(QCoreApplication.translate("LungAIPanelWidget", u"AI Status:", None))
-        self.lungAIForceLoadButton.setText(QCoreApplication.translate("LungAIPanelWidget", u"Force Load AI", None))
         self.lungAISegmentButton.setText(QCoreApplication.translate("LungAIPanelWidget", u"Segment Lungs", None))
     # retranslateUi
 

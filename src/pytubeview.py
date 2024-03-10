@@ -16,4 +16,6 @@ if __name__ == "__main__":
         if len(sys.argv) > 2:
             pytubeview.load_scene(sys.argv[2])
 
-    sys.exit(app.exec())
+    pytubeview.show()
+
+    app.exec()

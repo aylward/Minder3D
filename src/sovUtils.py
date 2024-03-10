@@ -12,6 +12,113 @@ Functions:
 
 import itk
 
+import time
+import logging
+import functools
+
+from PySide6.QtWidgets import (
+    QMainWindow,
+    QTextEdit,
+)
+
+logging.basicConfig(level=logging.DEBUG)
+
+
+class LogHandler(logging.Handler):
+    def __init__(self, text_edit):
+        super().__init__()
+        self.text_edit = text_edit
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.text_edit.append(log_entry)
+
+
+class LogWindow(QMainWindow):
+    def __init__(self, logger, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Log")
+        self.logTextEdit = QTextEdit()
+        self.setCentralWidget(self.logTextEdit)
+
+        self.logger = logger
+        self.log_handler = LogHandler(self.logTextEdit)
+        self.logger.addHandler(self.log_handler)
+
+    def show(self):
+        super().show()
+        self.logTextEdit.show()
+
+    def closeEvent(self, QCloseEvent):
+        super().closeEvent(QCloseEvent)
+        self.logTextEdit.close()
+
+    def log(self, message, level="info"):
+        if level.lower() == "debug":
+            self.logger.debug(message)
+        elif level.lower() == "info":
+            self.logger.info(message)
+        elif level.lower() == "warning":
+            self.logger.warning(message)
+        elif level.lower() == "error":
+            self.logger.error(message)
+        elif level.lower() == "critical":
+            self.logger.critical(message)
+
+
+def sov_log(message, level="info"):
+    logger = logging.getLogger("sov")
+    if level.lower() == "debug":
+        logger.debug(message)
+    elif level.lower() == "info":
+        logger.info(message)
+    elif level.lower() == "warning":
+        logger.warning(message)
+    elif level.lower() == "error":
+        logger.error(message)
+    elif level.lower() == "critical":
+        logger.critical(message)
+
+
+def time_and_log(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        logger = logging.getLogger("sov")
+        logger.info(f"Function {func.__name__} started.")
+        start_time = time.time()
+        try:
+            result = func(*args, **kwargs)
+            end_time = time.time()
+            logger.info(f"Function {func.__name__} took {end_time - start_time} seconds to execute.")
+            return result
+        except Exception as e:
+            end_time = time.time()
+            logger.error(f"Function {func.__name__} exception after {end_time - start_time} seconds: {str(e)}")
+            raise e
+    return wrapper
+
+
+def resample_overlay_to_match_image( input_overlay, match_image ) -> itk.Image:
+    """Resamples an overlay to match the geometry of a given image.
+
+    Args:
+        input_overlay (itk.Image): The overlay to be resampled.
+        match_image (itk.Image): The image to match.
+
+    Returns:
+        itk.Image: The resampled overlay.
+    """
+    # Resample the overlay to match the geometry of the image
+    resampler = itk.ResampleImageFilter[itk.Image[itk.RGBAPixel[itk.UC],3], itk.Image[itk.RGBAPixel[itk.UC],3]].New()
+    resampler.SetInput(input_overlay)
+    resampler.SetReferenceImage(match_image)
+    resampler.SetUseReferenceImage(True)
+    interp = itk.NearestNeighborInterpolateImageFunction[itk.Image[itk.RGBAPixel[itk.UC],3], itk.D].New()
+    interp.SetInputImage(input_overlay)
+    resampler.SetInterpolator(interp)
+    resampler.Update()
+    return resampler.GetOutput()
+
 
 def get_children_as_list(
     grp: itk.GroupSpatialObject, child_type: str = "Tube"

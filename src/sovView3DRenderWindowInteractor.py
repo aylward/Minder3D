@@ -9,7 +9,8 @@ from vtkmodules.vtkInteractionStyle import vtkInteractorStyleTrackballCamera
 
 from sovView3DUtils import convert_scene_to_surfaces
 from sovUtils import (
-    get_tag_value_index_in_list_of_dict
+    get_tag_value_index_in_list_of_dict,
+    time_and_log,
 )
 
 
@@ -31,8 +32,8 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
             "LeftButtonPressEvent", self._leftButtonPressEvent
         )
 
+    @time_and_log
     def _leftButtonPressEvent(self, obj, event):
-        print("3dw _leftButtonPressEvent")
         clickPos = obj.GetEventPosition()
 
         picker = vtkCellPicker()
@@ -53,14 +54,14 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
         return 0
 
+    @time_and_log
     def reset_camera(self):
-        print("3dw reset_camera")
         self.scene_renderer.ResetCamera()
         self.Render()
         self.GetRenderWindow().Render()
 
+    @time_and_log
     def update_scene(self):
-        print("3dw update_scene")
         point_data = convert_scene_to_surfaces(self.state.scene)
         for scene_idx, so in enumerate(self.state.scene_list):
             actor = vtkActor()
@@ -82,8 +83,8 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
         self.Render()
         self.GetRenderWindow().Render()
 
+    @time_and_log
     def redraw_actor(self, actor, so, color=None):
-        print("3dw redraw_actor")
         if actor is None or so is None:
             print("ERROR: redraw_actor: actor or so is None")
             return
@@ -101,11 +102,11 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
         actor.GetMapper().Update()
         actor.Modified()
 
+    @time_and_log
     def select_actor(self, pickedPos, actor):
         """
         Private function to updated the viz of currently selected spatial objects.
         """
-        print("3dw select_actor")
         if len(self.state.selected_ids) > 0:
             scene_idx = get_tag_value_index_in_list_of_dict("Actor", actor, self.state.scene_list_properties)
             so = self.state.scene_list[scene_idx]
@@ -154,8 +155,8 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
                     self.gui.redraw_object(so, update_2D=True, update_3D=False)
         self.GetRenderWindow().Render()
 
+    @time_and_log
     def redraw_object(self, so):
-        print("3dw redraw_object")
         so_id = so.GetId()
         scene_idx = self.state.scene_list_ids.index(so_id)
         actor = self.state.scene_list_properties[scene_idx].get("Actor")

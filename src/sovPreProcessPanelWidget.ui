@@ -6,60 +6,157 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>390</width>
+    <width>415</width>
     <height>142</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="preprocLowResIsoButton">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>181</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Make Low-Res Isotropic</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="preprocMedianFilterButton">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>0</y>
-     <width>121</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Median Filter</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="preprocHighResIsoButton">
+  <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>30</y>
-     <width>181</width>
-     <height>24</height>
+     <width>201</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="preProcessHighResIsoButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>181</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Make High-Res Isotropic</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="preProcessIsoButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>101</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Make Isotropic</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="preProcessIsoSpinBox">
+    <property name="geometry">
+     <rect>
+      <x>121</x>
+      <y>70</y>
+      <width>71</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="preProcessLowResIsoButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>181</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Make Low-Res Isotropic</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame_2">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>30</y>
+     <width>201</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="preProcessClipWindowLevelButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>13</y>
+      <width>181</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clip to Window and Level</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame_3">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>80</y>
+     <width>201</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QSpinBox" name="preProcessMedianRadiusSpinBox">
+    <property name="geometry">
+     <rect>
+      <x>121</x>
+      <y>10</y>
+      <width>71</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="preProcessMedianFilterButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>101</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Median Filter</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QCheckBox" name="preProcessUsePreProcessedCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>151</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Make High-Res Isotropic</string>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="preprocMedianRadiusBox">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>0</y>
-     <width>42</width>
-     <height>22</height>
-    </rect>
+    <string>Use preprocessed image</string>
    </property>
   </widget>
  </widget>

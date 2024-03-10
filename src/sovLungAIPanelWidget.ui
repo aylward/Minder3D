@@ -16,9 +16,9 @@
   <widget class="QLabel" name="lungAIStatusLabel">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>61</width>
+     <x>50</x>
+     <y>50</y>
+     <width>51</width>
      <height>16</height>
     </rect>
    </property>
@@ -29,31 +29,18 @@
   <widget class="QTextBrowser" name="lungAIStatusTextBrowser">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>10</y>
-     <width>261</width>
-     <height>101</height>
+     <x>100</x>
+     <y>20</y>
+     <width>341</width>
+     <height>91</height>
     </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="lungAIForceLoadButton">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>10</y>
-     <width>91</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Force Load AI</string>
    </property>
   </widget>
   <widget class="QPushButton" name="lungAISegmentButton">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>90</y>
+     <x>3</x>
+     <y>3</y>
      <width>91</width>
      <height>24</height>
     </rect>
