@@ -6,9 +6,11 @@ import itk
 
 import vtk
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QMainWindow,
     QFileDialog,
+    QInputDialog,
 )
 
 from ptvState import PTVState
@@ -22,6 +24,7 @@ from sovUtils import (
     LogWindow,
     read_group,
     get_children_as_list,
+    resample_overlay_to_match_image,
 )
 
 from sovView2DPanelWidget import View2DPanelWidget
@@ -45,9 +48,8 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         # File Menu
         self.loadImageMenuItem.triggered.connect(self.load_image)
         self.loadSceneMenuItem.triggered.connect(self.load_scene)
-        self.savePreProcessedImageMenuItem.triggered.connect(self.save_preprocessed_image)
+        self.saveImageMenuItem.triggered.connect(self.save_image)
         self.saveOverlayMenuItem.triggered.connect(self.save_overlay)
-        self.savePreProcessedOverlayMenuItem.triggered.connect(self.save_preprocessed_overlay)
         self.saveVTKModelsMenuItem.triggered.connect(self.save_vtk_models)
         self.saveSceneMenuItem.triggered.connect(self.save_scene)
 
@@ -57,7 +59,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.connect_object_gui()
 
         self.objectDeleteButton.pressed.connect(
-            self.delete_current_object
+            self.delete_selected_objects
             )
         self.objectPropertiesToAllButton.pressed.connect(
             self.propogate_properties_to_all
@@ -108,15 +110,15 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             )
 
         self.objectColorByComboBox.currentIndexChanged.connect(
-            self.modify_current_object
+            self.modify_selected_objects
             )
 
         self.objectColorComboBox.currentIndexChanged.connect(
-            self.modify_current_object
+            self.modify_selected_objects
             )
 
         self.objectOpacitySlider.valueChanged.connect(
-            self.modify_current_object
+            self.modify_selected_objects
             )
 
     def disconnect_object_gui(self):
@@ -125,15 +127,15 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         )
 
         self.objectColorByComboBox.currentIndexChanged.disconnect(
-            self.modify_current_object
+            self.modify_selected_objects
         )
 
         self.objectColorComboBox.currentIndexChanged.disconnect(
-            self.modify_current_object
+            self.modify_selected_objects
         )
 
         self.objectOpacitySlider.valueChanged.disconnect(
-            self.modify_current_object
+            self.modify_selected_objects
         )
 
     def closeEvent(self, QCloseEvent):
@@ -162,44 +164,14 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             filename, _ = QFileDialog.getOpenFileName(
                 self,
                 "Open File",
-                self.state.loaded_image_filename,
+                self.state.image_filename[-1],
                 "All Files (*)"
             )
         if filename:
-            self.state.loaded_image_filename = filename
-            self.state.loaded_image = itk.imread(
+            self.create_new_image(itk.imread(
                 filename,
                 self.state.image_pixel_type
-            )
-            self.state.loaded_image_array = itk.GetArrayFromImage(
-                self.state.loaded_image
-            )
-            self.state.loaded_image_min = float(np.min(self.state.loaded_image_array))
-            self.state.loaded_image_max = float(np.max(self.state.loaded_image_array))
-
-            self.state.image = self.state.loaded_image
-            self.state.image_array = itk.GetArrayFromImage(self.state.image)
-            self.state.image_min = float(np.min(self.state.image_array))
-            self.state.image_max = float(np.max(self.state.image_array))
-
-            self.state.loaded_overlay = self.state.overlay_type.New()
-            self.state.loaded_overlay.SetRegions(
-                self.state.image.GetLargestPossibleRegion()
-            )
-            self.state.loaded_overlay.CopyInformation(self.state.image)
-            self.state.loaded_overlay.Allocate()
-            self.state.loaded_overlay.FillBuffer(self.state.overlay_pixel_type(0))
-            self.state.loaded_overlay_array = itk.GetArrayFromImage(
-                self.state.loaded_overlay
-            )
-
-            self.state.overlay = self.state.loaded_overlay
-            self.state.overlay_array = itk.GetArrayFromImage(
-                self.state.overlay
-            )
-
-            if os.path.splitext(filename)[1] == ".mha":
-                self.state.view_flip = [True, True, False]
+            ), filename)
 
             self.update_image()
             self.update_overlay()
@@ -210,32 +182,32 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             filename, _ = QFileDialog.getOpenFileName(
                 self,
                 "Open File",
-                self.state.loaded_scene_filename,
+                self.state.scene_filename,
                 "All Files (*)"
             )
         if filename:
-            self.state.loaded_scene_filename = filename
+            self.state.scene_filename = filename
             self.state.scene = read_group(filename)
         self.update_scene()
 
     @time_and_log
-    def save_preprocessed_image(self, filename=None):
+    def save_image(self, filename=None):
         if not filename:
-            guess_filename, guess_extension = os.path.splitext(self.state.loaded_image_filename)
             filename, _ = QFileDialog.getSaveFileName(
                 self,
                 "Save File",
-                guess_filename + "_preprocessed" + guess_extension,
+                self.state.image_filename[self.state.current_image_num],
                 "All Files (*)"
             )
         if filename:
-            self.log(f"Saving preprocessed image to {filename}")
-            itk.imwrite(self.state.image, filename)
+            self.state.image_filename[self.state.current_image_num] = filename
+            self.log(f"Saving image to {filename}")
+            itk.imwrite(self.state.image[self.state.current_image_num], filename)
 
     @time_and_log
     def save_overlay(self, filename=None):
         if not filename:
-            guess_filename, guess_extension = os.path.splitext(self.state.loaded_image_filename)
+            guess_filename, guess_extension = os.path.splitext(self.state.image_filename[self.state.current_image_num])
             filename, _ = QFileDialog.getSaveFileName(
                 self,
                 "Save File",
@@ -244,26 +216,12 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             )
         if filename:
             self.log(f"Saving overlay to {filename}")
-            itk.imwrite(self.state.loaded_overlay, filename)
-
-    @time_and_log
-    def save_preprocessed_overlay(self, filename=None):
-        if not filename:
-            guess_filename, guess_extension = os.path.splitext(self.state.loaded_image_filename)
-            filename, _ = QFileDialog.getSaveFileName(
-                self,
-                "Save File",
-                guess_filename + "_preprocessed_overlay" + guess_extension,
-                "All Files (*)"
-            )
-        if filename:
-            self.log(f"Saving preprocessed overlay to {filename}")
-            itk.imwrite(self.state.overlay, filename)
+            itk.imwrite(self.state.overlay[self.state.current_image_num], filename)
 
     @time_and_log
     def save_vtk_models(self, filename=None):
         if not filename:
-            guess_filename, _ = os.path.splitext(self.state.loaded_image_filename)
+            guess_filename, _ = os.path.splitext(self.state.scene_filename)
             filename, _ = QFileDialog.getSaveFileName(
                 self,
                 "Save File",
@@ -280,16 +238,85 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
     @time_and_log
     def save_scene(self, filename=None):
         if not filename:
-            guess_filename, _ = os.path.splitext(self.state.loaded_image_filename)
             filename, _ = QFileDialog.getSaveFileName(
                 self,
                 "Save File",
-                guess_filename + "_scene.tre",
+                self.state.scene_filename,
                 "All Files (*)"
             )
         if filename:
+            self.state.scene_filename = filename
             self.log(f"Saving scene to {filename}")
             write_group(self.state.scene, filename)
+
+    @time_and_log
+    def create_new_image(self, img, filename=None):
+        if filename is None:
+            filename, fileext = os.path.splitext(self.state.image_filename[-1])
+            filename = filename + "_" + str(len(self.state.image)) + fileext
+            dlg = QInputDialog(self)
+            dlg.setInputMode(QInputDialog.TextInput)
+            dlg.setLabelText("New image's filename:")
+            dlg.resize(500, 100)
+            dlg.setTextValue(filename)
+            valid = dlg.exec_()
+            filename = dlg.textValue()
+            if not valid:
+                return False
+        self.state.image_filename.append(filename)
+
+
+        self.state.image.append(img)
+        self.state.image_array.append(itk.GetArrayFromImage(
+            self.state.image[-1]
+        ))
+        self.state.image_min.append(float(np.min(self.state.image_array[-1])))
+        self.state.image_max.append(float(np.max(self.state.image_array[-1])))
+
+        if len(self.state.overlay) > 1:
+            self.state.overlay.append(resample_overlay_to_match_image(
+                self.state.overlay[0], self.state.image[-1]))
+        else:
+            self.state.overlay.append(self.state.overlay_type.New())
+            self.state.overlay[-1].SetRegions(
+                self.state.image[-1].GetLargestPossibleRegion()
+            )
+            self.state.overlay[-1].CopyInformation(self.state.image[-1])
+            self.state.overlay[-1].Allocate()
+            self.state.overlay[-1].FillBuffer(self.state.overlay_pixel_type(0))
+            self.state.overlay_array.append(itk.GetArrayFromImage(
+                self.state.overlay[-1]
+            ))
+
+        self.state.current_image_num = len(self.state.image)-1
+
+        self.view2DPanel.create_new_image()
+        self.view3DPanel.create_new_image()
+
+        return True
+
+    @time_and_log
+    def replace_image(self, img, update_overlay=True):
+        num = self.state.current_image_num
+        self.state.image[num] = img
+
+        self.state.image_array[num] = itk.GetArrayFromImage(img)
+        self.state.image_min[num] = float(np.min(self.state.image_array[num]))
+        self.state.image_max[num] = float(np.max(self.state.image_array[num]))
+
+        if update_overlay:
+            self.state.overlay[num] = resample_overlay_to_match_image(
+                self.state.overlay[0], self.state.image[num])
+            self.state.overlay_array[num] = itk.GetArrayFromImage(
+                self.state.overlay[num]
+            )
+
+        if os.path.splitext(filename)[1] == ".mha":
+            self.state.view2D_flip.append([True, True, False])
+        else:
+            self.state.view2D_flip.append([False, False, False])
+
+        self.state.current_image_num = len(self.state.image)-1
 
     @time_and_log
     def update_image(self):
@@ -316,21 +343,22 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         for so in self.state.scene_list:
             self.state.scene_list_ids.append(so.GetId())
             self.state.scene_list_properties.append(
-                dict(ColorBy="Solid Color")
-                )
+                dict(ColorBy="Solid Color", Actor=None))
             self.objectNameComboBox.addItem(f"{so.GetTypeName()} {so.GetId()}")
-        self.view2DPanel.update_scene()
-        self.view3DPanel.update_scene()
+        if self.state.view2D_overlay_auto_update:
+            self.view2DPanel.update_scene()
+        if self.state.view3D_scene_auto_update:
+            self.view3DPanel.update_scene()
         self.connect_object_gui()
 
     @time_and_log
-    def select_object_by_name_combobox(self):
-        idx = self.objectNameComboBox.currentIndex()
-        if idx == 0:
-            return
-        idx -= 1
-        so = self.state.scene_list[idx]
-        so_id = so.GetId()
+    def select_object_by_name_combobox(self, idx):
+        so = None
+        so_id = -2
+        if idx > 0:
+            idx -= 1
+            so = self.state.scene_list[idx]
+            so_id = so.GetId()
         # Unselect currently selected objects
         for selected_idx,selected_so_id in enumerate(self.state.selected_ids):
             if selected_so_id != -1 and selected_so_id != so_id:
@@ -338,15 +366,16 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
                 selected_so = self.state.scene_list[scene_idx]
                 self.state.selected_ids[selected_idx] = -1
                 self.redraw_object(selected_so)
-        self.state.selected_ids = [so_id]
-        self.state.selected_point_ids = [0]
-        self.redraw_object(so)
+        if so_id != -2:
+            self.state.selected_ids = [so_id]
+            self.state.selected_point_ids = [0]
+            self.redraw_object(so)
 
     @time_and_log
     def redraw_object(self, so, update_2D=True, update_3D=True):
         so_id = so.GetId()
         if so_id not in self.state.scene_list_ids:
-            print("ERROR: so_id not in scene_list_ids")
+            self.log("ERROR: so_id not in scene_list_ids", "error")
             return
         scene_idx = self.state.scene_list_ids.index(so_id)
 
@@ -364,9 +393,9 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         )
         self.objectColorComboBox.setCurrentText(color_name)
 
-        if update_2D:
+        if update_2D and self.state.view2D_overlay_auto_update:
             self.view2DPanel.redraw_object(so)
-        if update_3D:
+        if update_3D and self.state.view3D_scene_auto_update:
             self.view3DPanel.redraw_object(so)
 
         # Must call after view3DPanel.redraw_object() so that actors defined.
@@ -385,81 +414,76 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.connect_object_gui()
 
     @time_and_log
-    def modify_current_object(self):
-        idx = self.objectNameComboBox.currentIndex()
-        if idx == 0:
-            return
-        idx -= 1
-        so = self.state.scene_list[idx]
-        color = np.empty(4)
-        color[0:3] = self.state.colormap[self.objectColorComboBox.currentText()]
-        color[0:3] /= self.state.colormap_scale_factor
-        color[3] = self.objectOpacitySlider.value()/100.0
-        so.GetProperty().SetColor(color)
-        self.state.scene_list_properties[idx]["ColorBy"] = self.objectColorByComboBox.currentText()
-        
-        self.view2DPanel.redraw_object(so)
-        self.view3DPanel.redraw_object(so)
+    def modify_selected_objects(self, _):
+        for so_id in self.state.selected_ids:
+            scene_idx = self.state.scene_list_ids.index(so_id)
+            so = self.state.scene_list[scene_idx]
+            color = np.empty(4)
+            color[0:3] = self.state.colormap[self.objectColorComboBox.currentText()]
+            color[0:3] /= self.state.colormap_scale_factor
+            color[3] = self.objectOpacitySlider.value()/100.0
+            so.GetProperty().SetColor(color)
+            self.state.scene_list_properties[scene_idx]["ColorBy"] = self.objectColorByComboBox.currentText()
+            
+            if self.state.view2D_overlay_auto_update:
+                self.view2DPanel.redraw_object(so)
+            if self.state.view3D_scene_auto_update:
+                self.view3DPanel.redraw_object(so)
 
     @time_and_log
-    def delete_current_object(self):
-        scene_idx = self.objectNameComboBox.currentIndex()
-        if scene_idx == 0:
-            return
-        scene_idx -= 1
-        self.state.scene_list.pop(scene_idx)
-        self.state.scene_list_properties.pop(scene_idx)
-        self.objectNameComboBox.removeItem(scene_idx+1)
+    def delete_selected_objects(self):
+        for so_id in self.state.selected_ids:
+            print("deleting so_id:", so_id)
+            scene_idx = self.state.scene_list_ids.index(so_id)
+            so = self.state.scene_list[scene_idx]
+            so_parent = so.GetParent()
+            so_parent.RemoveChild(so)
+            self.state.scene_list.pop(scene_idx)
+            self.state.scene_list_properties.pop(scene_idx)
+        self.state.selected_ids = []
+        self.state.selected_point_ids = []
+
+        self.disconnect_object_gui()
+        self.objectNameComboBox.clear()
+        self.objectNameComboBox.addItem("None")
+        for so in self.state.scene_list:
+            self.objectNameComboBox.addItem(f"{so.GetTypeName()} {so.GetId()}")
+        self.connect_object_gui()
         self.update_scene()
-        if scene_idx in self.state.selected_ids:
-            self.state.selected_ids.pop(scene_idx)
-            self.state.selected_point_ids.pop(scene_idx)
-            if len(self.state.selected_ids) > 0:
-                next_so_id = self.state.selected_ids[-1]
-                next_scene_idx = self.state.scene_list_ids.index(next_so_id)
-                next_so = self.state.scene_list[next_scene_idx]
-                self.redraw_object(next_so)
 
     @time_and_log
     def propogate_properties_to_all(self):
-        scene_idx = self.objectNameComboBox.currentIndex()-1
         color_by = self.objectColorByComboBox.currentText()
         color = np.empty(4)
         color[0:3] = self.state.colormap[self.objectColorComboBox.currentText()]
         color[0:3] /= self.state.colormap_scale_factor
         color[3] = self.objectOpacitySlider.value()/100.0
         for idx in range(len(self.state.scene_list)):
-            if idx != scene_idx:
-                self.state.scene_list_properties[idx]["ColorBy"] = color_by
-                self.state.scene_list[idx].GetProperty().SetColor(color)
-                self.redraw_object(self.state.scene_list[idx])
-
-    @time_and_log
-    def propogate_properties_to_children(self):
-        idx = self.objectNameComboBox.currentIndex()
-        if idx == 0:
-            return
-        idx -= 1
-        so = self.state.scene_list[idx]
-        color_by = self.objectColorByComboBox.currentText()
-        color = np.empty(4)
-        color[0:3] = self.state.colormap[self.objectColorComboBox.currentText()]
-        color[0:3] /= self.state.colormap_scale_factor
-        color[3] = self.objectOpacitySlider.value()/100.0
-        children = get_children_as_list(so)
-        for child_so in children:
-            idx = self.state.scene_list.index(child_so)
             self.state.scene_list_properties[idx]["ColorBy"] = color_by
             self.state.scene_list[idx].GetProperty().SetColor(color)
             self.redraw_object(self.state.scene_list[idx])
 
     @time_and_log
-    def update_highlight_selected(self):
-        self.state.highlight_selected = self.objectHighlightSelectedCheckBox.isChecked()
-        idx = self.objectNameComboBox.currentIndex()
-        print(f"update_highlight_selected: idx={idx}")
-        if idx == 0:
-            return
-        so = self.state.scene_list[idx-1]
-        print(f"update_highlight_selected: so={so}")
-        self.redraw_object(so)
+    def propogate_properties_to_children(self):
+        for so_id in self.state.selected_ids:
+            scene_idx = self.state.scene_list_ids.index(so_id)
+            so = self.state.scene_list[scene_idx]
+            color_by = self.objectColorByComboBox.currentText()
+            color = np.empty(4)
+            color[0:3] = self.state.colormap[self.objectColorComboBox.currentText()]
+            color[0:3] /= self.state.colormap_scale_factor
+            color[3] = self.objectOpacitySlider.value()/100.0
+            children = get_children_as_list(so)
+            for child_so in children:
+                idx = self.state.scene_list.index(child_so)
+                self.state.scene_list_properties[idx]["ColorBy"] = color_by
+                self.state.scene_list[idx].GetProperty().SetColor(color)
+                self.redraw_object(child_so)
+
+    @time_and_log
+    def update_highlight_selected(self, value):
+        self.state.highlight_selected = value
+        for id in self.state.selected_ids:
+            self.log(f"update_highlight_selected: Id={id}")
+            so = self.state.scene_list[self.state.scene_list_ids.index(id)]
+            self.redraw_object(so)

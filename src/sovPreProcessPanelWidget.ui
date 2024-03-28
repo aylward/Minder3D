@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>415</width>
-    <height>142</height>
+    <width>583</width>
+    <height>145</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,11 +16,14 @@
   <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>30</y>
      <width>201</width>
      <height>101</height>
     </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
    </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
@@ -63,6 +66,9 @@
       <height>22</height>
      </rect>
     </property>
+    <property name="value">
+     <double>1.000000000000000</double>
+    </property>
    </widget>
    <widget class="QPushButton" name="preProcessLowResIsoButton">
     <property name="geometry">
@@ -81,11 +87,14 @@
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>30</y>
+     <x>230</x>
+     <y>20</y>
      <width>201</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
    </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
@@ -110,11 +119,14 @@
   <widget class="QFrame" name="frame_3">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>80</y>
+     <x>230</x>
+     <y>90</y>
      <width>201</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
    </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
@@ -131,6 +143,9 @@
       <height>22</height>
      </rect>
     </property>
+    <property name="value">
+     <number>1</number>
+    </property>
    </widget>
    <widget class="QPushButton" name="preProcessMedianFilterButton">
     <property name="geometry">
@@ -146,17 +161,20 @@
     </property>
    </widget>
   </widget>
-  <widget class="QCheckBox" name="preProcessUsePreProcessedCheckBox">
+  <widget class="QCheckBox" name="preProcessCreateNewImageCheckBox">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>151</width>
+     <x>20</x>
+     <y>0</y>
+     <width>161</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Use preprocessed image</string>
+    <string>Create New Image</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>

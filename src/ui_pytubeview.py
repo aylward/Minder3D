@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'pytubeviewWMwhFX.ui'
+## Form generated from reading UI file 'pytubeviewkhQzma.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -26,12 +26,12 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1024, 676)
+        MainWindow.resize(1037, 676)
         MainWindow.setMinimumSize(QSize(1024, 0))
         self.loadImageMenuItem = QAction(MainWindow)
         self.loadImageMenuItem.setObjectName(u"loadImageMenuItem")
-        self.savePreProcessedImageMenuItem = QAction(MainWindow)
-        self.savePreProcessedImageMenuItem.setObjectName(u"savePreProcessedImageMenuItem")
+        self.saveImageMenuItem = QAction(MainWindow)
+        self.saveImageMenuItem.setObjectName(u"saveImageMenuItem")
         self.saveOverlayMenuItem = QAction(MainWindow)
         self.saveOverlayMenuItem.setObjectName(u"saveOverlayMenuItem")
         self.saveVTKModelsMenuItem = QAction(MainWindow)
@@ -73,7 +73,7 @@ class Ui_MainWindow(object):
 
         self.view3DPanelLayout = QVBoxLayout()
         self.view3DPanelLayout.setObjectName(u"view3DPanelLayout")
-        self.view3DPanelSpacer = QSpacerItem(351, 0, QSizePolicy.Fixed, QSizePolicy.Minimum)
+        self.view3DPanelSpacer = QSpacerItem(361, 0, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
         self.view3DPanelLayout.addItem(self.view3DPanelSpacer)
 
@@ -82,7 +82,7 @@ class Ui_MainWindow(object):
 
         self.tablePanelLayout = QVBoxLayout()
         self.tablePanelLayout.setObjectName(u"tablePanelLayout")
-        self.tablePanelSpacer = QSpacerItem(175, 0, QSizePolicy.Fixed, QSizePolicy.Minimum)
+        self.tablePanelSpacer = QSpacerItem(165, 0, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
         self.tablePanelLayout.addItem(self.tablePanelSpacer)
 
@@ -232,6 +232,30 @@ class Ui_MainWindow(object):
         self.statusGroupBox.setAutoFillBackground(True)
         self.gridLayout = QGridLayout(self.statusGroupBox)
         self.gridLayout.setObjectName(u"gridLayout")
+        self.statusMinorProgressBar = QProgressBar(self.statusGroupBox)
+        self.statusMinorProgressBar.setObjectName(u"statusMinorProgressBar")
+        sizePolicy1.setHeightForWidth(self.statusMinorProgressBar.sizePolicy().hasHeightForWidth())
+        self.statusMinorProgressBar.setSizePolicy(sizePolicy1)
+        self.statusMinorProgressBar.setMinimumSize(QSize(150, 12))
+        self.statusMinorProgressBar.setValue(0)
+        self.statusMinorProgressBar.setTextVisible(False)
+
+        self.gridLayout.addWidget(self.statusMinorProgressBar, 0, 4, 1, 1)
+
+        self.statusGroupBoxSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.gridLayout.addItem(self.statusGroupBoxSpacer, 0, 5, 1, 1)
+
+        self.status = QLabel(self.statusGroupBox)
+        self.status.setObjectName(u"status")
+        self.status.setMinimumSize(QSize(200, 0))
+        self.status.setFont(font2)
+        self.status.setAutoFillBackground(True)
+        self.status.setFrameShape(QFrame.NoFrame)
+        self.status.setFrameShadow(QFrame.Plain)
+
+        self.gridLayout.addWidget(self.status, 0, 1, 2, 1)
+
         self.statusMajorProgressBar = QProgressBar(self.statusGroupBox)
         self.statusMajorProgressBar.setObjectName(u"statusMajorProgressBar")
         sizePolicy1.setHeightForWidth(self.statusMajorProgressBar.sizePolicy().hasHeightForWidth())
@@ -247,35 +271,11 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.statusLabel, 0, 0, 2, 1)
 
-        self.status = QLabel(self.statusGroupBox)
-        self.status.setObjectName(u"status")
-        self.status.setMinimumSize(QSize(200, 0))
-        self.status.setFont(font2)
-        self.status.setAutoFillBackground(True)
-        self.status.setFrameShape(QFrame.NoFrame)
-        self.status.setFrameShadow(QFrame.Plain)
-
-        self.gridLayout.addWidget(self.status, 0, 1, 2, 1)
-
         self.statusViewLogButton = QPushButton(self.statusGroupBox)
         self.statusViewLogButton.setObjectName(u"statusViewLogButton")
         self.statusViewLogButton.setFont(font1)
 
         self.gridLayout.addWidget(self.statusViewLogButton, 0, 6, 2, 1)
-
-        self.statusGroupBoxSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.gridLayout.addItem(self.statusGroupBoxSpacer, 0, 5, 1, 1)
-
-        self.statusMinorProgressBar = QProgressBar(self.statusGroupBox)
-        self.statusMinorProgressBar.setObjectName(u"statusMinorProgressBar")
-        sizePolicy1.setHeightForWidth(self.statusMinorProgressBar.sizePolicy().hasHeightForWidth())
-        self.statusMinorProgressBar.setSizePolicy(sizePolicy1)
-        self.statusMinorProgressBar.setMinimumSize(QSize(150, 12))
-        self.statusMinorProgressBar.setValue(0)
-        self.statusMinorProgressBar.setTextVisible(False)
-
-        self.gridLayout.addWidget(self.statusMinorProgressBar, 0, 4, 1, 1)
 
 
         self.bottomPanelLayout.addWidget(self.statusGroupBox)
@@ -289,7 +289,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1024, 22))
+        self.menubar.setGeometry(QRect(0, 0, 1037, 22))
         self.fileMenu = QMenu(self.menubar)
         self.fileMenu.setObjectName(u"fileMenu")
         MainWindow.setMenuBar(self.menubar)
@@ -298,12 +298,9 @@ class Ui_MainWindow(object):
         self.fileMenu.addAction(self.loadSceneMenuItem)
         self.fileMenu.addAction(self.loadImageMenuItem)
         self.fileMenu.addSeparator()
-        self.fileMenu.addAction(self.saveSceneMenuItem)
-        self.fileMenu.addAction(self.savePreProcessedImageMenuItem)
-        self.fileMenu.addSeparator()
+        self.fileMenu.addAction(self.saveImageMenuItem)
         self.fileMenu.addAction(self.saveOverlayMenuItem)
-        self.fileMenu.addAction(self.savePreProcessedOverlayMenuItem)
-        self.fileMenu.addSeparator()
+        self.fileMenu.addAction(self.saveSceneMenuItem)
         self.fileMenu.addAction(self.saveVTKModelsMenuItem)
 
         self.retranslateUi(MainWindow)
@@ -317,7 +314,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"PyTubeView", None))
         self.loadImageMenuItem.setText(QCoreApplication.translate("MainWindow", u"Load Image", None))
-        self.savePreProcessedImageMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Pre-Processed Image", None))
+        self.saveImageMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Image", None))
         self.saveOverlayMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Overlay", None))
         self.saveVTKModelsMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save VTK Models", None))
         self.loadSceneMenuItem.setText(QCoreApplication.translate("MainWindow", u"Load Spatial Objects", None))
@@ -348,9 +345,9 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.preProcessPanel), QCoreApplication.translate("MainWindow", u"Pre-process", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.lungAIPanel), QCoreApplication.translate("MainWindow", u"Lung AI", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tubePanel), QCoreApplication.translate("MainWindow", u"Tubes", None))
-        self.statusLabel.setText(QCoreApplication.translate("MainWindow", u"Status:", None))
         self.status.setText(QCoreApplication.translate("MainWindow", u"Ready", None))
-        self.statusViewLogButton.setText(QCoreApplication.translate("MainWindow", u"Log", None))
+        self.statusLabel.setText(QCoreApplication.translate("MainWindow", u"Status:", None))
+        self.statusViewLogButton.setText(QCoreApplication.translate("MainWindow", u"View Log", None))
         self.fileMenu.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
 

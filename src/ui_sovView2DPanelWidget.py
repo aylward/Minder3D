@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovView2DPanelWidgetdsDQiz.ui'
+## Form generated from reading UI file 'sovView2DPanelWidgetStjGsc.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -108,8 +108,6 @@ class Ui_View2DPanelWidget(object):
         self.gridLayout_2.addWidget(self.view2DYZButton, 0, 5, 2, 1)
 
         self.view2DViewImageComboBox = QComboBox(self.view2DGroupBox)
-        self.view2DViewImageComboBox.addItem("")
-        self.view2DViewImageComboBox.addItem("")
         self.view2DViewImageComboBox.setObjectName(u"view2DViewImageComboBox")
         sizePolicy2.setHeightForWidth(self.view2DViewImageComboBox.sizePolicy().hasHeightForWidth())
         self.view2DViewImageComboBox.setSizePolicy(sizePolicy2)
@@ -180,9 +178,6 @@ class Ui_View2DPanelWidget(object):
         self.view2DFlipYCheckBox.setText(QCoreApplication.translate("View2DPanelWidget", u"Flip Y", None))
         self.view2DFlipXCheckBox.setText(QCoreApplication.translate("View2DPanelWidget", u"Flip X", None))
         self.view2DYZButton.setText(QCoreApplication.translate("View2DPanelWidget", u"YZ", None))
-        self.view2DViewImageComboBox.setItemText(0, QCoreApplication.translate("View2DPanelWidget", u"Loaded", None))
-        self.view2DViewImageComboBox.setItemText(1, QCoreApplication.translate("View2DPanelWidget", u"Pre-processed", None))
-
         self.view2DXYButton.setText(QCoreApplication.translate("View2DPanelWidget", u"XY", None))
         self.view2DViewImageLabel.setText(QCoreApplication.translate("View2DPanelWidget", u"Image", None))
     # retranslateUi

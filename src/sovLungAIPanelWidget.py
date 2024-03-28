@@ -12,9 +12,13 @@ class LungAIPanelWidget(QWidget, Ui_LungAIPanelWidget):
         self.gui = gui
         self.state = state
 
+        self.ai_loaded = False
+
         self.lungAISegmentButton.clicked.connect(
             self.segment_lungs
         )
 
     def segment_lungs(self):
-        print("click")
+        if not self.ai_loaded:
+            self.ai_loaded = True
+            

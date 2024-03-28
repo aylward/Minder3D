@@ -98,6 +98,7 @@ def time_and_log(func):
     return wrapper
 
 
+@time_and_log
 def resample_overlay_to_match_image( input_overlay, match_image ) -> itk.Image:
     """Resamples an overlay to match the geometry of a given image.
 
@@ -120,6 +121,7 @@ def resample_overlay_to_match_image( input_overlay, match_image ) -> itk.Image:
     return resampler.GetOutput()
 
 
+@time_and_log
 def get_children_as_list(
     grp: itk.GroupSpatialObject, child_type: str = "Tube"
 ) -> list:
@@ -143,6 +145,7 @@ def get_children_as_list(
     ]
 
 
+@time_and_log
 def get_so_index_in_list(
     so_id: int, so_list: list
 ) -> int:
@@ -159,6 +162,7 @@ def get_so_index_in_list(
     index = id_list.index(so_id)
     return index
 
+@time_and_log
 def get_tag_value_index_in_list_of_dict(
     tag, value, list_of_dict
 ) -> int:
@@ -172,11 +176,15 @@ def get_tag_value_index_in_list_of_dict(
     Returns:
         int: The index of the dictionary with that tag/value pair in the list.
     """
-    matchings_indexes = [d.get(tag) == value for d in list_of_dict]
-    idx = matchings_indexes.index(True)
-    return idx
+    list_of_values = [d.get(tag) for d in list_of_dict]
+    try:
+        idx = list_of_values.index(value)
+        return idx
+    except ValueError:
+        return -1
 
 
+@time_and_log
 def read_group(filename: str, dims: int = 3) -> itk.GroupSpatialObject:
     """Reads a group from a file.
 
@@ -196,6 +204,7 @@ def read_group(filename: str, dims: int = 3) -> itk.GroupSpatialObject:
     return groupFileReader.GetGroup()
 
 
+@time_and_log
 def write_group(group: itk.GroupSpatialObject, filename: str):
     """Writes a group to a file.
 

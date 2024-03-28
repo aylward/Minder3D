@@ -63,15 +63,19 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
     @time_and_log
     def update_scene(self):
         point_data = convert_scene_to_surfaces(self.state.scene)
+        self.scene_renderer.RemoveAllViewProps()
         for scene_idx, so in enumerate(self.state.scene_list):
             actor = vtkActor()
-            color = so.GetProperty().GetColor()
-            actor.GetProperty().SetColor(color[0], color[1], color[2])
-            actor.GetProperty().SetOpacity(color[3])
             color_by = self.state.scene_list_properties[scene_idx]["ColorBy"]
             self.state.scene_list_properties[scene_idx]["Actor"] = actor
             mapper = vtkPolyDataMapper()
             mapper.SetInputData(point_data[scene_idx])
+            color = so.GetProperty().GetColor()
+            selected = scene_idx in self.state.selected_ids
+            if selected and self.state.highlight_selected:
+                color = [0, 1, 0, 1]
+            actor.GetProperty().SetColor(color[0], color[1], color[2])
+            actor.GetProperty().SetOpacity(color[3])
             if color_by == "Solid Color":
                 mapper.ScalarVisibilityOff()
             else:
@@ -88,12 +92,19 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
         if actor is None or so is None:
             print("ERROR: redraw_actor: actor or so is None")
             return
-        scene_idx = self.state.scene_list_ids.index(so.GetId())
+        so_id = so.GetId()
+        scene_idx = self.state.scene_list_ids.index(so_id)
         color_by = self.state.scene_list_properties[scene_idx]["ColorBy"]
-        if color_by == "Solid Color" or color is not None:
+        selected = so_id in self.state.selected_ids
+        print("redraw_actor so_id:", so.GetId(), "scene_idx:", scene_idx)
+        if color_by == "Solid Color" or color is not None or (selected and self.state.highlight_selected):
             actor.GetMapper().ScalarVisibilityOff()
             if color is None:
-                color = so.GetProperty().GetColor()
+                if selected and self.state.highlight_selected:
+                    color = [0, 1, 0, 1]
+                else:
+                    color = so.GetProperty().GetColor()
+            print( "   setting color:", color, "selected:", selected, "highlight_selected:", self.state.highlight_selected)
             actor.GetProperty().SetColor(color[0], color[1], color[2])
             actor.GetProperty().SetOpacity(color[3])
         else:
@@ -109,6 +120,9 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
         """
         if len(self.state.selected_ids) > 0:
             scene_idx = get_tag_value_index_in_list_of_dict("Actor", actor, self.state.scene_list_properties)
+            if scene_idx == -1:
+                self.gui.log(f"Get_tag_value_index_in_list_of_dict: 'Actor'={actor} not found in list_of_dict", "ERROR")
+                return
             so = self.state.scene_list[scene_idx]
             so_id = so.GetId()
             if (
@@ -145,14 +159,15 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
             ).GetTuple(0)[0]
             scene_idx = self.state.scene_list_ids.index(so_id)
             so = self.state.scene_list[scene_idx]
+            print("picked so_id:", so_id, "scene_idx:", scene_idx)
             point = so.ClosestPointInWorldSpace(pos)
             point_id = point.GetId()
             if so_id not in self.state.selected_ids:
                 self.state.selected_ids.append(so_id)
                 self.state.selected_point_ids.append(point_id)
-                if self.state.highlight_selected:
-                    self.redraw_actor(actor, so, [0, 1, 0, 1])
-                    self.gui.redraw_object(so, update_2D=True, update_3D=False)
+                print("   adding so_id:", so_id, "point_id:", point_id)
+                self.redraw_actor(actor, so)
+                self.gui.redraw_object(so, update_2D=True, update_3D=False)
         self.GetRenderWindow().Render()
 
     @time_and_log
@@ -160,8 +175,6 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
         so_id = so.GetId()
         scene_idx = self.state.scene_list_ids.index(so_id)
         actor = self.state.scene_list_properties[scene_idx].get("Actor")
-        if self.state.highlight_selected and so_id in self.state.selected_ids:
-            self.redraw_actor(actor, so, [0, 1, 0, 1])
-        else:
-            self.redraw_actor(actor, so)
+        print("redraw so_id:", so_id, "scene_idx:", scene_idx)
+        self.redraw_actor(actor, so)
         self.GetRenderWindow().Render()

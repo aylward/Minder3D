@@ -40,11 +40,14 @@ def render_tube_in_overlay_array(tube, image, overlay_array, color=None):
                                     overlay_array[tp[2], tp[1], tp[0]] = color
 
 
-def render_scene_in_overlay_array(scene, image, overlay_array):
+def render_scene_in_overlay_array(scene, selected_ids, image, overlay_array):
     scene.Update()
     tube_list = get_children_as_list(scene, "Tube")
     for tube in tube_list:
-        render_tube_in_overlay_array(tube, image, overlay_array)
+        color = None
+        if tube.GetId() in selected_ids:
+            color = [0, 255, 0, 255]
+        render_tube_in_overlay_array(tube, image, overlay_array, color)
 
 
 def render_object_in_overlay_array(so, image, overlay_array, color=None):

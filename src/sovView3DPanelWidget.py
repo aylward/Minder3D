@@ -34,8 +34,12 @@ class View3DPanelWidget(QWidget, Ui_View3DPanelWidget):
         self.vtk3DViewWidget.reset_camera()
 
     @time_and_log
+    def create_new_image(self):
+        pass
+
+    @time_and_log
     def update_image(self):
-        pass #self.update()
+        pass
 
     @time_and_log
     def update_scene(self):
