@@ -235,16 +235,6 @@
           <pointsize>7</pointsize>
          </font>
         </property>
-        <item>
-         <property name="text">
-          <string>Loaded</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Pre-processed</string>
-         </property>
-        </item>
        </widget>
       </item>
       <item row="0" column="3" rowspan="2">

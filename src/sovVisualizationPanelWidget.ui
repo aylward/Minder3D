@@ -6,18 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>307</width>
-    <height>54</height>
+    <width>673</width>
+    <height>151</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="vizIntensityMinMaxReset">
+  <widget class="QPushButton" name="vizIntensityMinMaxResetButton">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>18</y>
+     <x>340</x>
+     <y>25</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -29,9 +29,9 @@
   <widget class="QDoubleSpinBox" name="vizIntensityMinSpinBox">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>0</y>
-     <width>81</width>
+     <x>260</x>
+     <y>7</y>
+     <width>71</width>
      <height>22</height>
     </rect>
    </property>
@@ -39,8 +39,8 @@
   <widget class="QSlider" name="vizIntensityMaxSlider">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>30</y>
+     <x>90</x>
+     <y>37</y>
      <width>160</width>
      <height>22</height>
     </rect>
@@ -70,9 +70,9 @@
   <widget class="QDoubleSpinBox" name="vizIntensityMaxSpinBox">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>30</y>
-     <width>81</width>
+     <x>260</x>
+     <y>37</y>
+     <width>71</width>
      <height>22</height>
     </rect>
    </property>
@@ -80,8 +80,8 @@
   <widget class="QSlider" name="vizIntensityMinSlider">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
+     <x>90</x>
+     <y>7</y>
      <width>160</width>
      <height>22</height>
     </rect>
@@ -106,6 +106,87 @@
    </property>
    <property name="invertedAppearance">
     <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="vizUpdate2DOverlayButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>121</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Update 2D Overlay</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="vizAutoUpdate2DOverlayCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>141</x>
+     <y>73</y>
+     <width>151</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Auto Update 2D Overlay</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="vizUpdate3DSceneButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>107</y>
+     <width>121</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Update 3D Scene</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="vizAutoUpdate3DSceneCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>110</y>
+     <width>141</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Auto Update 3D Scene</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="vizIntensityMinLabel">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>7</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Intensity Min</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="vizIntensityMaxLabel">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>37</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Intensity Max</string>
    </property>
   </widget>
  </widget>

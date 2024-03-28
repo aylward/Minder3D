@@ -6,6 +6,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from sovUtils import time_and_log
+
 from ui_sovTablePanelWidget import Ui_TablePanelWidget
 
 
@@ -59,15 +61,18 @@ class TablePanelWidget(QWidget, Ui_TablePanelWidget):
         self.table.dict["Image Spacing"] = "0, 0, 0"
         self.tableTableView.setModel(self.table)
 
+    @time_and_log
     def update_image(self):
-        img_size = self.state.image.GetLargestPossibleRegion().GetSize()
+        img_size = self.state.image[self.state.current_image_num].GetLargestPossibleRegion().GetSize()
         self.table.setDict(
             'Image Size',
             f'{img_size[0]}, {img_size[1]}, {img_size[2]}')
-        img_spacing = self.state.image.GetSpacing()
+        img_spacing = self.state.image[self.state.current_image_num].GetSpacing()
         self.table.setDict(
             'Image Spacing',
             f'{img_spacing[0]:.3f}, {img_spacing[1]:.3f}, {img_spacing[2]:.3f}')
+        self.tableTableView.repaint()
 
+    @time_and_log
     def update_pixel(self):
         pass

@@ -5,7 +5,7 @@ from itk import TubeTK as tube
 
 from PySide6.QtWidgets import QWidget
 
-from sovUtils import time_and_log, resample_overlay_to_match_image
+from sovUtils import time_and_log 
 
 from ui_sovPreProcessPanelWidget import Ui_PreProcessPanelWidget
 
@@ -41,24 +41,14 @@ class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
     @time_and_log
     def make_high_res_iso(self):
         isoImageFilter = tube.ResampleImage[self.state.image_type].New()
-        if self.preProcessUsePreProcessedCheckBox.isChecked():
-            isoImageFilter.SetInput(self.state.image)
-        else:
-            isoImageFilter.SetInput(self.state.loaded_image)
+        isoImageFilter.SetInput(self.state.image[self.state.current_image_num])
         isoImageFilter.SetMakeHighResIso(True)
         isoImageFilter.SetInterpolator("Sinc")
         isoImageFilter.Update()
-        self.state.image = isoImageFilter.GetOutput()
-        self.state.image_array = itk.GetArrayFromImage(self.state.image)
-
-        if self.preProcessUsePreProcessedCheckBox.isChecked():
-            self.state.overlay = resample_overlay_to_match_image(
-                self.state.overlay, self.state.image)
+        if self.preProcessCreateNewImageCheckBox.isChecked():
+            self.gui.create_new_image(isoImageFilter.GetOutput())
         else:
-            self.state.overlay = resample_overlay_to_match_image(
-                self.state.loaded_overlay, self.state.image)
-        self.state.overlay_array = itk.GetArrayFromImage(
-            self.state.overlay)
+            self.gui.replace_image(isoImageFilter.GetOutput())
 
         self.gui.update_image()
         self.gui.update_overlay()
@@ -66,24 +56,14 @@ class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
     @time_and_log
     def make_low_res_iso(self):
         isoImageFilter = tube.ResampleImage[self.state.image_type].New()
-        if self.preProcessUsePreProcessedCheckBox.isChecked():
-            isoImageFilter.SetInput(self.state.image)
-        else:
-            isoImageFilter.SetInput(self.state.loaded_image)
+        isoImageFilter.SetInput(self.state.image[self.state.current_image_num])
         isoImageFilter.SetMakeIsotropic(True)
         isoImageFilter.SetInterpolator("Sinc")
         isoImageFilter.Update()
-        self.state.image = isoImageFilter.GetOutput()
-        self.state.image_array = itk.GetArrayFromImage(self.state.image)
-
-        if self.preProcessUsePreProcessedCheckBox.isChecked():
-            self.state.overlay = resample_overlay_to_match_image(
-                self.state.overlay, self.state.image)
+        if self.preProcessCreateNewImageCheckBox.isChecked():
+            self.gui.create_new_image(isoImageFilter.GetOutput())
         else:
-            self.state.overlay = resample_overlay_to_match_image(
-                self.state.loaded_overlay, self.state.image)
-        self.state.overlay_array = itk.GetArrayFromImage(
-            self.state.overlay)
+            self.gui.replace_image(isoImageFilter.GetOutput())
 
         self.gui.update_image()
         self.gui.update_overlay()
@@ -94,82 +74,51 @@ class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
         spacing = [spacingX, spacingX, spacingX]
 
         isoImageFilter = tube.ResampleImage[self.state.image_type].New()
-        if self.preProcessUsePreProcessedCheckBox.isChecked():
-            isoImageFilter.SetInput(self.state.image)
-        else:
-            isoImageFilter.SetInput(self.state.loaded_image)
+        isoImageFilter.SetInput(self.state.image[self.state.current_image_num])
         isoImageFilter.SetSpacing(spacing)
         isoImageFilter.SetInterpolator("Sinc")
         isoImageFilter.Update()
-        self.state.image = isoImageFilter.GetOutput()
-        self.state.image_array = itk.GetArrayFromImage(self.state.image)
-
-        self.state.overlay = resample_overlay_to_match_image(
-            self.state.loaded_overlay, self.state.image)
-        self.state.overlay_array = itk.GetArrayFromImage(
-            self.state.overlay)
+        if self.preProcessCreateNewImageCheckBox.isChecked():
+            self.gui.create_new_image(isoImageFilter.GetOutput())
+        else:
+            self.gui.replace_image(isoImageFilter.GetOutput())
 
         self.gui.update_image()
         self.gui.update_overlay()
         
-    @time_and_log
-    def make_iso(self):
-        spacingX = self.preProcessIsoSpinBox.value()
-        spacing = [spacingX, spacingX, spacingX]
-        
-        isoImageFilter = tube.ResampleImage.New(
-            Input=self.state.loaded_image)
-        isoImageFilter.SetSpacing(spacing)
-        isoImageFilter.SetInterpolator("Sinc")
-        isoImageFilter.Update()
-        self.state.image = isoImageFilter.GetOutput()
-        self.state.image_array = itk.GetArrayFromImage(self.state.image)
-
-        if self.preProcessUsePreProcessedCheckBox.isChecked():
-            self.state.overlay = resample_overlay_to_match_image(
-                self.state.overlay, self.state.image)
-        else:
-            self.state.overlay = resample_overlay_to_match_image(
-                self.state.loaded_overlay, self.state.image)
-        self.state.overlay_array = itk.GetArrayFromImage(
-            self.state.overlay)
-
-        self.gui.update_image()
-        self.gui.update_overlay()
-
     @time_and_log
     def clip_window_level(self):
-        imin = 0
-        imax = 1
+        imin = self.state.view2D_intensity_window_min[self.state.current_image_num]
+        imax = self.state.view2D_intensity_window_max[self.state.current_image_num]
         flip = False
-        if self.state.view_intensity_window_min < self.state.view_intensity_window_max:
-            imin = self.state.view_intensity_window_min
-            imax = self.state.view_intensity_window_max
-            flip = False
-        elif self.state.view_intensity_window_min > self.state.view_intensity_window_max:
-            imin = self.state.view_intensity_window_max
-            imax = self.state.view_intensity_window_min
+        if imin > imax:
+            tmp = imin
+            imin = imax
+            imax = tmp
             flip = True
         else:
             self.gui.log("min and max intensity window values are equal", "warning")
             return
-        if self.preProcessUsePreProcessedCheckBox.isChecked():
-            self.state.image_array = np.clip(self.state.image_array, imin, imax)
-        else:
-            self.state.image_array = np.clip(self.state.loaded_image_array, imin, imax)
+        image_array = np.clip(self.state.image_array[self.state.current_image_num], imin, imax)
         if flip:
-            self.state.image_array = imax - self.state.image_array
-        self.state.image = itk.GetImageFromArray(self.state.image_array)
-        self.state.image.CopyInformation(self.state.overlay)
+            image_array = imax - image_array
+        img = itk.GetImageFromArray(image_array)
+        img.CopyInformation(self.state.image[self.state.current_image_num])
+        if self.preProcessCreateNewImageCheckBox.isChecked():
+            self.gui.create_new_image(img)
+        else:
+            self.gui.replace_image(img, update_overlay=False)
 
         self.gui.update_image()
 
     @time_and_log
     def median_filter(self):
-        medFilter = itk.MedianImageFilter.New(Input=self.state.image)
+        medFilter = itk.MedianImageFilter.New(Input=self.state.image[self.state.current_image_num])
         medFilter.SetRadius(self.preProcessMedianRadiusSpinBox.value())
         medFilter.Update()
-        self.state.image = medFilter.GetOutput()
-        self.state.image_array = itk.GetArrayFromImage(self.state.image)
+        if self.preProcessCreateNewImageCheckBox.isChecked():
+            self.gui.create_new_image(medFilter.GetOutput())
+        else:
+            self.gui.replace_image(medFilter.GetOutput(), update_overlay=False)
 
         self.gui.update_image()
