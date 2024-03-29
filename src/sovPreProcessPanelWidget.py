@@ -51,7 +51,8 @@ class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
             self.gui.replace_image(isoImageFilter.GetOutput())
 
         self.gui.update_image()
-        self.gui.update_overlay()
+        if self.gui.state.view2D_overlay_auto_update:
+            self.gui.update_overlay()
 
     @time_and_log
     def make_low_res_iso(self):
@@ -66,7 +67,8 @@ class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
             self.gui.replace_image(isoImageFilter.GetOutput())
 
         self.gui.update_image()
-        self.gui.update_overlay()
+        if self.gui.state.view2D_overlay_auto_update:
+            self.gui.update_overlay()
 
     @time_and_log
     def make_iso(self):
@@ -84,7 +86,8 @@ class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
             self.gui.replace_image(isoImageFilter.GetOutput())
 
         self.gui.update_image()
-        self.gui.update_overlay()
+        if self.gui.state.view2D_overlay_auto_update:
+            self.gui.update_overlay()
         
     @time_and_log
     def clip_window_level(self):
