@@ -160,11 +160,13 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def load_image(self, filename=None):
-        if not filename:
+        if filename is None:
+            if len(self.state.image_filename) > 0:
+                filename = self.state.image_filename[-1]
             filename, _ = QFileDialog.getOpenFileName(
                 self,
                 "Open File",
-                self.state.image_filename[-1],
+                filename,
                 "All Files (*)"
             )
         if filename:
@@ -250,10 +252,13 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             write_group(self.state.scene, filename)
 
     @time_and_log
-    def create_new_image(self, img, filename=None):
+    def create_new_image(self, img, filename=None, tag=None):
         if filename is None:
             filename, fileext = os.path.splitext(self.state.image_filename[-1])
-            filename = filename + "_" + str(len(self.state.image)) + fileext
+            if tag == None:
+                filename = filename + "_" + str(len(self.state.image)) + fileext
+            else:
+                filename = filename + "_" + tag + fileext
             dlg = QInputDialog(self)
             dlg.setInputMode(QInputDialog.TextInput)
             dlg.setLabelText("New image's filename:")
@@ -263,7 +268,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             filename = dlg.textValue()
             if not valid:
                 return False
-        self.state.image_filename.append(filename)
+        self.state.image_filename.append(str(filename))
 
 
         self.state.image.append(img)
