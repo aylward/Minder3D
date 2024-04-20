@@ -35,10 +35,23 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.view2DXZButton.clicked.connect(self.update_axis_xz)
         self.view2DYZButton.clicked.connect(self.update_axis_yz)
 
-        self.view2DFlipXCheckBox.stateChanged.connect(self.update_flip_x)
-        self.view2DFlipYCheckBox.stateChanged.connect(self.update_flip_y)
+        self.view2DIntensityMinSlider.valueChanged.connect(
+            self.update_intensity_min_max_sliders
+        )
+        self.view2DIntensityMaxSlider.valueChanged.connect(
+            self.update_intensity_min_max_sliders
+        )
 
-        self.view2DViewImageComboBox.currentIndexChanged.connect(self.update_view_image_num)
+        self.view2DIntensityMinSpinBox.valueChanged.connect(
+            self.update_intensity_min_max_spin_boxes
+        )
+        self.view2DIntensityMaxSpinBox.valueChanged.connect(
+            self.update_intensity_min_max_spin_boxes
+        )
+
+        self.view2DIntensityMinMaxResetButton.pressed.connect(
+            self.update_reset_intensity_min_max
+        )
 
         self.update_gui = True
 
@@ -52,6 +65,9 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
     @time_and_log
     def update_overlay_opacity(self, value):
+        if not self.update_gui:
+            return
+
         self.state.view2D_overlay_opacity = value / 100.0
         self.update()
 
@@ -73,10 +89,8 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.view2DSliceText.setPlainText(
             f"{self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]}"
         )
-        self.view2DFlipXCheckBox.setChecked(self.state.view2D_flip[self.state.current_image_num][0])
-        self.view2DFlipXCheckBox.setText("Flip X")
-        self.view2DFlipYCheckBox.setChecked(self.state.view2D_flip[self.state.current_image_num][1])
-        self.view2DFlipYCheckBox.setText("Flip Y")
+
+        self.gui.visualizationPanel.update_view2D()
 
         self.update_gui = True
 
@@ -101,10 +115,8 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.view2DSliceText.setPlainText(
             f"{self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]}"
         )
-        self.view2DFlipXCheckBox.setChecked(self.state.view2D_flip[self.state.current_image_num][0])
-        self.view2DFlipXCheckBox.setText("Flip X")
-        self.view2DFlipYCheckBox.setChecked(self.state.view2D_flip[self.state.current_image_num][2])
-        self.view2DFlipYCheckBox.setText("Flip Z")
+
+        self.gui.visualizationPanel.update_view2D()
 
         self.update_gui = True
 
@@ -129,32 +141,14 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.view2DSliceText.setPlainText(
             f"{self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]}"
         )
-        self.view2DFlipXCheckBox.setChecked(self.state.view2D_flip[self.state.current_image_num][1])
-        self.view2DFlipXCheckBox.setText("Flip Y")
-        self.view2DFlipYCheckBox.setChecked(self.state.view2D_flip[self.state.current_image_num][2])
-        self.view2DFlipYCheckBox.setText("Flip Z")
+
+        self.gui.visualizationPanel.update_view2D()
 
         self.update_gui = True
 
         self.update()
         self.vtk2DViewWidget.reset_camera()
 
-    @time_and_log
-    def update_flip_x(self, value):
-        if not self.update_gui:
-            return
-
-        self.state.view2D_flip[self.state.current_image_num][(self.state.view2D_axis[self.state.current_image_num]+1)%3] = value
-        self.update()
-
-    @time_and_log
-    def update_flip_y(self, value):
-        if not self.update_gui:
-            return
-
-        self.state.view2D_flip[self.state.current_image_num][(self.state.view2D_axis[self.state.current_image_num]+2)%3] = value
-        self.update()
-        
     @time_and_log
     def update_view_image_num(self, index):
         if not self.update_gui:
@@ -178,24 +172,20 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.state.view2D_intensity_window_max.append(self.state.image_max[-1])
 
         self.state.view2D_slice.append([0, 0, 0])
-
         self.state.view2D_axis.append(2)
 
-        img_name = os.path.splitext(self.state.image_filename[-1])
-        if img_name[1] == ".mha":
-            self.state.view2D_flip.append([False, True, False])
-        else:
-            self.state.view2D_flip.append([False, False, False])
+        self.state.view2D_flip.append([False, False, False])
 
-        self.update_gui = False
-        self.view2DViewImageComboBox.addItem(f"{img_name[0]}")
-        self.view2DViewImageComboBox.setCurrentIndex(len(self.state.image)-1)
-        self.update_gui = True
+
 
     @time_and_log
     def update_image(self):
-        if not self.update_gui:
-            return
+        imin = self.state.image_min[self.state.current_image_num]
+        imax = self.state.image_max[self.state.current_image_num]
+        irange = imax - imin
+
+        self.state.view2D_intensity_window_min[self.state.current_image_num] = imin
+        self.state.view2D_intensity_window_max[self.state.current_image_num] = imax
 
         self.update_gui = False
 
@@ -207,41 +197,50 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.view2DSliceSlider.setValue(0)
         self.view2DSliceText.setPlainText("0")
 
-        self.state.view2D_slice[self.state.current_image_num] = [0, 0, 0]
-        self.state.view2D_axis[self.state.current_image_num] = 2
+        self.view2DIntensityMinSlider.setValue(0)
+        self.view2DIntensityMinSpinBox.setRange(
+            imin - 0.5 * irange,
+            imax + 0.5 * irange
+        )
+        self.view2DIntensityMinSpinBox.setSingleStep(irange / 500)
+        self.view2DIntensityMinSpinBox.setValue(imin)
 
-        self.state.view2D_intensity_window_min[self.state.current_image_num] = self.state.image_min[self.state.current_image_num]
-        self.state.view2D_intensity_window_max[self.state.current_image_num] = self.state.image_max[self.state.current_image_num]
-
-        self.vtk2DViewWidget.update_image()
+        self.view2DIntensityMaxSlider.setValue(100)
+        self.view2DIntensityMaxSpinBox.setRange(
+            imin - 0.5 * irange,
+            imax + 0.5 * irange
+        )
+        self.view2DIntensityMaxSpinBox.setSingleStep(irange / 500)
+        self.view2DIntensityMaxSpinBox.setValue(imax)
 
         self.update_gui = True
 
+        self.update()
+
+        self.vtk2DViewWidget.update_image()
+
     @time_and_log
     def update_overlay(self):
-        if not self.update_gui:
+        if self.state.scene is None:
             return
 
-        if self.state.scene is not None:
-            self.state.overlay_array[self.state.current_image_num].fill(0)
-            render_scene_in_overlay_array(
-                self.state.scene,
-                self.state.selected_ids,
-                self.state.image[self.state.current_image_num],
-                self.state.overlay_array[self.state.current_image_num],
-            )
-            self.state.overlay[self.state.current_image_num] = itk.GetImageFromArray(
-                self.state.overlay_array[self.state.current_image_num],
-                ttype=self.state.overlay_type,
-            )
-            self.state.overlay[self.state.current_image_num].CopyInformation(self.state.image[self.state.current_image_num])
-            self.update()
+        self.state.overlay_array[self.state.current_image_num].fill(0)
+        render_scene_in_overlay_array(
+            self.state.scene,
+            self.state.selected_ids,
+            self.state.image[self.state.current_image_num],
+            self.state.overlay_array[self.state.current_image_num],
+        )
+        self.state.overlay[self.state.current_image_num] = itk.GetImageFromArray(
+            self.state.overlay_array[self.state.current_image_num],
+            ttype=self.state.overlay_type,
+        )
+        self.state.overlay[self.state.current_image_num].CopyInformation(self.state.image[self.state.current_image_num])
+
+        self.update()
 
     @time_and_log
     def update_scene(self):
-        if not self.update_gui:
-            return
-
         self.update_overlay()
 
     @time_and_log
@@ -249,63 +248,100 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         if not self.update_gui:
             return
 
-        current_slice = self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
-        if (value != current_slice):
-            current_slice = value
-            update_slider = False
-            if current_slice < 0:
-                current_slice = 0
-                update_slider = True
-            max_slice = self.state.image_array[self.state.current_image_num].shape[
-                2-self.state.view2D_axis[self.state.current_image_num]]-1
-            if current_slice > max_slice:
-                current_slice = max_slice
-                update_slider = True
+        current_slice = value
+        if current_slice < 0:
+            current_slice = 0
+        max_slice = self.state.image_array[self.state.current_image_num].shape[
+            2-self.state.view2D_axis[self.state.current_image_num]]-1
+        if current_slice > max_slice:
+            current_slice = max_slice
 
-            self.state.view2D_slice[self.state.current_image_num][
-                self.state.view2D_axis[self.state.current_image_num]] = current_slice
+        self.state.view2D_slice[self.state.current_image_num][
+            self.state.view2D_axis[self.state.current_image_num]] = current_slice
 
-            self.update_gui = False
-            if update_slider:
-                self.view2DSliceSlider.setValue(current_slice)
-            self.view2DSliceText.setPlainText(f"{current_slice}")
-            self.update_gui = True
+        self.update_gui = False
+        self.view2DSliceSlider.setValue(current_slice)
+        self.view2DSliceText.setPlainText(f"{current_slice}")
+        self.update_gui = True
 
-            self.update()
+        self.update()
 
     @time_and_log
     def update_slice_from_text(self):
         if not self.update_gui:
             return
 
-        current_slice = self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
-        if int(self.view2DSliceText.toPlainText()) != current_slice:
-            current_slice = int(self.view2DSliceText.toPlainText())
-            update_text = False
-            if current_slice < 0:
-                current_slice = 0
-                update_text = True
-            max_slice = self.state.image_array[self.state.current_image_num].shape[
-                2-self.state.view2D_axis[self.state.current_image_num]]-1
-            if current_slice > max_slice:
-                current_slice = max_slice
-                update_text = True
+        current_slice = int(self.view2DSliceText.toPlainText())
+        if current_slice < 0:
+            current_slice = 0
+        max_slice = self.state.image_array[self.state.current_image_num].shape[
+            2-self.state.view2D_axis[self.state.current_image_num]]-1
+        if current_slice > max_slice:
+            current_slice = max_slice
 
-            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]] = current_slice
+        self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]] = current_slice
 
-            self.update_gui = False
-            if update_text:
-                self.view2DSliceText.setPlainText(f"{current_slice}")
-            self.view2DSliceSlider.setValue(current_slice)
-            self.update_gui = True
+        self.update_gui = False
+        self.view2DSliceText.setPlainText(f"{current_slice}")
+        self.view2DSliceSlider.setValue(current_slice)
+        self.update_gui = True
 
-            self.update()
+        self.update()
 
     @time_and_log
-    def redraw_object(self, so):
+    def update_intensity_min_max_sliders(self, _):
         if not self.update_gui:
             return
 
+        minI = self.view2DIntensityMinSlider.value()
+        maxI = self.view2DIntensityMaxSlider.value()
+
+        imin = float(self.state.image_min[self.state.current_image_num])
+        imax = float(self.state.image_max[self.state.current_image_num])
+        irange = imax - imin
+        intensityMin = (minI / 100.0) * irange + imin
+        intensityMax = (maxI / 100.0) * irange + imin
+
+        self.state.view2D_intensity_window_min[self.state.current_image_num] = intensityMin
+        self.state.view2D_intensity_window_max[self.state.current_image_num] = intensityMax
+
+        self.update_gui = False
+        self.view2DIntensityMinSpinBox.setValue(intensityMin)
+        self.view2DIntensityMaxSpinBox.setValue(intensityMax)
+        self.update_gui = True
+
+        self.update()
+
+    @time_and_log
+    def update_intensity_min_max_spin_boxes(self, _):
+        if not self.update_gui:
+            return
+
+        intensityMin = float(self.view2DIntensityMinSpinBox.value())
+        intensityMax = float(self.view2DIntensityMaxSpinBox.value())
+
+        imin = float(self.state.image_min[self.state.current_image_num])
+        imax = float(self.state.image_max[self.state.current_image_num])
+        irange = imax - imin
+        minI = int(((intensityMin - imin) / irange) * 100 + 0.5)
+        maxI = int(((intensityMax - imin) / irange) * 100 + 0.5)
+
+        self.state.view2D_intensity_window_min[self.state.current_image_num] = intensityMin
+        self.state.view2D_intensity_window_max[self.state.current_image_num] = intensityMax
+
+        self.update_gui = False
+        self.view2DIntensityMinSlider.setValue(minI)
+        self.view2DIntensityMaxSlider.setValue(maxI)
+        self.update_gui = True
+
+        self.update()
+
+    @time_and_log
+    def update_reset_intensity_min_max(self):
+        self.update_image()
+
+    @time_and_log
+    def redraw_object(self, so):
         if self.state.highlight_selected and so.GetId() in self.state.selected_ids:
             render_object_in_overlay_array(
                 so,
@@ -328,8 +364,5 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
     @time_and_log
     def update(self):
-        if not self.update_gui:
-            return
-
         self.vtk2DViewWidget.update_view()
         super().update()

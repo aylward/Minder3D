@@ -8,10 +8,10 @@ from PySide6.QtWidgets import (
 
 from sovUtils import time_and_log
 
-from ui_sovTablePanelWidget import Ui_TablePanelWidget
+from ui_sovInfoTablePanelWidget import Ui_InfoTablePanelWidget
 
 
-class TableDictionary(QAbstractTableModel):
+class InfoTableDictionary(QAbstractTableModel):
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -48,7 +48,7 @@ class TableDictionary(QAbstractTableModel):
         return Qt.NoItemFlags
 
 
-class TablePanelWidget(QWidget, Ui_TablePanelWidget):
+class InfoTablePanelWidget(QWidget, Ui_InfoTablePanelWidget):
     def __init__(self, gui, state, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -56,10 +56,10 @@ class TablePanelWidget(QWidget, Ui_TablePanelWidget):
         self.gui = gui
         self.state = state
 
-        self.table = TableDictionary()
+        self.table = InfoTableDictionary()
         self.table.dict["Image Size"] = "0, 0, 0"
         self.table.dict["Image Spacing"] = "0, 0, 0"
-        self.tableTableView.setModel(self.table)
+        self.infoTableView.setModel(self.table)
 
     @time_and_log
     def update_image(self):
@@ -71,7 +71,7 @@ class TablePanelWidget(QWidget, Ui_TablePanelWidget):
         self.table.setDict(
             'Image Spacing',
             f'{img_spacing[0]:.3f}, {img_spacing[1]:.3f}, {img_spacing[2]:.3f}')
-        self.tableTableView.repaint()
+        self.infoTableView.repaint()
 
     @time_and_log
     def update_pixel(self):

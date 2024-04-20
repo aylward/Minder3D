@@ -3,6 +3,8 @@ import numpy as np
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget
 
+from sovUtils import time_and_log
+
 from ui_sovVisualizationPanelWidget import Ui_VisualizationPanelWidget
 
 
@@ -16,27 +18,17 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
 
         self.update_gui = True
 
-        self.vizIntensityMinSlider.valueChanged.connect(
-            self.update_viz_intensity_min_max_sliders
-        )
-        self.vizIntensityMaxSlider.valueChanged.connect(
-            self.update_viz_intensity_min_max_sliders
-        )
-
-        self.vizIntensityMinSpinBox.valueChanged.connect(
-            self.update_viz_intensity_min_max_spin_boxes
-        )
-        self.vizIntensityMaxSpinBox.valueChanged.connect(
-            self.update_viz_intensity_min_max_spin_boxes
-        )
-
-        self.vizIntensityMinMaxResetButton.pressed.connect(
-            self.update_image
+        self.vizHightlightSelectedCheckBox.stateChanged.connect(
+            self.update_highlight_selected
         )
 
         self.vizUpdate2DOverlayButton.pressed.connect(
             self.update_2D_overlay
         )
+
+        self.vizView2DFlipXCheckBox.stateChanged.connect(self.update_flip_x)
+        self.vizView2DFlipYCheckBox.stateChanged.connect(self.update_flip_y)
+        self.vizView2DFlipZCheckBox.stateChanged.connect(self.update_flip_z)
 
         self.vizUpdate3DSceneButton.pressed.connect(
             self.update_3D_scene
@@ -49,6 +41,14 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
         self.vizAutoUpdate3DSceneCheckBox.stateChanged.connect(
             self.auto_update_3D_scene
         )
+
+    @time_and_log
+    def update_highlight_selected(self, value):
+        self.state.highlight_selected = value
+        for id in self.state.selected_ids:
+            self.gui.log(f"update_highlight_selected: Id={id}")
+            so = self.state.scene_list[self.state.scene_list_ids.index(id)]
+            self.gui.redraw_object(so)
 
     def update_2D_overlay(self):
         self.gui.view2DPanel.update_overlay()
@@ -66,85 +66,41 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
         if self.state.view3D_scene_auto_update:
             self.update_3D_scene()
 
-    def update_viz_intensity_min_max_sliders(self):
-        if not self.update_gui:
+    @time_and_log
+    def update_flip_x(self, value):
+        if self.update_gui == False:
             return
 
-        minI = self.vizIntensityMinSlider.value()
-        maxI = self.vizIntensityMaxSlider.value()
-
-        imin = self.state.image_min[self.state.current_image_num]
-        imax = self.state.image_max[self.state.current_image_num]
-        intensityRange = imax - imin
-        intensityMin = (minI / 100.0) * intensityRange + imin
-        intensityMax = (maxI / 100.0) * intensityRange + imin
-
-        self.state.view2D_intensity_window_min[self.state.current_image_num] = intensityMin
-        self.state.view2D_intensity_window_max[self.state.current_image_num] = intensityMax
-
-        self.update_gui = False
-        self.vizIntensityMinSpinBox.setValue(intensityMin)
-        self.vizIntensityMaxSpinBox.setValue(intensityMax)
-        self.update_gui = True
-
-        self.update()
-
-    def update_viz_intensity_min_max_spin_boxes(self):
-        if not self.update_gui:
-            return
-
-        intensityMin = self.vizIntensityMinSpinBox.value()
-        intensityMax = self.vizIntensityMaxSpinBox.value()
-
-        imin = self.state.image_min[self.state.current_image_num]
-        imax = self.state.image_max[self.state.current_image_num]
-        intensityRange = imax - imin
-        minI = int(((intensityMin - imin) / intensityRange) * 100 + 0.5)
-        maxI = int(((intensityMax - imin) / intensityRange) * 100 + 0.5)
-
-        self.state.view2D_intensity_window_min[self.state.current_image_num] = intensityMin
-        self.state.view2D_intensity_window_max[self.state.current_image_num] = intensityMax
-
-        self.update_gui = False
-        self.vizIntensityMinSlider.setValue(minI)
-        self.vizIntensityMaxSlider.setValue(maxI)
-        self.update_gui = True
-
-        self.update()
-
-    def update_image(self):
-        imin = self.state.image_min[self.state.current_image_num]
-        imax = self.state.image_max[self.state.current_image_num]
-        image_range = imax - imin
-
-        self.state.view2D_intensity_window_min[self.state.current_image_num] = imin
-        self.state.view2D_intensity_window_max[self.state.current_image_num] = imax
-
-        self.update_gui = False
-
-        self.vizIntensityMinSlider.setValue(0)
-        self.vizIntensityMinSpinBox.setRange(
-            imin - 0.5 * image_range,
-            imax + 0.5 * image_range
-        )
-        self.vizIntensityMinSpinBox.setSingleStep(image_range / 500)
-        self.vizIntensityMinSpinBox.setValue(imin)
-
-        self.vizIntensityMaxSlider.setValue(100)
-        self.vizIntensityMaxSpinBox.setRange(
-            imin - 0.5 * image_range,
-            imax + 0.5 * image_range
-        )
-        self.vizIntensityMaxSpinBox.setSingleStep(image_range / 500)
-        self.vizIntensityMaxSpinBox.setValue(imax)
-
-        self.update_gui = True
-
-        self.update()
-
-    def update(self):
-        if not self.update_gui:
-            return
-
+        self.state.view2D_flip[self.state.current_image_num][0] = not (value == 0)
         self.gui.view2DPanel.update()
-        super().update()
+    
+    @time_and_log
+    def update_flip_y(self, value):
+        if self.update_gui == False:
+            return
+
+        self.state.view2D_flip[self.state.current_image_num][1] = not (value == 0)
+        self.gui.view2DPanel.update()
+
+    @time_and_log
+    def update_flip_z(self, value):
+        if self.update_gui == False:
+            return
+
+        self.state.view2D_flip[self.state.current_image_num][2] = not (value == 0)
+        self.gui.view2DPanel.update()
+
+    @time_and_log
+    def update_view2D(self):
+        if self.update_gui == False:
+            return
+        
+        self.update_gui = False
+        self.vizView2DFlipXCheckBox.setChecked(self.state.view2D_flip[self.state.current_image_num][0])
+        self.vizView2DFlipYCheckBox.setChecked(self.state.view2D_flip[self.state.current_image_num][1])
+        self.vizView2DFlipZCheckBox.setChecked(self.state.view2D_flip[self.state.current_image_num][2])
+        self.update_gui = True
+
+    @time_and_log
+    def update_image(self):
+        self.update_view2D()
