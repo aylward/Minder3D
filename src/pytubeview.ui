@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1037</width>
-    <height>676</height>
+    <width>1043</width>
+    <height>688</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -41,12 +41,12 @@
       <item>
        <layout class="QHBoxLayout" name="topPanelLayout">
         <item>
-         <layout class="QVBoxLayout" name="view2DPanelLayout">
+         <layout class="QVBoxLayout" name="view2DLayout">
           <property name="sizeConstraint">
            <enum>QLayout::SetDefaultConstraint</enum>
           </property>
           <item>
-           <spacer name="view2DPanelSpacer">
+           <spacer name="view2DSpacer">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -80,9 +80,9 @@
          </spacer>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="view3DPanelLayout">
+         <layout class="QVBoxLayout" name="view3DLayout">
           <item>
-           <spacer name="view3DPanelSpacer">
+           <spacer name="view3DSpacer">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
               <horstretch>0</horstretch>
@@ -106,22 +106,170 @@
          </layout>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="tablePanelLayout">
+         <layout class="QVBoxLayout" name="rightPanelLayout">
           <item>
-           <spacer name="tablePanelSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+           <widget class="QGroupBox" name="objectGroupBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
+            <property name="minimumSize">
              <size>
-              <width>165</width>
-              <height>0</height>
+              <width>211</width>
+              <height>181</height>
              </size>
             </property>
-           </spacer>
+            <property name="autoFillBackground">
+             <bool>true</bool>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="10" column="1">
+              <widget class="QPushButton" name="objectPropertiesToChildrenButton">
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Children</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1" colspan="3">
+              <widget class="QComboBox" name="objectColorByComboBox">
+               <property name="accessibleName">
+                <string/>
+               </property>
+               <property name="currentText">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="objectNameLabel">
+               <property name="text">
+                <string>Object:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QLabel" name="objectColorLabel">
+               <property name="text">
+                <string>Solid Color:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1" colspan="3">
+              <widget class="QComboBox" name="objectNameComboBox">
+               <property name="accessibleName">
+                <string/>
+               </property>
+               <property name="currentText">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="2" colspan="2">
+              <widget class="QComboBox" name="objectColorComboBox">
+               <property name="accessibleName">
+                <string/>
+               </property>
+               <property name="currentText">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QPushButton" name="objectRenameButton">
+               <property name="text">
+                <string>Rename</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="objectColorByLabel">
+               <property name="text">
+                <string>Visualization:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="0" colspan="4">
+              <widget class="QLabel" name="objectApplyToLabel">
+               <property name="text">
+                <string>Propogate vizualization properties to:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="10" column="2" colspan="2">
+              <widget class="QPushButton" name="objectPropertiesToAllButton">
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>All</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="objectOpacityLabel">
+               <property name="text">
+                <string>Opacity:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1" colspan="3">
+              <widget class="QSlider" name="objectOpacitySlider">
+               <property name="font">
+                <font>
+                 <pointsize>5</pointsize>
+                </font>
+               </property>
+               <property name="maximum">
+                <number>100</number>
+               </property>
+               <property name="value">
+                <number>50</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="3">
+              <widget class="QPushButton" name="objectDeleteButton">
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Delete</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="infoTableLayout">
+            <item>
+             <spacer name="infoTableVerticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
@@ -130,159 +278,24 @@
       <item>
        <layout class="QHBoxLayout" name="middlePanelLayout">
         <item>
-         <widget class="QGroupBox" name="objectGroupBox">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>211</width>
-            <height>181</height>
-           </size>
-          </property>
-          <property name="autoFillBackground">
-           <bool>true</bool>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_2">
-           <item row="1" column="0">
-            <widget class="QLabel" name="objectNameLabel">
-             <property name="text">
-              <string>Object:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="objectColorByLabel">
-             <property name="text">
-              <string>Color by:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1" colspan="3">
-            <widget class="QComboBox" name="objectColorByComboBox">
-             <property name="accessibleName">
-              <string/>
-             </property>
-             <property name="currentText">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="objectColorLabel">
-             <property name="text">
-              <string>Solid Color:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="1" colspan="3">
-            <widget class="QComboBox" name="objectColorComboBox">
-             <property name="accessibleName">
-              <string/>
-             </property>
-             <property name="currentText">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0">
-            <widget class="QLabel" name="objectOpacityLabel">
-             <property name="text">
-              <string>Opacity:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="1" colspan="3">
-            <widget class="QSlider" name="objectOpacitySlider">
-             <property name="font">
-              <font>
-               <pointsize>5</pointsize>
-              </font>
-             </property>
-             <property name="maximum">
-              <number>100</number>
-             </property>
-             <property name="value">
-              <number>50</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="0">
-            <widget class="QLabel" name="objectApplyToLabel">
-             <property name="text">
-              <string>Apply to:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="1">
-            <widget class="QPushButton" name="objectPropertiesToChildrenButton">
-             <property name="font">
-              <font>
-               <pointsize>7</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Children</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="2" colspan="2">
-            <widget class="QPushButton" name="objectPropertiesToAllButton">
-             <property name="font">
-              <font>
-               <pointsize>7</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>All</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="3">
-            <widget class="QPushButton" name="objectDeleteButton">
-             <property name="font">
-              <font>
-               <pointsize>7</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Delete</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1" colspan="3">
-            <widget class="QComboBox" name="objectNameComboBox">
-             <property name="accessibleName">
-              <string/>
-             </property>
-             <property name="currentText">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QCheckBox" name="objectHightlightSelectedCheckBox">
-             <property name="font">
-              <font>
-               <pointsize>9</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Highlight</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+         <layout class="QVBoxLayout" name="imageTableLayout">
+          <item>
+           <spacer name="imageTableLayoutHorizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>250</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
         <item>
          <widget class="QTabWidget" name="tabWidget">
@@ -294,36 +307,33 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>701</width>
+            <width>300</width>
             <height>181</height>
            </size>
           </property>
           <property name="currentIndex">
            <number>0</number>
           </property>
-          <widget class="QWidget" name="visualizationPanel">
+          <property name="tabsClosable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="welcomeTab">
+           <attribute name="title">
+            <string>Welcome</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="welcomeTabLayout"/>
+          </widget>
+          <widget class="QWidget" name="visualizationTab">
            <attribute name="title">
             <string>Visualization</string>
            </attribute>
-           <layout class="QHBoxLayout" name="visualizationPanelLayout"/>
+           <layout class="QHBoxLayout" name="visualizationTabLayout"/>
           </widget>
-          <widget class="QWidget" name="preProcessPanel">
+          <widget class="QWidget" name="newTaskTab">
            <attribute name="title">
-            <string>Pre-process</string>
+            <string>New Task</string>
            </attribute>
-           <layout class="QVBoxLayout" name="preProcessPanelLayout"/>
-          </widget>
-          <widget class="QWidget" name="lungAIPanel">
-           <attribute name="title">
-            <string>Lung AI</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="lungAIPanelLayout"/>
-          </widget>
-          <widget class="QWidget" name="tubePanel">
-           <attribute name="title">
-            <string>Tubes</string>
-           </attribute>
-           <layout class="QHBoxLayout" name="tubePanelLayout"/>
+           <layout class="QHBoxLayout" name="newTaskTabLayout"/>
           </widget>
          </widget>
         </item>
@@ -349,90 +359,6 @@
            <bool>true</bool>
           </property>
           <layout class="QGridLayout" name="gridLayout">
-           <item row="0" column="4">
-            <widget class="QProgressBar" name="statusMinorProgressBar">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>150</width>
-               <height>12</height>
-              </size>
-             </property>
-             <property name="value">
-              <number>0</number>
-             </property>
-             <property name="textVisible">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="5">
-            <spacer name="statusGroupBoxSpacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="1" rowspan="2">
-            <widget class="QLabel" name="status">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>9</pointsize>
-              </font>
-             </property>
-             <property name="autoFillBackground">
-              <bool>true</bool>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Plain</enum>
-             </property>
-             <property name="text">
-              <string>Ready</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QProgressBar" name="statusMajorProgressBar">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>150</width>
-               <height>12</height>
-              </size>
-             </property>
-             <property name="value">
-              <number>0</number>
-             </property>
-             <property name="textVisible">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="0" rowspan="2">
             <widget class="QLabel" name="statusLabel">
              <property name="text">
@@ -440,7 +366,7 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="6" rowspan="2">
+           <item row="0" column="5" rowspan="2">
             <widget class="QPushButton" name="statusViewLogButton">
              <property name="font">
               <font>
@@ -449,6 +375,57 @@
              </property>
              <property name="text">
               <string>View Log</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QProgressBar" name="statusProgressBar">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>12</height>
+              </size>
+             </property>
+             <property name="value">
+              <number>0</number>
+             </property>
+             <property name="textVisible">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="4">
+            <spacer name="statusGroupBoxSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>600</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="statusText">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -466,7 +443,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1037</width>
+     <width>1043</width>
      <height>22</height>
     </rect>
    </property>
@@ -474,8 +451,8 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="loadSceneMenuItem"/>
     <addaction name="loadImageMenuItem"/>
+    <addaction name="loadSceneMenuItem"/>
     <addaction name="separator"/>
     <addaction name="saveImageMenuItem"/>
     <addaction name="saveOverlayMenuItem"/>

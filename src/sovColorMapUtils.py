@@ -314,15 +314,15 @@ standard_anatomy_colormap_scale_factor = 255.0
 
 short_colormap = {
     "Background": [0, 0, 0],
-    "Red": [255, 0, 0],
-    "orange": [255, 165, 0],
-    "yellow": [255, 255, 0],
-    "Green": [0, 255, 0],
-    "Blue": [0, 0, 255],
+    "Red": [225, 0, 0],
+    "orange": [225, 165, 0],
+    "yellow": [200, 200, 0],
+    "Green": [0, 200, 0],
+    "Blue": [0, 0, 200],
     "indigo": [75, 0, 130],
     "purple": [128, 0, 128],
     "violet": [238, 130, 238],
-    "White": [255, 255, 255],
+    "White": [235, 235, 235],
     "Bone": [231, 197, 108],
     "Skin": [177, 122, 101],
     "Muscle": [205, 92, 92],
@@ -332,6 +332,9 @@ short_colormap = {
     "Tumor": [144, 238, 144],
     "Structure_1": [238, 130, 238],
     "Structure_2": [255, 215, 0],
+    "Grey80": [204, 204, 204],
+    "Grey50": [128, 128, 128],
+    "Grey20": [50, 50, 50],
 }
 short_colormap_scale_factor = 255.0
 

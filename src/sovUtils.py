@@ -10,15 +10,23 @@ Functions:
     write_group: Writes a group to a file.
 """
 
-import itk
-
+import os
 import time
 import logging
 import functools
 
+import numpy as np
+
+import itk
+
 from PySide6.QtWidgets import (
     QMainWindow,
     QTextEdit,
+)
+
+from sovColorMapUtils import (
+    short_colormap,
+    short_colormap_scale_factor,
 )
 
 logging.basicConfig(level=logging.DEBUG)
@@ -81,19 +89,25 @@ def sov_log(message, level="info"):
 
 
 def time_and_log(func):
+    if "nesting_level" not in time_and_log.__dict__: time_and_log.nesting_level = 0
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         logger = logging.getLogger("sov")
-        logger.info(f"Function {func.__name__} started.")
+        spacing = "  " * time_and_log.nesting_level
+        filename = os.path.splitext(os.path.split(func.__code__.co_filename)[1])[0]
+        logger.info(f"{spacing}{filename}:{func.__name__} started.")
+        time_and_log.nesting_level += 1
         start_time = time.time()
         try:
             result = func(*args, **kwargs)
             end_time = time.time()
-            logger.info(f"Function {func.__name__} took {end_time - start_time} seconds to execute.")
+            time_and_log.nesting_level -= 1
+            logger.info(f"{spacing}{filename}:{func.__name__} took {end_time - start_time} seconds to execute.")
             return result
         except Exception as e:
             end_time = time.time()
-            logger.error(f"Function {func.__name__} exception after {end_time - start_time} seconds: {str(e)}")
+            time_and_log.nesting_level -= 1
+            logger.error(f"{spacing}{filename}:{func.__name__} exception after {end_time - start_time} seconds: {str(e)}")
             raise e
     return wrapper
 
@@ -122,15 +136,41 @@ def resample_overlay_to_match_image( input_overlay, match_image ) -> itk.Image:
 
 
 @time_and_log
+def add_objects_in_mask_image_to_scene(mask_image: itk.Image, scene: itk.GroupSpatialObject):
+    """Adds objects in a mask to a scene
+
+    Args:
+        mask (itk.Image): The mask to be converted.
+
+    Returns:
+        list: The list of objects.
+    """
+    mask_array = itk.GetArrayFromImage(mask_image)
+    mask_ids = np.unique(mask_array)
+    for mask_num, mask_id in enumerate(mask_ids):
+        if mask_id == 0:
+            continue
+        mask_so = itk.ImageMaskSpatialObject[3].New(Image=mask_image)
+        color_name = list(short_colormap)[int((mask_num+1) % len(short_colormap))]
+        color = np.empty(4)
+        color[0:3] = np.array(short_colormap[color_name]) / short_colormap_scale_factor
+        color[3] = 1.0
+        print("Color: ", color)
+        mask_so.GetProperty().SetColor(color)
+        mask_so.GetProperty().SetName(f"Otsu Threshold Mask {mask_id}")
+        mask_so.GetProperty().SetTagScalarValue("Mask_Id", float(mask_id))
+        scene.AddChild(mask_so)
+
+@time_and_log
 def get_children_as_list(
-    grp: itk.GroupSpatialObject, child_type: str = "Tube"
+    grp: itk.GroupSpatialObject, child_type: str = ""
 ) -> list:
     """Finds all children of a given type in a Group and returns as a list.
 
     Args:
         grp (itk.GroupSpatialObject): The GroupSpatialObject to search.
         child_type (str, optional): The type of object to be included.
-            Defaults to "Tube".
+            Defaults to "" = all objects.
 
     Returns:
         list: The list of children of the given type.

@@ -1,10 +1,20 @@
-from vtkmodules.vtkCommonCore import vtkDoubleArray, vtkPoints
+import numpy as np
+
+import itk
+
+from vtkmodules.vtkCommonCore import (
+    vtkDoubleArray,
+    vtkPoints,
+)
 from vtkmodules.vtkCommonDataModel import (
     vtkCellArray,
     vtkPolyData,
     vtkPolyLine,
 )
-from vtkmodules.vtkFiltersCore import vtkTubeFilter
+from vtkmodules.vtkFiltersCore import (
+    vtkTubeFilter,
+    vtkSurfaceNets3D,
+)
 
 from sovUtils import get_children_as_list
 
@@ -29,6 +39,7 @@ def convert_tubes_to_polylines(tube_list):
         data_id = vtkDoubleArray()
         data_id.SetName("Id")
         data_id.SetNumberOfTuples(tube_num_points)
+        data_id.Fill(tube.GetId())
 
         data_color = vtkDoubleArray()
         data_color.SetName("Color")
@@ -81,7 +92,6 @@ def convert_tubes_to_polylines(tube_list):
             tube_line.GetPointIds().SetId(point_num, point_num)
             data_point.SetPoint(point_num, *point.GetPositionInWorldSpace())
 
-            data_id.SetTuple1(point_num, tube.GetId())
             data_radius.SetTuple1(point_num, point.GetRadiusInWorldSpace())
             data_color.SetTuple4(point_num, *point.GetColor())
 
@@ -138,11 +148,37 @@ def convert_tubes_to_surfaces(tube_list, number_of_sides=5):
     return tube_surfaces
 
 
+def convert_masks_to_surfaces(mask_list):
+    num_masks = len(mask_list)
+    mask_surfaces = []
+    if num_masks > 0:
+        for mask_num,mask in enumerate(mask_list):
+            vtkmask = itk.vtk_image_from_image(mask.GetImage())
+            SN = vtkSurfaceNets3D()
+            SN.SetInputData(vtkmask)
+            mask_id = mask.GetProperty().TagScalarValue("Mask_Id")
+            print(f"Mask_num: {mask_num}, Mask_id: {mask_id}")
+            SN.SetLabel(0, mask_id)
+            SN.Update()
+            SN.DeleteSelectedLabel(0)
+            mask_surfaces.append(SN.GetOutput())
+            data_id = vtkDoubleArray()
+            data_id.SetName("Id")
+            data_id.SetNumberOfTuples(mask_surfaces[-1].GetNumberOfPoints())
+            data_id.Fill(mask.GetId())
+            mask_surfaces[-1].GetPointData().AddArray(data_id)
+ 
+    return mask_surfaces
+
+
 def convert_scene_to_surfaces(scene):
     surfaces = None
     tube_list = get_children_as_list(scene, "Tube")
     if len(tube_list) > 0:
         surfaces = convert_tubes_to_surfaces(tube_list)
+    mask_list = get_children_as_list(scene, "Mask")
+    if len(mask_list) > 0:
+        surfaces = surfaces + convert_masks_to_surfaces(mask_list)
     return surfaces
 
 
@@ -150,5 +186,30 @@ def get_object_forms(obj):
     if "Tube" in obj.GetTypeName():
         forms = ["Surface", "Wireframe", "Points"]
     elif "Mask" in obj.GetTypeName():
-        forms = ["Volume", "Contours"]
+        forms = ["Surface", "Wireframe", "Points"]
     return forms
+
+
+def get_closest_point_in_world_space(so, pos):
+    if so.GetTypeName() == "TubeSpatialObject":
+        return so.ClosestPointInWorldSpace(pos)
+
+    if so.GetTypeName() == "MaskImageSpatialObject":
+        for offset in range(0, 5):
+            for xs in range(-1, 1):
+                for ys in range(-1, 1):
+                    for zs in range(-1, 1):
+                        pnt = [pos[0] + xs*offset, pos[1] + ys*offset, pos[2] + zs*offset]
+                        indx = so.GetImage().TransformPhysicalPointToIndex(pnt)
+                        if so.GetImage().GetPixel(indx) > 0:
+                            point = itk.SpatialObjectPoint[3]()
+                            point.SetPositionInObjectSpace(pnt)
+                            point.SetId(indx[0] +
+                                        indx[1]*so.GetImage().GetLargestPossibleRegion().GetSize()[0] +
+                                        indx[2]*so.GetImage().GetLargestPossibleRegion().GetSize()[0]*so.GetImage().GetLargestPossibleRegion().GetSize()[1])
+                            return point
+
+    point = itk.SpatialObjectPoint[3]()
+    point.SetPositionInObjectSpace(pos)
+    point.SetId(0)
+    return point

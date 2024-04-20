@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QFileDialog,
     QInputDialog,
+    QTabBar,
 )
 
 from ptvState import PTVState
@@ -30,10 +31,11 @@ from sovUtils import (
 from sovView2DPanelWidget import View2DPanelWidget
 from sovView3DPanelWidget import View3DPanelWidget
 
+from sovWelcomePanelWidget import WelcomePanelWidget
 from sovVisualizationPanelWidget import VisualizationPanelWidget
-from sovPreProcessPanelWidget import PreProcessPanelWidget
-from sovLungAIPanelWidget import LungAIPanelWidget
-from sovTablePanelWidget import TablePanelWidget
+from sovNewTaskPanelWidget import NewTaskPanelWidget
+from sovInfoTablePanelWidget import InfoTablePanelWidget
+from sovImageTablePanelWidget import ImageTablePanelWidget
 
 from ui_pytubeview import Ui_MainWindow
 
@@ -67,35 +69,49 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.objectPropertiesToChildrenButton.pressed.connect(
             self.propogate_properties_to_children
             )
-        self.objectHightlightSelectedCheckBox.stateChanged.connect(
-            self.update_highlight_selected
-        )
 
         # View 2D Widget
         self.view2DPanel = View2DPanelWidget(self, self.state)
-        self.view2DPanelLayout.addWidget(self.view2DPanel)
+        self.view2DLayout.addWidget(self.view2DPanel)
 
         # View 3D Widget
         self.view3DPanel = View3DPanelWidget(self, self.state)
-        self.view3DPanelLayout.addWidget(self.view3DPanel)
+        self.view3DLayout.addWidget(self.view3DPanel)
+
+        # Welcome Tab
+        self.welcomePanel = WelcomePanelWidget(self, self.state)
+        self.welcomeTabLayout.addWidget(self.welcomePanel)
 
         # Visualization Tab
         self.visualizationPanel = VisualizationPanelWidget(self, self.state)
-        self.visualizationPanelLayout.addWidget(self.visualizationPanel)
+        self.visualizationTabLayout.addWidget(self.visualizationPanel)
 
-        # PreProcess Tab
-        self.preProcessPanel = PreProcessPanelWidget(self, self.state)
-        self.preProcessPanelLayout.addWidget(self.preProcessPanel)
+        # New Task Tab
+        self.newTaskPanel = NewTaskPanelWidget(self, self.state)
+        self.newTaskTabLayout.addWidget(self.newTaskPanel)
 
-        # LungAI Tab
-        self.lungAIPanel = LungAIPanelWidget(self, self.state)
-        self.lungAIPanelLayout.addWidget(self.lungAIPanel)
+        self.tabWidget.tabCloseRequested.connect(self.tab_close_event)
 
-        # Table Tab
-        self.tablePanel = TablePanelWidget(self, self.state)
-        self.tablePanelLayout.addWidget(self.tablePanel)
+        # Remove Close buttons from welcome, visualization, and pre-process and task tabs
+        tabBar = self.tabWidget.tabBar()
+        for i in range(0, 3):
+            tabBar.tabButton(i, QTabBar.RightSide).deleteLater()
+            tabBar.setTabButton(i, QTabBar.RightSide, None)
 
-        self.status.setText("Ready")
+        # Image Tab
+        #img_name = os.path.splitext(self.state.image_filename[-1])
+        #self.view2DViewImageComboBox.addItem(f"{img_name[0]}")
+        #self.view2DViewImageComboBox.setCurrentIndex(len(self.state.image)-1) 
+
+        # Info Table 
+        self.infoTablePanel = InfoTablePanelWidget(self, self.state)
+        self.infoTableLayout.addWidget(self.infoTablePanel)
+
+        # Image Table 
+        self.imageTablePanel = ImageTablePanelWidget(self, self.state)
+        self.imageTableLayout.addWidget(self.imageTablePanel)
+
+        self.statusText.setText("Ready")
 
         self.log_window = LogWindow(self.state.logger)
         self.statusViewLogButton.pressed.connect(self.log_window.show)
@@ -104,6 +120,13 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.view2DPanel.initialize()
         self.view3DPanel.initialize()
 
+    @time_and_log
+    def tab_close_event(self, index):
+        tab = self.tabWidget.widget(index)
+        self.tabWidget.removeTab(index)
+        tab.close()
+
+    @time_and_log
     def connect_object_gui(self):
         self.objectNameComboBox.currentIndexChanged.connect(
             self.select_object_by_name_combobox
@@ -121,6 +144,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             self.modify_selected_objects
             )
 
+    @time_and_log
     def disconnect_object_gui(self):
         self.objectNameComboBox.currentIndexChanged.disconnect(
             self.select_object_by_name_combobox
@@ -144,17 +168,16 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.view3DPanel.close()
 
     def log(self, message, level="info"):
-        self.status.setText(message)
+        self.statusText.setText(message)
         if level.lower() == "error" or level.lower() == "critical":
-            self.statusGroupBox.setStyleSheet("background-color: red")
+            self.statusText.setStyleSheet("background-color: red")
         elif level.lower() == "warning":
-            self.statusGroupBox.setStyleSheet("background-color: yellow")
+            self.statusText.setStyleSheet("background-color: yellow")
         elif level.lower() == "debug":
-            self.statusGroupBox.setStyleSheet("background-color: green")
+            self.statusText.setStyleSheet("background-color: green")
         else:
-            self.statusGroupBox.setStyleSheet("background-color: white")
-        self.status.update()
-        self.statusGroupBox.update()
+            self.statusText.setStyleSheet("background-color: white")
+        self.statusText.update()
         self.log_window.log(message, level)
 
 
@@ -169,7 +192,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
                 filename,
                 "All Files (*)"
             )
-        if filename:
+        if filename is not None:
             self.create_new_image(itk.imread(
                 filename,
                 self.state.image_pixel_type
@@ -255,21 +278,20 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
     def create_new_image(self, img, filename=None, tag=None):
         if filename is None:
             filename, fileext = os.path.splitext(self.state.image_filename[-1])
-            if tag == None:
+            if tag is None:
                 filename = filename + "_" + str(len(self.state.image)) + fileext
+                dlg = QInputDialog(self)
+                dlg.setInputMode(QInputDialog.TextInput)
+                dlg.setLabelText("New image's filename:")
+                dlg.resize(500, 100)
+                dlg.setTextValue(filename)
+                valid = dlg.exec_()
+                filename = dlg.textValue()
+                if not valid:
+                    return False
             else:
                 filename = filename + "_" + tag + fileext
-            dlg = QInputDialog(self)
-            dlg.setInputMode(QInputDialog.TextInput)
-            dlg.setLabelText("New image's filename:")
-            dlg.resize(500, 100)
-            dlg.setTextValue(filename)
-            valid = dlg.exec_()
-            filename = dlg.textValue()
-            if not valid:
-                return False
         self.state.image_filename.append(str(filename))
-
 
         self.state.image.append(img)
         self.state.image_array.append(itk.GetArrayFromImage(
@@ -328,9 +350,8 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.view2DPanel.update_image()
         self.view3DPanel.update_image()
 
-        self.visualizationPanel.update_image()
-
-        self.tablePanel.update_image()
+        self.infoTablePanel.update_image()
+        self.imageTablePanel.update_image()
 
     @time_and_log
     def update_overlay(self):
@@ -484,11 +505,3 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
                 self.state.scene_list_properties[idx]["ColorBy"] = color_by
                 self.state.scene_list[idx].GetProperty().SetColor(color)
                 self.redraw_object(child_so)
-
-    @time_and_log
-    def update_highlight_selected(self, value):
-        self.state.highlight_selected = value
-        for id in self.state.selected_ids:
-            self.log(f"update_highlight_selected: Id={id}")
-            so = self.state.scene_list[self.state.scene_list_ids.index(id)]
-            self.redraw_object(so)

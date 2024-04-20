@@ -1,3 +1,5 @@
+import itk
+
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from vtkmodules.vtkRenderingCore import (
     vtkActor,
@@ -7,10 +9,14 @@ from vtkmodules.vtkRenderingCore import (
 )
 from vtkmodules.vtkInteractionStyle import vtkInteractorStyleTrackballCamera
 
-from sovView3DUtils import convert_scene_to_surfaces
 from sovUtils import (
     get_tag_value_index_in_list_of_dict,
     time_and_log,
+)
+
+from sovView3DUtils import (
+    convert_scene_to_surfaces,
+    get_closest_point_in_world_space,
 )
 
 
@@ -57,6 +63,8 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
     @time_and_log
     def reset_camera(self):
         self.scene_renderer.ResetCamera()
+        camera = self.scene_renderer.GetActiveCamera()
+        camera.SetViewUp(0, -1, 0)
         self.Render()
         self.GetRenderWindow().Render()
 
@@ -71,7 +79,7 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
             mapper = vtkPolyDataMapper()
             mapper.SetInputData(point_data[scene_idx])
             color = so.GetProperty().GetColor()
-            selected = scene_idx in self.state.selected_ids
+            selected = so.GetId() in self.state.selected_ids
             if selected and self.state.highlight_selected:
                 color = [0, 1, 0, 1]
             actor.GetProperty().SetColor(color[0], color[1], color[2])
@@ -83,9 +91,7 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
                 mapper.ScalarVisibilityOn()
             actor.SetMapper(mapper)
             self.scene_renderer.AddActor(actor)
-        self.scene_renderer.ResetCamera()
-        self.Render()
-        self.GetRenderWindow().Render()
+        self.reset_camera()
 
     @time_and_log
     def redraw_actor(self, actor, so, color=None):
@@ -96,7 +102,6 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
         scene_idx = self.state.scene_list_ids.index(so_id)
         color_by = self.state.scene_list_properties[scene_idx]["ColorBy"]
         selected = so_id in self.state.selected_ids
-        print("redraw_actor so_id:", so.GetId(), "scene_idx:", scene_idx)
         if color_by == "Solid Color" or color is not None or (selected and self.state.highlight_selected):
             actor.GetMapper().ScalarVisibilityOff()
             if color is None:
@@ -104,7 +109,6 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
                     color = [0, 1, 0, 1]
                 else:
                     color = so.GetProperty().GetColor()
-            print( "   setting color:", color, "selected:", selected, "highlight_selected:", self.state.highlight_selected)
             actor.GetProperty().SetColor(color[0], color[1], color[2])
             actor.GetProperty().SetOpacity(color[3])
         else:
@@ -160,7 +164,7 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
             scene_idx = self.state.scene_list_ids.index(so_id)
             so = self.state.scene_list[scene_idx]
             print("picked so_id:", so_id, "scene_idx:", scene_idx)
-            point = so.ClosestPointInWorldSpace(pos)
+            point = get_closest_point_in_world_space(so, pos)
             point_id = point.GetId()
             if so_id not in self.state.selected_ids:
                 self.state.selected_ids.append(so_id)

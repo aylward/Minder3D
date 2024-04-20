@@ -1,5 +1,6 @@
 experiments
-venv
+venv*
+archive
 __pycache__
 *.swp
 *~

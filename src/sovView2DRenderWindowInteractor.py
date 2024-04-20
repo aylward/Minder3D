@@ -89,10 +89,13 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             else:
                 view_slice = np.ones(view_slice.shape)*128
 
-            if self.state.view2D_flip[self.state.current_image_num][(self.state.view2D_axis[self.state.current_image_num]+1) % 3]:
+            axis1 = (self.state.view2D_axis[self.state.current_image_num]+1) % 3
+            axis2 = (self.state.view2D_axis[self.state.current_image_num]+2) % 3
+            if self.state.view2D_flip[self.state.current_image_num][min(axis1, axis2)]:
                 view_slice = np.flip(view_slice, axis=1)
 
-            if self.state.view2D_flip[self.state.current_image_num][(self.state.view2D_axis[self.state.current_image_num]+2) % 3]:
+            # Flip by default along y axis
+            if not self.state.view2D_flip[self.state.current_image_num][max(axis1, axis2)]:
                 view_slice = np.flip(view_slice, axis=0)
 
             view_slice_rgba = np.empty(
@@ -123,10 +126,11 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             )
             view_slice_vtk.GetPointData().SetScalars(vtk_data)
 
-            if self.state.view2D_flip[self.state.current_image_num][(self.state.view2D_axis[self.state.current_image_num]+1) % 3]:
+            if self.state.view2D_flip[self.state.current_image_num][min(axis1, axis2)]:
                 overlay_slice_rgba = np.flip(overlay_slice_rgba, axis=1)
 
-            if self.state.view2D_flip[self.state.current_image_num][(self.state.view2D_axis[self.state.current_image_num]+2) % 3]:
+            # Flip by default along y axis
+            if not self.state.view2D_flip[self.state.current_image_num][max(axis1, axis2)]:
                 overlay_slice_rgba = np.flip(overlay_slice_rgba, axis=0)
 
             # Import overlay to RGBA
