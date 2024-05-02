@@ -28,14 +28,13 @@ class LungCTAPanelWidget(QWidget, Ui_LungCTAPanelWidget):
 
         self.ai_first_run = True
 
-        self.lungStep1Button.clicked.connect(
-            self.segment_ai
-        )
+        self.lungStep1Button.clicked.connect(self.segment_ai)
+        self.lungStep1Button.setStyleSheet("background-color: #00aa00")
 
     @time_and_log
     def segment_ai(self):
 
-        status, msg, ask_to_continue = self.logic.initialize()
+        status, msg, ask_to_continue = self.logic.initialize(self.state.image[self.state.current_image_num])
         if status is False:
             message = QMessageBox()
             message.setWindowTitle("Verifying AI installation...")
@@ -51,7 +50,9 @@ class LungCTAPanelWidget(QWidget, Ui_LungCTAPanelWidget):
                 return
 
         self.gui.log("Preprocessing...")
-        self.logic.preprocess()
+        pre_image = self.logic.preprocess()
+        self.gui.create_new_image(pre_image, None, "Iso")
+        self.gui.update_image()
 
         self.gui.log("Running...")
         seg_image = self.logic.run()

@@ -14,6 +14,9 @@ import os
 import time
 import logging
 import functools
+import uuid
+
+from typing import Union
 
 import numpy as np
 
@@ -22,6 +25,11 @@ import itk
 from PySide6.QtWidgets import (
     QMainWindow,
     QTextEdit,
+)
+
+from PySide6.QtCore import (
+    QSettings,
+    QStandardPaths,
 )
 
 from sovColorMapUtils import (
@@ -45,6 +53,7 @@ class LogHandler(logging.Handler):
 class LogWindow(QMainWindow):
     def __init__(self, logger, parent=None):
         super().__init__(parent)
+
         self.setWindowTitle("Log")
         self.logTextEdit = QTextEdit()
         self.setCentralWidget(self.logTextEdit)
@@ -102,15 +111,86 @@ def time_and_log(func):
             result = func(*args, **kwargs)
             end_time = time.time()
             time_and_log.nesting_level -= 1
-            logger.info(f"{spacing}{filename}:{func.__name__} took {end_time - start_time} seconds to execute.")
+            logger.info(f"{spacing}{filename}:{func.__name__} took {(end_time - start_time):.2f} seconds to execute.")
             return result
         except Exception as e:
             end_time = time.time()
             time_and_log.nesting_level -= 1
-            logger.error(f"{spacing}{filename}:{func.__name__} exception after {end_time - start_time} seconds: {str(e)}")
+            logger.error(f"{spacing}{filename}:{func.__name__} exception after {(end_time - start_time):.2f} seconds: {str(e)}")
             raise e
     return wrapper
 
+
+def get_settings():
+    settings = QSettings("itkSpatialObjectsViewer", "QuantAIV")
+    return settings
+
+class SettingsFileRecord:
+    def __init__(self, filename, file_type, file_spacing=[], file_size=[], file_thumbnail=""):
+        self.filename = filename
+        self.file_type = file_type
+        self.file_spacing = file_spacing
+        self.file_size = file_size
+        self.file_thumbnail = file_thumbnail
+
+def get_file_reccords_from_settings():
+    settings = get_settings()
+    files = []
+    size = settings.beginReadArray("files")
+    for i in range(size):
+        settings.setArrayIndex(i)
+        filename = settings.value("filename", "")
+        file_type = settings.value("file_type", "")
+        file_spacing = settings.value("file_spacing", [], float)
+        file_size = settings.value("file_size", [], int)
+        file_thumbnail = settings.value("file_thumbnail", "")
+        rec = SettingsFileRecord(filename, file_type, file_spacing, file_size, file_thumbnail)
+        files.append(rec)
+    settings.endArray()
+    return files
+
+def add_file_to_settings(obj, filename, file_type, qthumbnail=None):
+    settings = get_settings()
+    settings.beginWriteArray("files")
+    files = get_file_reccords_from_settings()
+    file_spacing = []
+    file_size = []
+    file_thumbnail = ""
+    if file_type == "image":
+        file_spacing = [s for s in obj.GetSpacing()]
+        file_size = [s for s in obj.GetLargestPossibleRegion().GetSize()]
+        if qthumbnail is not None:
+            data_dir = QStandardPaths.writableLocation(QStandardPaths.AppDataLocation)
+            file_thumbnail = str(uuid.uuid4())+".png"
+            file_thumbnail = os.path.join(data_dir, file_thumbnail)
+            qthumbnail.save(file_thumbnail)
+    for i,file in enumerate(files):
+        if file.filename == filename:
+            settings.setArrayIndex(i)
+            settings.setValue("file_type", file_type)
+            settings.setValue("file_spacing", file_spacing)
+            settings.setValue("file_size", file_size)
+            os.remove(file.file_thumbnail)
+            settings.setValue("file_thumbnail", file_thumbnail)
+            settings.endArray()
+            return
+    if len(files) > 10:
+        os.remove(files[-1].file_thumbnail)
+        files.pop(-1)
+        for i,file in enumerate(files):
+            settings.setArrayIndex(i)
+            settings.setValue("filename", file.filename)
+            settings.setValue("file_type", file.file_type)
+            settings.setValue("file_spacing", file.file_spacing)
+            settings.setValue("file_size", file.file_size)
+            settings.setValue("file_thumbnail", file.file_thumbnail)
+    settings.setArrayIndex(len(files))
+    settings.setValue("filename", filename)
+    settings.setValue("file_type", file_type)
+    settings.setValue("file_spacing", file_spacing)
+    settings.setValue("file_size", file_size)
+    settings.setValue("file_thumbnail", file_thumbnail)
+    settings.endArray()
 
 @time_and_log
 def resample_overlay_to_match_image( input_overlay, match_image ) -> itk.Image:
@@ -136,7 +216,7 @@ def resample_overlay_to_match_image( input_overlay, match_image ) -> itk.Image:
 
 
 @time_and_log
-def add_objects_in_mask_image_to_scene(mask_image: itk.Image, scene: itk.GroupSpatialObject):
+def add_objects_in_mask_image_to_scene(mask_image, scene):
     """Adds objects in a mask to a scene
 
     Args:
@@ -155,10 +235,10 @@ def add_objects_in_mask_image_to_scene(mask_image: itk.Image, scene: itk.GroupSp
         color = np.empty(4)
         color[0:3] = np.array(short_colormap[color_name]) / short_colormap_scale_factor
         color[3] = 1.0
-        print("Color: ", color)
         mask_so.GetProperty().SetColor(color)
         mask_so.GetProperty().SetName(f"Otsu Threshold Mask {mask_id}")
-        mask_so.GetProperty().SetTagScalarValue("Mask_Id", float(mask_id))
+        mask_so.SetUseMaskValue(True)
+        mask_so.SetMaskValue(int(mask_id))
         scene.AddChild(mask_so)
 
 @time_and_log

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1043</width>
-    <height>688</height>
+    <height>691</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -42,9 +42,6 @@
        <layout class="QHBoxLayout" name="topPanelLayout">
         <item>
          <layout class="QVBoxLayout" name="view2DLayout">
-          <property name="sizeConstraint">
-           <enum>QLayout::SetDefaultConstraint</enum>
-          </property>
           <item>
            <spacer name="view2DSpacer">
             <property name="orientation">
@@ -125,43 +122,19 @@
              <bool>true</bool>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
-             <item row="10" column="1">
-              <widget class="QPushButton" name="objectPropertiesToChildrenButton">
+             <item row="4" column="3">
+              <widget class="QPushButton" name="objectDeleteButton">
                <property name="font">
                 <font>
                  <pointsize>7</pointsize>
                 </font>
                </property>
                <property name="text">
-                <string>Children</string>
+                <string>Delete</string>
                </property>
               </widget>
              </item>
-             <item row="5" column="1" colspan="3">
-              <widget class="QComboBox" name="objectColorByComboBox">
-               <property name="accessibleName">
-                <string/>
-               </property>
-               <property name="currentText">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="objectNameLabel">
-               <property name="text">
-                <string>Object:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="1">
-              <widget class="QLabel" name="objectColorLabel">
-               <property name="text">
-                <string>Solid Color:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1" colspan="3">
+             <item row="2" column="1" colspan="3">
               <widget class="QComboBox" name="objectNameComboBox">
                <property name="accessibleName">
                 <string/>
@@ -171,57 +144,7 @@
                </property>
               </widget>
              </item>
-             <item row="6" column="2" colspan="2">
-              <widget class="QComboBox" name="objectColorComboBox">
-               <property name="accessibleName">
-                <string/>
-               </property>
-               <property name="currentText">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QPushButton" name="objectRenameButton">
-               <property name="text">
-                <string>Rename</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="0">
-              <widget class="QLabel" name="objectColorByLabel">
-               <property name="text">
-                <string>Visualization:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="8" column="0" colspan="4">
-              <widget class="QLabel" name="objectApplyToLabel">
-               <property name="text">
-                <string>Propogate vizualization properties to:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="10" column="2" colspan="2">
-              <widget class="QPushButton" name="objectPropertiesToAllButton">
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>All</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="objectOpacityLabel">
-               <property name="text">
-                <string>Opacity:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1" colspan="3">
+             <item row="5" column="1" colspan="3">
               <widget class="QSlider" name="objectOpacitySlider">
                <property name="font">
                 <font>
@@ -239,15 +162,128 @@
                </property>
               </widget>
              </item>
-             <item row="3" column="3">
-              <widget class="QPushButton" name="objectDeleteButton">
+             <item row="7" column="1">
+              <widget class="QLabel" name="objectColorLabel">
+               <property name="text">
+                <string>Solid Color:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="objectOpacityLabel">
+               <property name="text">
+                <string>Opacity:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="objectColorByLabel">
+               <property name="text">
+                <string>Visualization:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="objectNameLabel">
+               <property name="text">
+                <string>Object:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="9" column="0" colspan="4">
+              <widget class="QLabel" name="objectApplyToLabel">
+               <property name="text">
+                <string>Propogate vizualization properties to:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="2" colspan="2">
+              <widget class="QComboBox" name="objectColorComboBox">
+               <property name="accessibleName">
+                <string/>
+               </property>
+               <property name="currentText">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="11" column="2" colspan="2">
+              <widget class="QPushButton" name="objectPropertiesToAllButton">
                <property name="font">
                 <font>
                  <pointsize>7</pointsize>
                 </font>
                </property>
                <property name="text">
-                <string>Delete</string>
+                <string>All</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QPushButton" name="objectRenameButton">
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Rename</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1" colspan="3">
+              <widget class="QComboBox" name="objectColorByComboBox">
+               <property name="accessibleName">
+                <string/>
+               </property>
+               <property name="currentText">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="11" column="0">
+              <widget class="QPushButton" name="objectPropertiesToChildrenButton">
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Children</string>
+               </property>
+              </widget>
+             </item>
+             <item row="11" column="1">
+              <widget class="QPushButton" name="objectPropertiesToSimilarButton">
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Similar</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0" colspan="3">
+              <widget class="QCheckBox" name="objectHighlightSelectedObjectsCheckBox">
+               <property name="text">
+                <string>Highlight Selected</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QPushButton" name="pushButton">
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Unselect All</string>
                </property>
               </widget>
              </item>
@@ -255,21 +291,7 @@
            </widget>
           </item>
           <item>
-           <layout class="QVBoxLayout" name="infoTableLayout">
-            <item>
-             <spacer name="infoTableVerticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
+           <layout class="QVBoxLayout" name="infoTableLayout"/>
           </item>
          </layout>
         </item>
@@ -278,159 +300,147 @@
       <item>
        <layout class="QHBoxLayout" name="middlePanelLayout">
         <item>
-         <layout class="QVBoxLayout" name="imageTableLayout">
+         <layout class="QVBoxLayout" name="imageTableLayout"/>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <spacer name="imageTableLayoutHorizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+           <widget class="QTabWidget" name="tabWidget">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
+            <property name="minimumSize">
              <size>
-              <width>250</width>
-              <height>20</height>
+              <width>700</width>
+              <height>194</height>
              </size>
             </property>
-           </spacer>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <property name="tabsClosable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="welcomeTab">
+             <attribute name="title">
+              <string>Welcome: Load and Save</string>
+             </attribute>
+             <layout class="QHBoxLayout" name="welcomeTabLayout"/>
+            </widget>
+            <widget class="QWidget" name="visualizationTab">
+             <attribute name="title">
+              <string>Visualization</string>
+             </attribute>
+             <layout class="QHBoxLayout" name="visualizationTabLayout"/>
+            </widget>
+            <widget class="QWidget" name="newTaskTab">
+             <attribute name="title">
+              <string>New Task</string>
+             </attribute>
+             <layout class="QHBoxLayout" name="newTaskTabLayout"/>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="statusLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>7</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Status:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="statusText">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>7</pointsize>
+               </font>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QProgressBar" name="statusProgressBar">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>12</height>
+               </size>
+              </property>
+              <property name="value">
+               <number>0</number>
+              </property>
+              <property name="textVisible">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>0</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="statusViewLogButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>7</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>View Log</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
-        </item>
-        <item>
-         <widget class="QTabWidget" name="tabWidget">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>181</height>
-           </size>
-          </property>
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <property name="tabsClosable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="welcomeTab">
-           <attribute name="title">
-            <string>Welcome</string>
-           </attribute>
-           <layout class="QHBoxLayout" name="welcomeTabLayout"/>
-          </widget>
-          <widget class="QWidget" name="visualizationTab">
-           <attribute name="title">
-            <string>Visualization</string>
-           </attribute>
-           <layout class="QHBoxLayout" name="visualizationTabLayout"/>
-          </widget>
-          <widget class="QWidget" name="newTaskTab">
-           <attribute name="title">
-            <string>New Task</string>
-           </attribute>
-           <layout class="QHBoxLayout" name="newTaskTabLayout"/>
-          </widget>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="bottomPanelLayout">
-        <item>
-         <widget class="QGroupBox" name="statusGroupBox">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>1020</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="autoFillBackground">
-           <bool>true</bool>
-          </property>
-          <layout class="QGridLayout" name="gridLayout">
-           <item row="0" column="0" rowspan="2">
-            <widget class="QLabel" name="statusLabel">
-             <property name="text">
-              <string>Status:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="5" rowspan="2">
-            <widget class="QPushButton" name="statusViewLogButton">
-             <property name="font">
-              <font>
-               <pointsize>7</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>View Log</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QProgressBar" name="statusProgressBar">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>150</width>
-               <height>12</height>
-              </size>
-             </property>
-             <property name="value">
-              <number>0</number>
-             </property>
-             <property name="textVisible">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="4">
-            <spacer name="statusGroupBoxSpacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>600</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="statusText">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>150</width>
-               <height>0</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
         </item>
        </layout>
       </item>

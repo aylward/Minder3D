@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'pytubeviewyLUtjA.ui'
+## Form generated from reading UI file 'pytubeviewMbPino.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -16,17 +16,17 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QGridLayout, QGroupBox,
-    QHBoxLayout, QLabel, QLayout, QLineEdit,
-    QMainWindow, QMenu, QMenuBar, QProgressBar,
-    QPushButton, QSizePolicy, QSlider, QSpacerItem,
-    QTabWidget, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QGridLayout,
+    QGroupBox, QHBoxLayout, QLabel, QLayout,
+    QLineEdit, QMainWindow, QMenu, QMenuBar,
+    QProgressBar, QPushButton, QSizePolicy, QSlider,
+    QSpacerItem, QTabWidget, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1043, 688)
+        MainWindow.resize(1043, 691)
         MainWindow.setMinimumSize(QSize(1024, 0))
         self.loadImageMenuItem = QAction(MainWindow)
         self.loadImageMenuItem.setObjectName(u"loadImageMenuItem")
@@ -59,7 +59,6 @@ class Ui_MainWindow(object):
         self.topPanelLayout.setObjectName(u"topPanelLayout")
         self.view2DLayout = QVBoxLayout()
         self.view2DLayout.setObjectName(u"view2DLayout")
-        self.view2DLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.view2DSpacer = QSpacerItem(391, 0, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
         self.view2DLayout.addItem(self.view2DSpacer)
@@ -93,64 +92,18 @@ class Ui_MainWindow(object):
         self.objectGroupBox.setAutoFillBackground(True)
         self.gridLayout_2 = QGridLayout(self.objectGroupBox)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.objectPropertiesToChildrenButton = QPushButton(self.objectGroupBox)
-        self.objectPropertiesToChildrenButton.setObjectName(u"objectPropertiesToChildrenButton")
+        self.objectDeleteButton = QPushButton(self.objectGroupBox)
+        self.objectDeleteButton.setObjectName(u"objectDeleteButton")
         font = QFont()
         font.setPointSize(7)
-        self.objectPropertiesToChildrenButton.setFont(font)
+        self.objectDeleteButton.setFont(font)
 
-        self.gridLayout_2.addWidget(self.objectPropertiesToChildrenButton, 10, 1, 1, 1)
-
-        self.objectColorByComboBox = QComboBox(self.objectGroupBox)
-        self.objectColorByComboBox.setObjectName(u"objectColorByComboBox")
-
-        self.gridLayout_2.addWidget(self.objectColorByComboBox, 5, 1, 1, 3)
-
-        self.objectNameLabel = QLabel(self.objectGroupBox)
-        self.objectNameLabel.setObjectName(u"objectNameLabel")
-
-        self.gridLayout_2.addWidget(self.objectNameLabel, 1, 0, 1, 1)
-
-        self.objectColorLabel = QLabel(self.objectGroupBox)
-        self.objectColorLabel.setObjectName(u"objectColorLabel")
-
-        self.gridLayout_2.addWidget(self.objectColorLabel, 6, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.objectDeleteButton, 4, 3, 1, 1)
 
         self.objectNameComboBox = QComboBox(self.objectGroupBox)
         self.objectNameComboBox.setObjectName(u"objectNameComboBox")
 
-        self.gridLayout_2.addWidget(self.objectNameComboBox, 1, 1, 1, 3)
-
-        self.objectColorComboBox = QComboBox(self.objectGroupBox)
-        self.objectColorComboBox.setObjectName(u"objectColorComboBox")
-
-        self.gridLayout_2.addWidget(self.objectColorComboBox, 6, 2, 1, 2)
-
-        self.objectRenameButton = QPushButton(self.objectGroupBox)
-        self.objectRenameButton.setObjectName(u"objectRenameButton")
-
-        self.gridLayout_2.addWidget(self.objectRenameButton, 3, 1, 1, 1)
-
-        self.objectColorByLabel = QLabel(self.objectGroupBox)
-        self.objectColorByLabel.setObjectName(u"objectColorByLabel")
-
-        self.gridLayout_2.addWidget(self.objectColorByLabel, 5, 0, 1, 1)
-
-        self.objectApplyToLabel = QLabel(self.objectGroupBox)
-        self.objectApplyToLabel.setObjectName(u"objectApplyToLabel")
-
-        self.gridLayout_2.addWidget(self.objectApplyToLabel, 8, 0, 1, 4)
-
-        self.objectPropertiesToAllButton = QPushButton(self.objectGroupBox)
-        self.objectPropertiesToAllButton.setObjectName(u"objectPropertiesToAllButton")
-        self.objectPropertiesToAllButton.setFont(font)
-
-        self.gridLayout_2.addWidget(self.objectPropertiesToAllButton, 10, 2, 1, 2)
-
-        self.objectOpacityLabel = QLabel(self.objectGroupBox)
-        self.objectOpacityLabel.setObjectName(u"objectOpacityLabel")
-
-        self.gridLayout_2.addWidget(self.objectOpacityLabel, 4, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.objectNameComboBox, 2, 1, 1, 3)
 
         self.objectOpacitySlider = QSlider(self.objectGroupBox)
         self.objectOpacitySlider.setObjectName(u"objectOpacitySlider")
@@ -161,23 +114,84 @@ class Ui_MainWindow(object):
         self.objectOpacitySlider.setValue(50)
         self.objectOpacitySlider.setOrientation(Qt.Horizontal)
 
-        self.gridLayout_2.addWidget(self.objectOpacitySlider, 4, 1, 1, 3)
+        self.gridLayout_2.addWidget(self.objectOpacitySlider, 5, 1, 1, 3)
 
-        self.objectDeleteButton = QPushButton(self.objectGroupBox)
-        self.objectDeleteButton.setObjectName(u"objectDeleteButton")
-        self.objectDeleteButton.setFont(font)
+        self.objectColorLabel = QLabel(self.objectGroupBox)
+        self.objectColorLabel.setObjectName(u"objectColorLabel")
 
-        self.gridLayout_2.addWidget(self.objectDeleteButton, 3, 3, 1, 1)
+        self.gridLayout_2.addWidget(self.objectColorLabel, 7, 1, 1, 1)
+
+        self.objectOpacityLabel = QLabel(self.objectGroupBox)
+        self.objectOpacityLabel.setObjectName(u"objectOpacityLabel")
+
+        self.gridLayout_2.addWidget(self.objectOpacityLabel, 5, 0, 1, 1)
+
+        self.objectColorByLabel = QLabel(self.objectGroupBox)
+        self.objectColorByLabel.setObjectName(u"objectColorByLabel")
+
+        self.gridLayout_2.addWidget(self.objectColorByLabel, 6, 0, 1, 1)
+
+        self.objectNameLabel = QLabel(self.objectGroupBox)
+        self.objectNameLabel.setObjectName(u"objectNameLabel")
+
+        self.gridLayout_2.addWidget(self.objectNameLabel, 2, 0, 1, 1)
+
+        self.objectApplyToLabel = QLabel(self.objectGroupBox)
+        self.objectApplyToLabel.setObjectName(u"objectApplyToLabel")
+
+        self.gridLayout_2.addWidget(self.objectApplyToLabel, 9, 0, 1, 4)
+
+        self.objectColorComboBox = QComboBox(self.objectGroupBox)
+        self.objectColorComboBox.setObjectName(u"objectColorComboBox")
+
+        self.gridLayout_2.addWidget(self.objectColorComboBox, 7, 2, 1, 2)
+
+        self.objectPropertiesToAllButton = QPushButton(self.objectGroupBox)
+        self.objectPropertiesToAllButton.setObjectName(u"objectPropertiesToAllButton")
+        self.objectPropertiesToAllButton.setFont(font)
+
+        self.gridLayout_2.addWidget(self.objectPropertiesToAllButton, 11, 2, 1, 2)
+
+        self.objectRenameButton = QPushButton(self.objectGroupBox)
+        self.objectRenameButton.setObjectName(u"objectRenameButton")
+        self.objectRenameButton.setFont(font)
+
+        self.gridLayout_2.addWidget(self.objectRenameButton, 4, 1, 1, 1)
+
+        self.objectColorByComboBox = QComboBox(self.objectGroupBox)
+        self.objectColorByComboBox.setObjectName(u"objectColorByComboBox")
+
+        self.gridLayout_2.addWidget(self.objectColorByComboBox, 6, 1, 1, 3)
+
+        self.objectPropertiesToChildrenButton = QPushButton(self.objectGroupBox)
+        self.objectPropertiesToChildrenButton.setObjectName(u"objectPropertiesToChildrenButton")
+        self.objectPropertiesToChildrenButton.setFont(font)
+
+        self.gridLayout_2.addWidget(self.objectPropertiesToChildrenButton, 11, 0, 1, 1)
+
+        self.objectPropertiesToSimilarButton = QPushButton(self.objectGroupBox)
+        self.objectPropertiesToSimilarButton.setObjectName(u"objectPropertiesToSimilarButton")
+        self.objectPropertiesToSimilarButton.setFont(font)
+
+        self.gridLayout_2.addWidget(self.objectPropertiesToSimilarButton, 11, 1, 1, 1)
+
+        self.objectHighlightSelectedObjectsCheckBox = QCheckBox(self.objectGroupBox)
+        self.objectHighlightSelectedObjectsCheckBox.setObjectName(u"objectHighlightSelectedObjectsCheckBox")
+        self.objectHighlightSelectedObjectsCheckBox.setChecked(True)
+
+        self.gridLayout_2.addWidget(self.objectHighlightSelectedObjectsCheckBox, 0, 0, 1, 3)
+
+        self.pushButton = QPushButton(self.objectGroupBox)
+        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setFont(font)
+
+        self.gridLayout_2.addWidget(self.pushButton, 0, 3, 1, 1)
 
 
         self.rightPanelLayout.addWidget(self.objectGroupBox)
 
         self.infoTableLayout = QVBoxLayout()
         self.infoTableLayout.setObjectName(u"infoTableLayout")
-        self.infoTableVerticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.infoTableLayout.addItem(self.infoTableVerticalSpacer)
-
 
         self.rightPanelLayout.addLayout(self.infoTableLayout)
 
@@ -191,21 +205,19 @@ class Ui_MainWindow(object):
         self.middlePanelLayout.setObjectName(u"middlePanelLayout")
         self.imageTableLayout = QVBoxLayout()
         self.imageTableLayout.setObjectName(u"imageTableLayout")
-        self.imageTableLayoutHorizontalSpacer = QSpacerItem(250, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
-
-        self.imageTableLayout.addItem(self.imageTableLayoutHorizontalSpacer)
-
 
         self.middlePanelLayout.addLayout(self.imageTableLayout)
 
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
-        sizePolicy2 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Fixed)
+        sizePolicy2 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
         self.tabWidget.setSizePolicy(sizePolicy2)
-        self.tabWidget.setMinimumSize(QSize(300, 181))
+        self.tabWidget.setMinimumSize(QSize(700, 194))
         self.tabWidget.setTabsClosable(True)
         self.welcomeTab = QWidget()
         self.welcomeTab.setObjectName(u"welcomeTab")
@@ -223,33 +235,28 @@ class Ui_MainWindow(object):
         self.newTaskTabLayout.setObjectName(u"newTaskTabLayout")
         self.tabWidget.addTab(self.newTaskTab, "")
 
-        self.middlePanelLayout.addWidget(self.tabWidget)
+        self.verticalLayout_3.addWidget(self.tabWidget)
 
-
-        self.verticalLayout.addLayout(self.middlePanelLayout)
-
-        self.bottomPanelLayout = QHBoxLayout()
-        self.bottomPanelLayout.setObjectName(u"bottomPanelLayout")
-        self.statusGroupBox = QGroupBox(self.centralwidget)
-        self.statusGroupBox.setObjectName(u"statusGroupBox")
-        sizePolicy2.setHeightForWidth(self.statusGroupBox.sizePolicy().hasHeightForWidth())
-        self.statusGroupBox.setSizePolicy(sizePolicy2)
-        self.statusGroupBox.setMinimumSize(QSize(1020, 24))
-        self.statusGroupBox.setAutoFillBackground(True)
-        self.gridLayout = QGridLayout(self.statusGroupBox)
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.statusLabel = QLabel(self.statusGroupBox)
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.statusLabel = QLabel(self.centralwidget)
         self.statusLabel.setObjectName(u"statusLabel")
+        sizePolicy1.setHeightForWidth(self.statusLabel.sizePolicy().hasHeightForWidth())
+        self.statusLabel.setSizePolicy(sizePolicy1)
+        self.statusLabel.setFont(font)
 
-        self.gridLayout.addWidget(self.statusLabel, 0, 0, 2, 1)
+        self.horizontalLayout_2.addWidget(self.statusLabel)
 
-        self.statusViewLogButton = QPushButton(self.statusGroupBox)
-        self.statusViewLogButton.setObjectName(u"statusViewLogButton")
-        self.statusViewLogButton.setFont(font)
+        self.statusText = QLineEdit(self.centralwidget)
+        self.statusText.setObjectName(u"statusText")
+        sizePolicy1.setHeightForWidth(self.statusText.sizePolicy().hasHeightForWidth())
+        self.statusText.setSizePolicy(sizePolicy1)
+        self.statusText.setMinimumSize(QSize(150, 0))
+        self.statusText.setFont(font)
 
-        self.gridLayout.addWidget(self.statusViewLogButton, 0, 5, 2, 1)
+        self.horizontalLayout_2.addWidget(self.statusText)
 
-        self.statusProgressBar = QProgressBar(self.statusGroupBox)
+        self.statusProgressBar = QProgressBar(self.centralwidget)
         self.statusProgressBar.setObjectName(u"statusProgressBar")
         sizePolicy1.setHeightForWidth(self.statusProgressBar.sizePolicy().hasHeightForWidth())
         self.statusProgressBar.setSizePolicy(sizePolicy1)
@@ -257,25 +264,28 @@ class Ui_MainWindow(object):
         self.statusProgressBar.setValue(0)
         self.statusProgressBar.setTextVisible(False)
 
-        self.gridLayout.addWidget(self.statusProgressBar, 0, 3, 1, 1)
+        self.horizontalLayout_2.addWidget(self.statusProgressBar)
 
-        self.statusGroupBoxSpacer = QSpacerItem(600, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 0, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.gridLayout.addItem(self.statusGroupBoxSpacer, 0, 4, 1, 1)
+        self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
-        self.statusText = QLineEdit(self.statusGroupBox)
-        self.statusText.setObjectName(u"statusText")
-        sizePolicy2.setHeightForWidth(self.statusText.sizePolicy().hasHeightForWidth())
-        self.statusText.setSizePolicy(sizePolicy2)
-        self.statusText.setMinimumSize(QSize(150, 0))
+        self.statusViewLogButton = QPushButton(self.centralwidget)
+        self.statusViewLogButton.setObjectName(u"statusViewLogButton")
+        sizePolicy1.setHeightForWidth(self.statusViewLogButton.sizePolicy().hasHeightForWidth())
+        self.statusViewLogButton.setSizePolicy(sizePolicy1)
+        self.statusViewLogButton.setFont(font)
 
-        self.gridLayout.addWidget(self.statusText, 0, 1, 1, 1)
-
-
-        self.bottomPanelLayout.addWidget(self.statusGroupBox)
+        self.horizontalLayout_2.addWidget(self.statusViewLogButton)
 
 
-        self.verticalLayout.addLayout(self.bottomPanelLayout)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
+
+
+        self.middlePanelLayout.addLayout(self.verticalLayout_3)
+
+
+        self.verticalLayout.addLayout(self.middlePanelLayout)
 
 
         self.gridLayout_3.addLayout(self.verticalLayout, 0, 0, 1, 1)
@@ -314,28 +324,31 @@ class Ui_MainWindow(object):
         self.loadSceneMenuItem.setText(QCoreApplication.translate("MainWindow", u"Load Spatial Objects", None))
         self.saveSceneMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Spatial Objects", None))
         self.savePreProcessedOverlayMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Pre-Processed Overlay", None))
-        self.objectPropertiesToChildrenButton.setText(QCoreApplication.translate("MainWindow", u"Children", None))
-#if QT_CONFIG(accessibility)
-        self.objectColorByComboBox.setAccessibleName("")
-#endif // QT_CONFIG(accessibility)
-        self.objectColorByComboBox.setCurrentText("")
-        self.objectNameLabel.setText(QCoreApplication.translate("MainWindow", u"Object:", None))
-        self.objectColorLabel.setText(QCoreApplication.translate("MainWindow", u"Solid Color:", None))
+        self.objectDeleteButton.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
 #if QT_CONFIG(accessibility)
         self.objectNameComboBox.setAccessibleName("")
 #endif // QT_CONFIG(accessibility)
         self.objectNameComboBox.setCurrentText("")
+        self.objectColorLabel.setText(QCoreApplication.translate("MainWindow", u"Solid Color:", None))
+        self.objectOpacityLabel.setText(QCoreApplication.translate("MainWindow", u"Opacity:", None))
+        self.objectColorByLabel.setText(QCoreApplication.translate("MainWindow", u"Visualization:", None))
+        self.objectNameLabel.setText(QCoreApplication.translate("MainWindow", u"Object:", None))
+        self.objectApplyToLabel.setText(QCoreApplication.translate("MainWindow", u"Propogate vizualization properties to:", None))
 #if QT_CONFIG(accessibility)
         self.objectColorComboBox.setAccessibleName("")
 #endif // QT_CONFIG(accessibility)
         self.objectColorComboBox.setCurrentText("")
-        self.objectRenameButton.setText(QCoreApplication.translate("MainWindow", u"Rename", None))
-        self.objectColorByLabel.setText(QCoreApplication.translate("MainWindow", u"Visualization:", None))
-        self.objectApplyToLabel.setText(QCoreApplication.translate("MainWindow", u"Propogate vizualization properties to:", None))
         self.objectPropertiesToAllButton.setText(QCoreApplication.translate("MainWindow", u"All", None))
-        self.objectOpacityLabel.setText(QCoreApplication.translate("MainWindow", u"Opacity:", None))
-        self.objectDeleteButton.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.welcomeTab), QCoreApplication.translate("MainWindow", u"Welcome", None))
+        self.objectRenameButton.setText(QCoreApplication.translate("MainWindow", u"Rename", None))
+#if QT_CONFIG(accessibility)
+        self.objectColorByComboBox.setAccessibleName("")
+#endif // QT_CONFIG(accessibility)
+        self.objectColorByComboBox.setCurrentText("")
+        self.objectPropertiesToChildrenButton.setText(QCoreApplication.translate("MainWindow", u"Children", None))
+        self.objectPropertiesToSimilarButton.setText(QCoreApplication.translate("MainWindow", u"Similar", None))
+        self.objectHighlightSelectedObjectsCheckBox.setText(QCoreApplication.translate("MainWindow", u"Highlight Selected", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Unselect All", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.welcomeTab), QCoreApplication.translate("MainWindow", u"Welcome: Load and Save", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.visualizationTab), QCoreApplication.translate("MainWindow", u"Visualization", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.newTaskTab), QCoreApplication.translate("MainWindow", u"New Task", None))
         self.statusLabel.setText(QCoreApplication.translate("MainWindow", u"Status:", None))

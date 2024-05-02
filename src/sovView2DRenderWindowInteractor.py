@@ -1,6 +1,6 @@
 import numpy as np
 
-import itk
+from PySide6.QtCore import Qt
 
 import vtk
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
@@ -18,16 +18,68 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
         self.view2D = None
 
+        self.mouse_pressed = False
+        self.mouse_start = []
+        self.win_start = 0
+        self.lvl_start = 0
+
     @time_and_log
     def mousePressEvent(self, event):
-        ctrl, shift = self._GetCtrlShift(event)
-        if ctrl is False and shift is True:
-            super().mousePressEvent(event)
+        if event.button() == Qt.LeftButton:
+            x, y = self.GetEventPosition()
+            self.mouse_pressed = True
+            self.mouse_start = [x, y]
+            ctrl, shift = self._GetCtrlShift(event)
+            if ctrl is False and shift is True:
+                return super().mousePressEvent(event)
+            self.win_start = self.state.view2D_intensity_window_max[self.state.current_image_num] - self.state.view2D_intensity_window_min[self.state.current_image_num]
+            self.lvl_start = self.win_start / 2 + self.state.view2D_intensity_window_min[self.state.current_image_num]
+            picker = vtk.vtkWorldPointPicker()
+            x,y = self.GetEventPosition()
+            picker.Pick(x, y, 0, self.view2D.GetRenderer())
+            worldPoint = picker.GetPickPosition()
+            self.state.current_pixel = worldPoint
+            self.gui.update_pixel()
+            return
+        return super().mousePressEvent(event)
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.mouse_pressed = False
+        super().mouseReleaseEvent(event)
 
     def mouseMoveEvent(self, event):
+        if self.mouse_pressed is False:
+            return super().mouseMoveEvent(event)
         ctrl, shift = self._GetCtrlShift(event)
         if ctrl is False and shift is True:
-            super().mouseMoveEvent(event)
+            return super().mouseMoveEvent(event)
+            winsize = self.GetRenderWindow().GetSize()
+            irange = self.state.image_max[self.state.current_image_num] - self.state.image_min[self.state.current_image_num]
+            x, y = self.GetEventPosition()
+            winDelta = float(x - self.mouse_start[0]) / winsize[0] * irange
+            lvlDelta = float(y - self.mouse_start[1]) / winsize[1] * irange
+            new_win = self.win_start + winDelta
+            new_lvl = self.lvl_start + lvlDelta
+            new_min = new_lvl - new_win / 2.0
+            if new_min < self.state.image_min[self.state.current_image_num] - irange/2.0:
+                new_min = self.state.image_min[self.state.current_image_num] - irange/2.0
+            new_max = new_lvl + new_win / 2
+            if new_max > self.state.image_max[self.state.current_image_num] + irange/2.0:
+                new_max = self.state.image_max[self.state.current_image_num] + irange/2.0
+            self.state.view2D_intensity_window_min[self.state.current_image_num] = new_min
+            self.state.view2D_intensity_window_max[self.state.current_image_num] = new_max
+            self.gui.update_pixel()
+            self.update_view()
+            return
+        picker = vtk.vtkWorldPointPicker()
+        x,y = self.GetEventPosition()
+        picker.Pick(x, y, 0, self.view2D.GetRenderer())
+        worldPoint = picker.GetPickPosition()
+        self.state.current_pixel = worldPoint
+        print(worldPoint)
+        self.gui.update_pixel()
+        return super().mouseMoveEvent(event)
 
     @time_and_log
     def reset_camera(self):
@@ -69,13 +121,13 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
                 slice_axis_order = [0, 1, 2]
             elif self.state.view2D_axis[self.state.current_image_num] == 1:
                 slice_num = self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
-                view_slice = current_image_array[:, slice_num, :]
-                overlay_slice_rgba = current_overlay_array[:, slice_num, :]
+                view_slice = current_image_array[::-1, slice_num, :]
+                overlay_slice_rgba = current_overlay_array[::-1, slice_num, :]
                 slice_axis_order = [0, 2, 1]
             else: # self.state.view2D_axis[self.state.current_image_num] == 0:
                 slice_num = self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
-                view_slice = current_image_array[:, ::-1, slice_num]
-                overlay_slice_rgba = current_overlay_array[:, ::-1, slice_num]
+                view_slice = current_image_array[::-1, ::-1, slice_num]
+                overlay_slice_rgba = current_overlay_array[::-1, ::-1, slice_num]
                 slice_axis_order = [1, 2, 0]
 
             view_intensity_min = self.state.view2D_intensity_window_min[self.state.current_image_num]
@@ -94,7 +146,7 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             if self.state.view2D_flip[self.state.current_image_num][min(axis1, axis2)]:
                 view_slice = np.flip(view_slice, axis=1)
 
-            # Flip by default along y axis
+            # vtk displays flipped, so flip back
             if not self.state.view2D_flip[self.state.current_image_num][max(axis1, axis2)]:
                 view_slice = np.flip(view_slice, axis=0)
 

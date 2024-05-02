@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PreProcessPanelWidget</class>
- <widget class="QWidget" name="PreProcessPanelWidget">
+ <class>ImageProcessPanelWidget</class>
+ <widget class="QWidget" name="ImageProcessPanelWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -31,7 +31,7 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QPushButton" name="preProcessHighResIsoButton">
+   <widget class="QPushButton" name="imageProcessHighResIsoButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -44,7 +44,7 @@
      <string>Make High-Res Isotropic</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="preProcessIsoButton">
+   <widget class="QPushButton" name="imageProcessIsoButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -57,7 +57,7 @@
      <string>Make Isotropic</string>
     </property>
    </widget>
-   <widget class="QDoubleSpinBox" name="preProcessIsoSpinBox">
+   <widget class="QDoubleSpinBox" name="imageProcessIsoSpinBox">
     <property name="geometry">
      <rect>
       <x>121</x>
@@ -70,7 +70,7 @@
      <double>1.000000000000000</double>
     </property>
    </widget>
-   <widget class="QPushButton" name="preProcessLowResIsoButton">
+   <widget class="QPushButton" name="imageProcessLowResIsoButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -102,7 +102,7 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QPushButton" name="preProcessClipWindowLevelButton">
+   <widget class="QPushButton" name="imageProcessClipWindowLevelButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -134,7 +134,7 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QSpinBox" name="preProcessMedianRadiusSpinBox">
+   <widget class="QSpinBox" name="imageProcessMedianRadiusSpinBox">
     <property name="geometry">
      <rect>
       <x>121</x>
@@ -147,7 +147,7 @@
      <number>1</number>
     </property>
    </widget>
-   <widget class="QPushButton" name="preProcessMedianFilterButton">
+   <widget class="QPushButton" name="imageProcessMedianFilterButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -161,7 +161,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QCheckBox" name="preProcessCreateNewImageCheckBox">
+  <widget class="QCheckBox" name="imageProcessCreateNewImageCheckBox">
    <property name="geometry">
     <rect>
      <x>20</x>

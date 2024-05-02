@@ -6,7 +6,6 @@ import itk
 
 import vtk
 
-from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QMainWindow,
     QFileDialog,
@@ -24,9 +23,14 @@ from sovUtils import (
     time_and_log,
     LogWindow,
     read_group,
+    write_group,
     get_children_as_list,
     resample_overlay_to_match_image,
+    add_file_to_settings,
+    get_file_reccords_from_settings,
 )
+
+from sovImageTablePanelUtils import get_qthumbnail_from_array
 
 from sovView2DPanelWidget import View2DPanelWidget
 from sovView3DPanelWidget import View3DPanelWidget
@@ -60,6 +64,9 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
         self.connect_object_gui()
 
+        self.objectHighlightSelectedObjectsCheckBox.stateChanged.connect(
+            self.update_highlight_selected
+        )
         self.objectDeleteButton.pressed.connect(
             self.delete_selected_objects
             )
@@ -97,11 +104,6 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         for i in range(0, 3):
             tabBar.tabButton(i, QTabBar.RightSide).deleteLater()
             tabBar.setTabButton(i, QTabBar.RightSide, None)
-
-        # Image Tab
-        #img_name = os.path.splitext(self.state.image_filename[-1])
-        #self.view2DViewImageComboBox.addItem(f"{img_name[0]}")
-        #self.view2DViewImageComboBox.setCurrentIndex(len(self.state.image)-1) 
 
         # Info Table 
         self.infoTablePanel = InfoTablePanelWidget(self, self.state)
@@ -180,7 +182,6 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.statusText.update()
         self.log_window.log(message, level)
 
-
     @time_and_log
     def load_image(self, filename=None):
         if filename is None:
@@ -201,6 +202,9 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             self.update_image()
             self.update_overlay()
 
+            qthumb = get_qthumbnail_from_array(self.state.image_array[-1])
+            add_file_to_settings(self.state.image[-1], filename, "image", qthumb)
+
     @time_and_log
     def load_scene(self, filename=None):
         if not filename:
@@ -213,7 +217,10 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         if filename:
             self.state.scene_filename = filename
             self.state.scene = read_group(filename)
+            add_file_to_settings(self.state.scene, filename, "scenes")
+
         self.update_scene()
+        add_file_to_settings(self.state.scene, filename, "scene")
 
     @time_and_log
     def save_image(self, filename=None):
@@ -274,6 +281,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             self.log(f"Saving scene to {filename}")
             write_group(self.state.scene, filename)
 
+
     @time_and_log
     def create_new_image(self, img, filename=None, tag=None):
         if filename is None:
@@ -311,12 +319,14 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             self.state.overlay[-1].CopyInformation(self.state.image[-1])
             self.state.overlay[-1].Allocate()
             self.state.overlay[-1].FillBuffer(self.state.overlay_pixel_type(0))
-            self.state.overlay_array.append(itk.GetArrayFromImage(
-                self.state.overlay[-1]
-            ))
+
+        self.state.overlay_array.append(itk.GetArrayFromImage(
+            self.state.overlay[-1]
+        ))
 
         self.state.current_image_num = len(self.state.image)-1
 
+        self.imageTablePanel.create_new_image()
         self.view2DPanel.create_new_image()
         self.view3DPanel.create_new_image()
 
@@ -344,6 +354,12 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             self.state.view2D_flip.append([False, False, False])
 
         self.state.current_image_num = len(self.state.image)-1
+
+        self.imageTablePanel.replace_image()
+
+    @time_and_log
+    def update_pixel(self):
+        self.infoTablePanel.update_pixel()
 
     @time_and_log
     def update_image(self):
@@ -376,6 +392,14 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         if self.state.view3D_scene_auto_update:
             self.view3DPanel.update_scene()
         self.connect_object_gui()
+
+    @time_and_log
+    def update_highlight_selected(self, value):
+        self.state.highlight_selected = value
+        for selected_id in self.state.selected_ids:
+            self.log(f"update_highlight_selected: Id={selected_id}")
+            so = self.state.scene_list[self.state.scene_list_ids.index(selected_id)]
+            self.redraw_object(so)
 
     @time_and_log
     def select_object_by_name_combobox(self, idx):

@@ -16,9 +16,13 @@ from vtkmodules.vtkFiltersCore import (
     vtkSurfaceNets3D,
 )
 
-from sovUtils import get_children_as_list
+from sovUtils import (
+    time_and_log,
+    get_children_as_list,
+)
 
 
+@time_and_log
 def convert_tubes_to_polylines(tube_list):
     tube_polylines = []
 
@@ -131,6 +135,7 @@ def convert_tubes_to_polylines(tube_list):
     return tube_polylines
 
 
+@time_and_log
 def convert_tubes_to_surfaces(tube_list, number_of_sides=5):
     num_tubes = len(tube_list)
     tube_surfaces = []
@@ -148,6 +153,7 @@ def convert_tubes_to_surfaces(tube_list, number_of_sides=5):
     return tube_surfaces
 
 
+@time_and_log
 def convert_masks_to_surfaces(mask_list):
     num_masks = len(mask_list)
     mask_surfaces = []
@@ -156,7 +162,7 @@ def convert_masks_to_surfaces(mask_list):
             vtkmask = itk.vtk_image_from_image(mask.GetImage())
             SN = vtkSurfaceNets3D()
             SN.SetInputData(vtkmask)
-            mask_id = mask.GetProperty().TagScalarValue("Mask_Id")
+            mask_id = mask.GetMaskValue()
             print(f"Mask_num: {mask_num}, Mask_id: {mask_id}")
             SN.SetLabel(0, mask_id)
             SN.Update()
@@ -171,17 +177,19 @@ def convert_masks_to_surfaces(mask_list):
     return mask_surfaces
 
 
+@time_and_log
 def convert_scene_to_surfaces(scene):
-    surfaces = None
+    surfaces = []
     tube_list = get_children_as_list(scene, "Tube")
     if len(tube_list) > 0:
-        surfaces = convert_tubes_to_surfaces(tube_list)
+        surfaces = surfaces + convert_tubes_to_surfaces(tube_list)
     mask_list = get_children_as_list(scene, "Mask")
     if len(mask_list) > 0:
         surfaces = surfaces + convert_masks_to_surfaces(mask_list)
     return surfaces
 
 
+@time_and_log
 def get_object_forms(obj):
     if "Tube" in obj.GetTypeName():
         forms = ["Surface", "Wireframe", "Points"]
@@ -190,6 +198,7 @@ def get_object_forms(obj):
     return forms
 
 
+@time_and_log
 def get_closest_point_in_world_space(so, pos):
     if so.GetTypeName() == "TubeSpatialObject":
         return so.ClosestPointInWorldSpace(pos)

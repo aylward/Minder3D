@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovInfoTablePanelWidgetUjtMFS.ui'
+## Form generated from reading UI file 'sovInfoTablePanelWidgetCuyIch.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -16,7 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplication, QHBoxLayout,
-    QHeaderView, QSizePolicy, QTableView, QWidget)
+    QHeaderView, QSizePolicy, QTableWidget, QTableWidgetItem,
+    QWidget)
 
 class Ui_InfoTablePanelWidget(object):
     def setupUi(self, InfoTablePanelWidget):
@@ -33,25 +34,25 @@ class Ui_InfoTablePanelWidget(object):
         self.horizontalLayout.setSpacing(3)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(3, 3, 3, 3)
-        self.infoTableView = QTableView(InfoTablePanelWidget)
-        self.infoTableView.setObjectName(u"infoTableView")
+        self.infoTableWidget = QTableWidget(InfoTablePanelWidget)
+        self.infoTableWidget.setObjectName(u"infoTableWidget")
         sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.MinimumExpanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.infoTableView.sizePolicy().hasHeightForWidth())
-        self.infoTableView.setSizePolicy(sizePolicy1)
-        self.infoTableView.setMinimumSize(QSize(180, 0))
-        self.infoTableView.setAutoFillBackground(True)
-        self.infoTableView.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
-        self.infoTableView.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.infoTableView.setAlternatingRowColors(True)
-        self.infoTableView.setSelectionBehavior(QAbstractItemView.SelectItems)
-        self.infoTableView.horizontalHeader().setVisible(False)
-        self.infoTableView.horizontalHeader().setHighlightSections(False)
-        self.infoTableView.verticalHeader().setVisible(False)
-        self.infoTableView.verticalHeader().setHighlightSections(False)
+        sizePolicy1.setHeightForWidth(self.infoTableWidget.sizePolicy().hasHeightForWidth())
+        self.infoTableWidget.setSizePolicy(sizePolicy1)
+        self.infoTableWidget.setMinimumSize(QSize(180, 0))
+        self.infoTableWidget.setAutoFillBackground(True)
+        self.infoTableWidget.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
+        self.infoTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.infoTableWidget.setAlternatingRowColors(True)
+        self.infoTableWidget.setSelectionBehavior(QAbstractItemView.SelectItems)
+        self.infoTableWidget.setRowCount(0)
+        self.infoTableWidget.horizontalHeader().setCascadingSectionResizes(False)
+        self.infoTableWidget.horizontalHeader().setProperty("showSortIndicator", False)
+        self.infoTableWidget.verticalHeader().setCascadingSectionResizes(False)
 
-        self.horizontalLayout.addWidget(self.infoTableView)
+        self.horizontalLayout.addWidget(self.infoTableWidget)
 
 
         self.retranslateUi(InfoTablePanelWidget)

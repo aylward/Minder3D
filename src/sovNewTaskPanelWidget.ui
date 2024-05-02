@@ -26,7 +26,7 @@
     <string>Demo: Otsu Threshold</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="newTaskPreProcessButton">
+  <widget class="QPushButton" name="newTaskImageProcessButton">
    <property name="geometry">
     <rect>
      <x>230</x>

@@ -1,18 +1,24 @@
-from sovUtils import time_and_log
+import sys
+import importlib.util as imp
+
+import numpy as np
 
 import itk
 
-from sovPreProcessLogic import PreProcessLogic
+from sovUtils import time_and_log
+
+from sovImageProcessLogic import ImageProcessLogic
 
 
 class LungCTALogic:
-    def __init__(self, gui, state, parent=None):
+    def __init__(self):
         self.ai_first_run = True
-
+        self.image = None
+        self.pre_image = None
         self.mask = None
 
     @time_and_log
-    def initialize(self):
+    def initialize(self, image):
         if self.ai_first_run and imp.find_spec("totalsegmentator") is None:
             self.ai_first_run = False
             status = False
@@ -33,6 +39,8 @@ class LungCTALogic:
             msg = "WARNING: PyTorch installed without CUDA support.\nThe AI methods will run on the CPU and be very slow.\nContinue?"
             ask_to_continue = True
             return status, msg, ask_to_continue
+
+        self.image = image
         
         status = True
         msg = ""
@@ -40,28 +48,38 @@ class LungCTALogic:
         return status, msg, ask_to_continue
 
     def preprocess(self):
+        if self.image is None:
+            return None
+
         if imp.find_spec("totalsegmentator") is None:
             subprocess.check_call([sys.executable, "-m", "pip", "install", "TotalSegmentator"]) 
+
+        spacing = self.image.GetSpacing()
+        if not(spacing[0] == 1.5 and spacing[0] == spacing[1] and spacing[1] == spacing[2]):
+            preproc = ImageProcessLogic()
+            self.pre_image = preproc.make_iso(self.image, 1.5)
+        else:
+            self.pre_image = self.image
+        return self.pre_image
+
+    def run(self):
+        if self.pre_image is None:
+            self.preprocess()
+            if self.pre_image is None:
+                return None
 
         from totalsegmentator.python_api import totalsegmentator
         import nibabel as nib
 
-        spacing = self.state.image[self.state.current_image_num].GetSpacing()
-        if not(spacing[0] == 1.5 and spacing[0] == spacing[1] and spacing[1] == spacing[2]):
-            preproc = PreProcessLogic()
-            preproc_img = preproc.make_iso(self.state.image[self.state.current_image_num], 1.5)
-            self.gui.create_new_image(preproc_img, None, "Iso")
-
-    def run(self):
-        data = self.state.image_array[self.state.current_image_num]
+        pre_array = itk.GetArrayFromImage(self.pre_image)
         mat = np.eye(4)
         mat = mat * 1.5
         mat[3, 3] = 1
-        nifti_nib = nib.Nifti1Image(np.transpose(data, (2, 1, 0)).copy(), mat)
+        nifti_nib = nib.Nifti1Image(np.transpose(pre_array, (2, 1, 0)).copy(), mat)
         seg_nib = totalsegmentator(input=nifti_nib, output=None, task="lung_vessels")
 
         seg_array = seg_nib.get_fdata().astype(np.uint8)
         seg_image = itk.GetImageFromArray(np.transpose(seg_array, (2, 1, 0)).copy())
-        seg_image.CopyInformation(self.state.image[self.state.current_image_num])
+        seg_image.CopyInformation(self.pre_image)
 
         return seg_image
