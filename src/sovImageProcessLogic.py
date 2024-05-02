@@ -3,7 +3,7 @@ import numpy as np
 import itk
 from itk import TubeTK as tube
 
-class PreProcessLogic:
+class ImageProcessLogic:
     def make_high_res_iso(self, inputImage):
         isoImageFilter = tube.ResampleImage.New(Input=inputImage)
         isoImageFilter.SetMakeHighResIso(True)
@@ -27,14 +27,14 @@ class PreProcessLogic:
         isoImageFilter.Update()
         return isoImageFilter.GetOutput()
 
-    def clip_window_level(self, inputImage, imin, imax):
+    def clip_window_level(self, inputImage, inputArray, imin, imax):
         flip = False
         if imin > imax:
             tmp = imin
             imin = imax
             imax = tmp
             flip = True
-        image_array = np.clip(inputImage, imin, imax)
+        image_array = np.clip(inputArray, imin, imax)
         if flip:
             image_array = imax - image_array
         img = itk.GetImageFromArray(image_array)

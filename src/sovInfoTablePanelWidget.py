@@ -1,51 +1,13 @@
-from PySide6.QtCore import (
-    Qt,
-    QAbstractTableModel,
-)
 from PySide6.QtWidgets import (
     QWidget,
+    QTableWidget,
+    QTableWidgetItem,
+    QHeaderView,
 )
 
 from sovUtils import time_and_log
 
 from ui_sovInfoTablePanelWidget import Ui_InfoTablePanelWidget
-
-
-class InfoTableDictionary(QAbstractTableModel):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-
-        self.dict = dict()
-
-    def rowCount(self, index):
-        return len(self.dict.keys())
-
-    def columnCount(self, index):
-        return 2
-
-    def data(self, index, role=Qt.DisplayRole):
-        if index.isValid():
-            if role == Qt.DisplayRole: #or role == Qt.EditRole:
-                if index.column() == 0:
-                    return list(self.dict.keys())[index.row()]
-                return list(self.dict.values())[index.row()]
-        return None
-
-    def setDict(self, key, value):
-        row = list(self.dict.keys()).index(key)
-        col = 1
-        index = self.index(row, col)
-        self.setData(index, value, Qt.EditRole)
-
-    def setData(self, index, value, role):
-        if role == Qt.EditRole and index.column() == 1:
-            key = list(self.dict.keys())[index.row()]
-            self.dict[key] = value
-            return True
-        return False
-
-    def flags(self, index):
-        return Qt.NoItemFlags
 
 
 class InfoTablePanelWidget(QWidget, Ui_InfoTablePanelWidget):
@@ -56,23 +18,25 @@ class InfoTablePanelWidget(QWidget, Ui_InfoTablePanelWidget):
         self.gui = gui
         self.state = state
 
-        self.table = InfoTableDictionary()
-        self.table.dict["Image Size"] = "0, 0, 0"
-        self.table.dict["Image Spacing"] = "0, 0, 0"
-        self.infoTableView.setModel(self.table)
+        self.infoTableWidget.setRowCount(3)
+        self.infoTableWidget.setColumnCount(2)
+        self.infoTableWidget.setItem(0, 0, QTableWidgetItem("Pixel Coordinate"))
+        self.infoTableWidget.setItem(1, 0, QTableWidgetItem("  Image Value"))
+        self.infoTableWidget.setItem(2, 0, QTableWidgetItem("  Overlay Value"))
+        self.infoTableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.infoTableWidget.setSelectionMode(QTableWidget.NoSelection)
+        self.infoTableWidget.setShowGrid(True)
+        #self.infoTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        #self.infoTableWidget.verticalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        self.infoTableWidget.verticalHeader().hide()
 
     @time_and_log
     def update_image(self):
-        img_size = self.state.image[self.state.current_image_num].GetLargestPossibleRegion().GetSize()
-        self.table.setDict(
-            'Image Size',
-            f'{img_size[0]}, {img_size[1]}, {img_size[2]}')
-        img_spacing = self.state.image[self.state.current_image_num].GetSpacing()
-        self.table.setDict(
-            'Image Spacing',
-            f'{img_spacing[0]:.3f}, {img_spacing[1]:.3f}, {img_spacing[2]:.3f}')
-        self.infoTableView.repaint()
+        pass
 
     @time_and_log
     def update_pixel(self):
-        pass
+        pos_str = ', '.join([f"{x:0.1f}" for x in self.state.current_pixel])
+        self.infoTableWidget.setItem(0, 1, QTableWidgetItem(pos_str))
+        self.infoTableWidget.setItem(1, 1, QTableWidgetItem("0"))
+        self.infoTableWidget.setItem(2, 1, QTableWidgetItem("0"))

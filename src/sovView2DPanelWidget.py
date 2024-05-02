@@ -1,4 +1,4 @@
-import os
+import numpy as np
 
 import itk
 
@@ -35,22 +35,8 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.view2DXZButton.clicked.connect(self.update_axis_xz)
         self.view2DYZButton.clicked.connect(self.update_axis_yz)
 
-        self.view2DIntensityMinSlider.valueChanged.connect(
-            self.update_intensity_min_max_sliders
-        )
-        self.view2DIntensityMaxSlider.valueChanged.connect(
-            self.update_intensity_min_max_sliders
-        )
-
-        self.view2DIntensityMinSpinBox.valueChanged.connect(
-            self.update_intensity_min_max_spin_boxes
-        )
-        self.view2DIntensityMaxSpinBox.valueChanged.connect(
-            self.update_intensity_min_max_spin_boxes
-        )
-
-        self.view2DIntensityMinMaxResetButton.pressed.connect(
-            self.update_reset_intensity_min_max
+        self.view2DResetButton.pressed.connect(
+            self.update_reset
         )
 
         self.update_gui = True
@@ -86,8 +72,11 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.view2DSliceSlider.setValue(
             self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
         )
-        self.view2DSliceText.setPlainText(
-            f"{self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]}"
+        self.view2DSliceText.setMaximum(
+            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+        )
+        self.view2DSliceText.setValue(
+            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
         )
 
         self.gui.visualizationPanel.update_view2D()
@@ -112,8 +101,11 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.view2DSliceSlider.setValue(
             self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
         )
-        self.view2DSliceText.setPlainText(
-            f"{self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]}"
+        self.view2DSliceText.setMaximum(
+            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+        )
+        self.view2DSliceText.setValue(
+            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
         )
 
         self.gui.visualizationPanel.update_view2D()
@@ -138,8 +130,11 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.view2DSliceSlider.setValue(
             self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
         )
-        self.view2DSliceText.setPlainText(
-            f"{self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]}"
+        self.view2DSliceText.setMaximum(
+            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+        )
+        self.view2DSliceText.setValue(
+            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
         )
 
         self.gui.visualizationPanel.update_view2D()
@@ -161,22 +156,32 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.view2DSliceSlider.setMaximum(
             self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
         )
+        self.view2DSliceSlider.setValue(
+            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
+        )
+        self.view2DSliceText.setMaximum(
+            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+        )
+        self.view2DSliceSlider.setValue(
+            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
+        )
 
         self.update_gui = True
+
+        self.update()
 
         self.gui.update_image()
 
     @time_and_log
     def create_new_image(self):
-        self.state.view2D_intensity_window_min.append(self.state.image_min[-1])
-        self.state.view2D_intensity_window_max.append(self.state.image_max[-1])
+        auto_range = np.quantile(self.state.image_array[-1], [0.1, 0.9])
+        self.state.view2D_intensity_window_min.append(auto_range[0])
+        self.state.view2D_intensity_window_max.append(auto_range[1])
 
         self.state.view2D_slice.append([0, 0, 0])
         self.state.view2D_axis.append(2)
 
         self.state.view2D_flip.append([False, False, False])
-
-
 
     @time_and_log
     def update_image(self):
@@ -184,8 +189,9 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         imax = self.state.image_max[self.state.current_image_num]
         irange = imax - imin
 
-        self.state.view2D_intensity_window_min[self.state.current_image_num] = imin
-        self.state.view2D_intensity_window_max[self.state.current_image_num] = imax
+        auto_range = np.quantile(self.state.image_array[-1], [0.1, 0.9])
+        self.state.view2D_intensity_window_min[self.state.current_image_num] = auto_range[0]
+        self.state.view2D_intensity_window_max[self.state.current_image_num] = auto_range[1]
 
         self.update_gui = False
 
@@ -193,25 +199,13 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.view2DSliceSlider.setMaximum(
             self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
         )
-
         self.view2DSliceSlider.setValue(0)
-        self.view2DSliceText.setPlainText("0")
 
-        self.view2DIntensityMinSlider.setValue(0)
-        self.view2DIntensityMinSpinBox.setRange(
-            imin - 0.5 * irange,
-            imax + 0.5 * irange
+        self.view2DSliceText.setMinimum(0)
+        self.view2DSliceText.setMaximum(
+            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
         )
-        self.view2DIntensityMinSpinBox.setSingleStep(irange / 500)
-        self.view2DIntensityMinSpinBox.setValue(imin)
-
-        self.view2DIntensityMaxSlider.setValue(100)
-        self.view2DIntensityMaxSpinBox.setRange(
-            imin - 0.5 * irange,
-            imax + 0.5 * irange
-        )
-        self.view2DIntensityMaxSpinBox.setSingleStep(irange / 500)
-        self.view2DIntensityMaxSpinBox.setValue(imax)
+        self.view2DSliceText.setValue(0)
 
         self.update_gui = True
 
@@ -261,17 +255,17 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
         self.update_gui = False
         self.view2DSliceSlider.setValue(current_slice)
-        self.view2DSliceText.setPlainText(f"{current_slice}")
+        self.view2DSliceText.setValue(current_slice)
         self.update_gui = True
 
         self.update()
 
     @time_and_log
-    def update_slice_from_text(self):
+    def update_slice_from_text(self, value):
         if not self.update_gui:
             return
 
-        current_slice = int(self.view2DSliceText.toPlainText())
+        current_slice = value
         if current_slice < 0:
             current_slice = 0
         max_slice = self.state.image_array[self.state.current_image_num].shape[
@@ -282,62 +276,14 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]] = current_slice
 
         self.update_gui = False
-        self.view2DSliceText.setPlainText(f"{current_slice}")
         self.view2DSliceSlider.setValue(current_slice)
+        self.view2DSliceText.setValue(current_slice)
         self.update_gui = True
 
         self.update()
 
     @time_and_log
-    def update_intensity_min_max_sliders(self, _):
-        if not self.update_gui:
-            return
-
-        minI = self.view2DIntensityMinSlider.value()
-        maxI = self.view2DIntensityMaxSlider.value()
-
-        imin = float(self.state.image_min[self.state.current_image_num])
-        imax = float(self.state.image_max[self.state.current_image_num])
-        irange = imax - imin
-        intensityMin = (minI / 100.0) * irange + imin
-        intensityMax = (maxI / 100.0) * irange + imin
-
-        self.state.view2D_intensity_window_min[self.state.current_image_num] = intensityMin
-        self.state.view2D_intensity_window_max[self.state.current_image_num] = intensityMax
-
-        self.update_gui = False
-        self.view2DIntensityMinSpinBox.setValue(intensityMin)
-        self.view2DIntensityMaxSpinBox.setValue(intensityMax)
-        self.update_gui = True
-
-        self.update()
-
-    @time_and_log
-    def update_intensity_min_max_spin_boxes(self, _):
-        if not self.update_gui:
-            return
-
-        intensityMin = float(self.view2DIntensityMinSpinBox.value())
-        intensityMax = float(self.view2DIntensityMaxSpinBox.value())
-
-        imin = float(self.state.image_min[self.state.current_image_num])
-        imax = float(self.state.image_max[self.state.current_image_num])
-        irange = imax - imin
-        minI = int(((intensityMin - imin) / irange) * 100 + 0.5)
-        maxI = int(((intensityMax - imin) / irange) * 100 + 0.5)
-
-        self.state.view2D_intensity_window_min[self.state.current_image_num] = intensityMin
-        self.state.view2D_intensity_window_max[self.state.current_image_num] = intensityMax
-
-        self.update_gui = False
-        self.view2DIntensityMinSlider.setValue(minI)
-        self.view2DIntensityMaxSlider.setValue(maxI)
-        self.update_gui = True
-
-        self.update()
-
-    @time_and_log
-    def update_reset_intensity_min_max(self):
+    def update_reset(self):
         self.update_image()
 
     @time_and_log

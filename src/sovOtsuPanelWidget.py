@@ -27,9 +27,8 @@ class OtsuPanelWidget(QWidget, Ui_OtsuPanelWidget):
         self.state = state
         self.logic = OtsuLogic()
 
-        self.otsuRunButton.clicked.connect(
-            self.otsu_threshold
-        )
+        self.otsuRunButton.clicked.connect(self.otsu_threshold)
+        self.otsuRunButton.setStyleSheet("background-color: #00aa00")
 
     @time_and_log
     def otsu_threshold(self):

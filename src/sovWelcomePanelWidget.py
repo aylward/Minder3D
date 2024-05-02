@@ -12,6 +12,7 @@ class WelcomePanelWidget(QWidget, Ui_WelcomePanelWidget):
         self.state = state
 
         self.welcomeLoadImageButton.pressed.connect(self.gui.load_image)
+        self.welcomeLoadImageButton.setStyleSheet("background-color: #00aa00")
         self.welcomeLoadSceneButton.pressed.connect(self.gui.load_scene)
         self.welcomeSaveImageButton.pressed.connect(self.gui.save_image)
         self.welcomeSaveOverlayButton.pressed.connect(self.gui.save_overlay)

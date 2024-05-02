@@ -1,50 +1,45 @@
-import numpy as np
-
-import itk
-from itk import TubeTK as tube
-
 from PySide6.QtWidgets import QWidget
 
 from sovUtils import time_and_log 
 
-from sovPreProcessLogic import PreProcessLogic
+from sovImageProcessLogic import ImageProcessLogic
 
-from ui_sovPreProcessPanelWidget import Ui_PreProcessPanelWidget
+from ui_sovImageProcessPanelWidget import Ui_ImageProcessPanelWidget
 
 
-class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
+class ImageProcessPanelWidget(QWidget, Ui_ImageProcessPanelWidget):
     def __init__(self, gui, state, parent=None):
         super().__init__(parent)
         self.setupUi(self)
 
         self.gui = gui
         self.state = state
-        self.logic = PreProcessLogic()
+        self.logic = ImageProcessLogic()
 
-        self.preProcessHighResIsoButton.clicked.connect(
+        self.imageProcessHighResIsoButton.clicked.connect(
             self.make_high_res_iso
         )
 
-        self.preProcessLowResIsoButton.clicked.connect(
+        self.imageProcessLowResIsoButton.clicked.connect(
             self.make_low_res_iso
         )
 
-        self.preProcessIsoButton.clicked.connect(
+        self.imageProcessIsoButton.clicked.connect(
             self.make_iso
         )
 
-        self.preProcessClipWindowLevelButton.clicked.connect(
+        self.imageProcessClipWindowLevelButton.clicked.connect(
             self.clip_window_level
         )
 
-        self.preProcessMedianFilterButton.clicked.connect(
+        self.imageProcessMedianFilterButton.clicked.connect(
             self.median_filter
         )
 
     @time_and_log
     def make_high_res_iso(self):
         img = self.logic.make_high_res_iso(self.state.image[self.state.current_image_num])
-        if self.preProcessCreateNewImageCheckBox.isChecked():
+        if self.imageProcessCreateNewImageCheckBox.isChecked():
             self.gui.create_new_image(img)
         else:
             self.gui.replace_image(img)
@@ -56,7 +51,7 @@ class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
     @time_and_log
     def make_low_res_iso(self):
         img = self.logic.make_low_res_iso(self.state.image[self.state.current_image_num])
-        if self.preProcessCreateNewImageCheckBox.isChecked():
+        if self.imageProcessCreateNewImageCheckBox.isChecked():
             self.gui.create_new_image(img)
         else:
             self.gui.replace_image(img)
@@ -67,9 +62,9 @@ class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
 
     @time_and_log
     def make_iso(self):
-        spacingX = self.preProcessIsoSpinBox.value()
+        spacingX = self.imageProcessIsoSpinBox.value()
         img = self.logic.make_low_res_iso(self.state.image[self.state.current_image_num], spacingX)
-        if self.preProcessCreateNewImageCheckBox.isChecked():
+        if self.imageProcessCreateNewImageCheckBox.isChecked():
             self.gui.create_new_image(img)
         else:
             self.gui.replace_image(img)
@@ -82,8 +77,8 @@ class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
     def clip_window_level(self):
         imin = self.state.view2D_intensity_window_min[self.state.current_image_num]
         imax = self.state.view2D_intensity_window_max[self.state.current_image_num]
-        img = self.logic.clip_window_level(self.state.image_array[self.state.current_image_num], imin, imax)
-        if self.preProcessCreateNewImageCheckBox.isChecked():
+        img = self.logic.clip_window_level(self.state.image[self.state.current_image_num], self.state.image_array[self.state.current_image_num], imin, imax)
+        if self.imageProcessCreateNewImageCheckBox.isChecked():
             self.gui.create_new_image(img)
         else:
             self.gui.replace_image(img, update_overlay=False)
@@ -92,9 +87,9 @@ class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
 
     @time_and_log
     def median_filter(self):
-        radius = self.preProcessMedianRadiusSpinBox.value()
+        radius = self.imageProcessMedianRadiusSpinBox.value()
         img = self.logic.median_filter(self.state.image[self.state.current_image_num], radius)
-        if self.preProcessCreateNewImageCheckBox.isChecked():
+        if self.imageProcessCreateNewImageCheckBox.isChecked():
             self.gui.create_new_image(img)
         else:
             self.gui.replace_image(img, update_overlay=False)

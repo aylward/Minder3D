@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovNewTaskPanelWidgetHSymiT.ui'
+## Form generated from reading UI file 'sovNewTaskPanelWidgetFEPsgF.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -26,9 +26,9 @@ class Ui_NewTaskPanelWidget(object):
         self.newTaskOtsuButton = QPushButton(NewTaskPanelWidget)
         self.newTaskOtsuButton.setObjectName(u"newTaskOtsuButton")
         self.newTaskOtsuButton.setGeometry(QRect(230, 60, 151, 24))
-        self.newTaskPreProcessButton = QPushButton(NewTaskPanelWidget)
-        self.newTaskPreProcessButton.setObjectName(u"newTaskPreProcessButton")
-        self.newTaskPreProcessButton.setGeometry(QRect(230, 10, 151, 24))
+        self.newTaskImageProcessButton = QPushButton(NewTaskPanelWidget)
+        self.newTaskImageProcessButton.setObjectName(u"newTaskImageProcessButton")
+        self.newTaskImageProcessButton.setGeometry(QRect(230, 10, 151, 24))
         self.frame = QFrame(NewTaskPanelWidget)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(10, 10, 191, 141))
@@ -55,7 +55,7 @@ class Ui_NewTaskPanelWidget(object):
     def retranslateUi(self, NewTaskPanelWidget):
         NewTaskPanelWidget.setWindowTitle(QCoreApplication.translate("NewTaskPanelWidget", u"Form", None))
         self.newTaskOtsuButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Demo: Otsu Threshold", None))
-        self.newTaskPreProcessButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Image Preprocessing", None))
+        self.newTaskImageProcessButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Image Preprocessing", None))
         self.newTaskLungCTAButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Lung CTA: Vessels + Airways", None))
         self.newTaskBrainCTAMRAButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Brain CTA / MRA: Vessels", None))
         self.newTaskBrainCTPButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Brain CT Perfusion", None))

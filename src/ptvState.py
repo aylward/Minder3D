@@ -30,6 +30,7 @@ class PTVState():
 
         # Current image
         self.current_image_num = 0
+        self.current_pixel = []
 
         # 2D View settings
         self.view2D_intensity_window_min = []
@@ -48,7 +49,7 @@ class PTVState():
         self.colormap_scale_factor = short_colormap_scale_factor
 
         # Scene
-        self.scene = None
+        self.scene = itk.GroupSpatialObject[3].New()
         self.scene_list = []
         self.scene_list_ids = []
         self.scene_list_properties = dict()

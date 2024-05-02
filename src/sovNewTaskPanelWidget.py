@@ -4,6 +4,7 @@ from sovUtils import time_and_log
 
 from sovLungCTAPanelWidget import LungCTAPanelWidget
 from sovOtsuPanelWidget import OtsuPanelWidget
+from sovImageProcessPanelWidget import ImageProcessPanelWidget
 
 from ui_sovNewTaskPanelWidget import Ui_NewTaskPanelWidget
 
@@ -16,7 +17,7 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
         self.gui = gui
         self.state = state
 
-        self.gui.lungAIPanel = None
+        self.gui.lungCTAPanel = None
         self.newTaskLungCTAButton.clicked.connect(
             self.add_lung_cta_panel
         )
@@ -24,6 +25,11 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
         self.gui.otsuPanel = None
         self.newTaskOtsuButton.clicked.connect(
             self.add_otsu_panel
+        )
+
+        self.gui.imageProcessPanel = None
+        self.newTaskImageProcessButton.clicked.connect(
+            self.add_image_process_panel
         )
 
     @time_and_log
@@ -34,6 +40,15 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
             indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
             self.gui.tabWidget.insertTab(indx, self.gui.lungCTAPanel, "Lung CTA")
             self.gui.tabWidget.setCurrentWidget(self.gui.lungCTAPanel)
+
+    @time_and_log
+    def add_image_process_panel(self):
+        if self.gui.imageProcessPanel is None:
+            self.gui.imageProcessPanel = ImageProcessPanelWidget(self.gui, self.state)
+        if self.gui.tabWidget.indexOf(self.gui.imageProcessPanel) == -1:
+            indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
+            self.gui.tabWidget.insertTab(indx, self.gui.imageProcessPanel, "Image Processing")
+            self.gui.tabWidget.setCurrentWidget(self.gui.imageProcessPanel)
 
     @time_and_log
     def add_otsu_panel(self):

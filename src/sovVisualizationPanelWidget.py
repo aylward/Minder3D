@@ -18,10 +18,6 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
 
         self.update_gui = True
 
-        self.vizHightlightSelectedCheckBox.stateChanged.connect(
-            self.update_highlight_selected
-        )
-
         self.vizUpdate2DOverlayButton.pressed.connect(
             self.update_2D_overlay
         )
@@ -41,14 +37,6 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
         self.vizAutoUpdate3DSceneCheckBox.stateChanged.connect(
             self.auto_update_3D_scene
         )
-
-    @time_and_log
-    def update_highlight_selected(self, value):
-        self.state.highlight_selected = value
-        for id in self.state.selected_ids:
-            self.gui.log(f"update_highlight_selected: Id={id}")
-            so = self.state.scene_list[self.state.scene_list_ids.index(id)]
-            self.gui.redraw_object(so)
 
     def update_2D_overlay(self):
         self.gui.view2DPanel.update_overlay()
