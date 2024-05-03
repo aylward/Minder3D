@@ -1,6 +1,7 @@
 # Python
 [tool.black]
 line-length = 80
+skip-string-normalization = 1
 target_version = ["py311"]
 
 [tool.flake8]
