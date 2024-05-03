@@ -340,6 +340,19 @@ short_colormap_scale_factor = 255.0
 
 
 def get_nearest_color_index_and_name(color, colormap):
+    """    Get the index and name of the nearest color in the colormap to the given color.
+
+    It calculates the distance between the given color and each color in the colormap
+    and returns the index and name of the color with the minimum distance.
+
+    Args:
+        color (list): A list of RGB values representing the input color.
+        colormap (dict): A dictionary mapping color names to their RGB values.
+
+    Returns:
+        tuple: A tuple containing the index and name of the nearest color in the colormap.
+    """
+
     color = [int(c) for c in color]
     nearest_color = 'unknown'
     nearest_color_idx = -1
