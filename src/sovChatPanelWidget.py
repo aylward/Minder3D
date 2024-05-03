@@ -15,4 +15,12 @@ class ChatPanelWidget(QWidget, Ui_ChatPanelWidget):
         self.chatGoButton.clicked.connect(self.go)
 
     def go(self):
+        """        Print 'click'.
+
+        This function prints 'click' to the console.
+
+        Args:
+            self: The instance of the class.
+        """
+
         print('click')
