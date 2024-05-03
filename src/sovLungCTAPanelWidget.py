@@ -1,4 +1,3 @@
-
 from PySide6.QtGui import QCloseEvent
 import numpy as np
 
@@ -33,8 +32,9 @@ class LungCTAPanelWidget(QWidget, Ui_LungCTAPanelWidget):
 
     @time_and_log
     def segment_ai(self):
-
-        status, msg, ask_to_continue = self.logic.initialize(self.state.image[self.state.current_image_num])
+        status, msg, ask_to_continue = self.logic.initialize(
+            self.state.image[self.state.current_image_num]
+        )
         if status is False:
             message = QMessageBox()
             message.setWindowTitle("Verifying AI installation...")

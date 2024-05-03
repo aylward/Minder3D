@@ -41,7 +41,7 @@ class LungCTALogic:
             return status, msg, ask_to_continue
 
         self.image = image
-        
+
         status = True
         msg = ""
         ask_to_continue = False
@@ -52,10 +52,16 @@ class LungCTALogic:
             return None
 
         if imp.find_spec("totalsegmentator") is None:
-            subprocess.check_call([sys.executable, "-m", "pip", "install", "TotalSegmentator"]) 
+            subprocess.check_call(
+                [sys.executable, "-m", "pip", "install", "TotalSegmentator"]
+            )
 
         spacing = self.image.GetSpacing()
-        if not(spacing[0] == 1.5 and spacing[0] == spacing[1] and spacing[1] == spacing[2]):
+        if not (
+            spacing[0] == 1.5
+            and spacing[0] == spacing[1]
+            and spacing[1] == spacing[2]
+        ):
             preproc = ImageProcessLogic()
             self.pre_image = preproc.make_iso(self.image, 1.5)
         else:
@@ -75,11 +81,17 @@ class LungCTALogic:
         mat = np.eye(4)
         mat = mat * 1.5
         mat[3, 3] = 1
-        nifti_nib = nib.Nifti1Image(np.transpose(pre_array, (2, 1, 0)).copy(), mat)
-        seg_nib = totalsegmentator(input=nifti_nib, output=None, task="lung_vessels")
+        nifti_nib = nib.Nifti1Image(
+            np.transpose(pre_array, (2, 1, 0)).copy(), mat
+        )
+        seg_nib = totalsegmentator(
+            input=nifti_nib, output=None, task="lung_vessels"
+        )
 
         seg_array = seg_nib.get_fdata().astype(np.uint8)
-        seg_image = itk.GetImageFromArray(np.transpose(seg_array, (2, 1, 0)).copy())
+        seg_image = itk.GetImageFromArray(
+            np.transpose(seg_array, (2, 1, 0)).copy()
+        )
         seg_image.CopyInformation(self.pre_image)
 
         return seg_image

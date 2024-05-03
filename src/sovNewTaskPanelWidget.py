@@ -18,14 +18,10 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
         self.state = state
 
         self.gui.lungCTAPanel = None
-        self.newTaskLungCTAButton.clicked.connect(
-            self.add_lung_cta_panel
-        )
+        self.newTaskLungCTAButton.clicked.connect(self.add_lung_cta_panel)
 
         self.gui.otsuPanel = None
-        self.newTaskOtsuButton.clicked.connect(
-            self.add_otsu_panel
-        )
+        self.newTaskOtsuButton.clicked.connect(self.add_otsu_panel)
 
         self.gui.imageProcessPanel = None
         self.newTaskImageProcessButton.clicked.connect(
@@ -38,16 +34,22 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
             self.gui.lungCTAPanel = LungCTAPanelWidget(self.gui, self.state)
         if self.gui.tabWidget.indexOf(self.gui.lungCTAPanel) == -1:
             indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
-            self.gui.tabWidget.insertTab(indx, self.gui.lungCTAPanel, "Lung CTA")
+            self.gui.tabWidget.insertTab(
+                indx, self.gui.lungCTAPanel, "Lung CTA"
+            )
             self.gui.tabWidget.setCurrentWidget(self.gui.lungCTAPanel)
 
     @time_and_log
     def add_image_process_panel(self):
         if self.gui.imageProcessPanel is None:
-            self.gui.imageProcessPanel = ImageProcessPanelWidget(self.gui, self.state)
+            self.gui.imageProcessPanel = ImageProcessPanelWidget(
+                self.gui, self.state
+            )
         if self.gui.tabWidget.indexOf(self.gui.imageProcessPanel) == -1:
             indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
-            self.gui.tabWidget.insertTab(indx, self.gui.imageProcessPanel, "Image Processing")
+            self.gui.tabWidget.insertTab(
+                indx, self.gui.imageProcessPanel, "Image Processing"
+            )
             self.gui.tabWidget.setCurrentWidget(self.gui.imageProcessPanel)
 
     @time_and_log
@@ -56,5 +58,7 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
             self.gui.otsuPanel = OtsuPanelWidget(self.gui, self.state)
         if self.gui.tabWidget.indexOf(self.gui.otsuPanel) == -1:
             indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
-            self.gui.tabWidget.insertTab(indx, self.gui.otsuPanel, "Otsu Threshold")
+            self.gui.tabWidget.insertTab(
+                indx, self.gui.otsuPanel, "Otsu Threshold"
+            )
             self.gui.tabWidget.setCurrentWidget(self.gui.otsuPanel)

@@ -308,7 +308,7 @@ standard_anatomy_colormap = {
     "region_14": [0, 0, 255],
     "region_15": [157, 0, 0],
     "unknown": [100, 100, 130],
-    "cyst": [205, 205, 100]
+    "cyst": [205, 205, 100],
 }
 standard_anatomy_colormap_scale_factor = 255.0
 
@@ -337,6 +337,7 @@ short_colormap = {
     "Grey20": [50, 50, 50],
 }
 short_colormap_scale_factor = 255.0
+
 
 def get_nearest_color_index_and_name(color, colormap):
     color = [int(c) for c in color]

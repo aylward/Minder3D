@@ -12,9 +12,7 @@ class ScreenCapturePanelWidget(QWidget, Ui_ScreenCapturePanelWidget):
         self.gui = gui
         self.state = state
 
-        self.scCapture2DButton.clicked.connect(
-            self.capture_2d
-        )
+        self.scCapture2DButton.clicked.connect(self.capture_2d)
 
     def capture_2d(self):
         print("click")

@@ -16,5 +16,7 @@ class WelcomePanelWidget(QWidget, Ui_WelcomePanelWidget):
         self.welcomeLoadSceneButton.pressed.connect(self.gui.load_scene)
         self.welcomeSaveImageButton.pressed.connect(self.gui.save_image)
         self.welcomeSaveOverlayButton.pressed.connect(self.gui.save_overlay)
-        self.welcomeSaveVTKModelsButton.pressed.connect(self.gui.save_vtk_models)
+        self.welcomeSaveVTKModelsButton.pressed.connect(
+            self.gui.save_vtk_models
+        )
         self.welcomeSaveSceneButton.pressed.connect(self.gui.save_scene)

@@ -129,7 +129,7 @@ def convert_tubes_to_polylines(tube_list):
         tube_polylines[-1].GetPointData().AddArray(data_a1)
         tube_polylines[-1].GetPointData().AddArray(data_a2)
         tube_polylines[-1].GetPointData().AddArray(data_a3)
-        
+
         tube_polylines[-1].GetPointData().SetActiveScalars("Radius")
 
     return tube_polylines
@@ -158,7 +158,7 @@ def convert_masks_to_surfaces(mask_list):
     num_masks = len(mask_list)
     mask_surfaces = []
     if num_masks > 0:
-        for mask_num,mask in enumerate(mask_list):
+        for mask_num, mask in enumerate(mask_list):
             vtkmask = itk.vtk_image_from_image(mask.GetImage())
             SN = vtkSurfaceNets3D()
             SN.SetInputData(vtkmask)
@@ -173,7 +173,7 @@ def convert_masks_to_surfaces(mask_list):
             data_id.SetNumberOfTuples(mask_surfaces[-1].GetNumberOfPoints())
             data_id.Fill(mask.GetId())
             mask_surfaces[-1].GetPointData().AddArray(data_id)
- 
+
     return mask_surfaces
 
 
@@ -208,14 +208,29 @@ def get_closest_point_in_world_space(so, pos):
             for xs in range(-1, 1):
                 for ys in range(-1, 1):
                     for zs in range(-1, 1):
-                        pnt = [pos[0] + xs*offset, pos[1] + ys*offset, pos[2] + zs*offset]
+                        pnt = [
+                            pos[0] + xs * offset,
+                            pos[1] + ys * offset,
+                            pos[2] + zs * offset,
+                        ]
                         indx = so.GetImage().TransformPhysicalPointToIndex(pnt)
                         if so.GetImage().GetPixel(indx) > 0:
                             point = itk.SpatialObjectPoint[3]()
                             point.SetPositionInObjectSpace(pnt)
-                            point.SetId(indx[0] +
-                                        indx[1]*so.GetImage().GetLargestPossibleRegion().GetSize()[0] +
-                                        indx[2]*so.GetImage().GetLargestPossibleRegion().GetSize()[0]*so.GetImage().GetLargestPossibleRegion().GetSize()[1])
+                            point.SetId(
+                                indx[0]
+                                + indx[1]
+                                * so.GetImage()
+                                .GetLargestPossibleRegion()
+                                .GetSize()[0]
+                                + indx[2]
+                                * so.GetImage()
+                                .GetLargestPossibleRegion()
+                                .GetSize()[0]
+                                * so.GetImage()
+                                .GetLargestPossibleRegion()
+                                .GetSize()[1]
+                            )
                             return point
 
     point = itk.SpatialObjectPoint[3]()

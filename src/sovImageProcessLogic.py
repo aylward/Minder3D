@@ -3,6 +3,7 @@ import numpy as np
 import itk
 from itk import TubeTK as tube
 
+
 class ImageProcessLogic:
     def make_high_res_iso(self, inputImage):
         isoImageFilter = tube.ResampleImage.New(Input=inputImage)

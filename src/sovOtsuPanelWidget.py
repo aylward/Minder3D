@@ -33,11 +33,13 @@ class OtsuPanelWidget(QWidget, Ui_OtsuPanelWidget):
     @time_and_log
     def otsu_threshold(self):
         numberOfThresholds = self.otsuNumberOfThresholdsSpinBox.value()
-        
+
         self.gui.log("Running...")
-        seg_image = self.logic.run(self.state.image[self.state.current_image_num], numberOfThresholds)
+        seg_image = self.logic.run(
+            self.state.image[self.state.current_image_num], numberOfThresholds
+        )
 
         self.gui.log("Done.")
 
-        add_objects_in_mask_image_to_scene(seg_image, self.state.scene) 
+        add_objects_in_mask_image_to_scene(seg_image, self.state.scene)
         self.gui.update_scene()

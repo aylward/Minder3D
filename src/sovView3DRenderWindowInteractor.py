@@ -30,13 +30,9 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
         self.scene_renderer = vtkRenderer()
         self.GetRenderWindow().AddRenderer(self.scene_renderer)
 
-        self.SetInteractorStyle(
-            vtkInteractorStyleTrackballCamera()
-        )
+        self.SetInteractorStyle(vtkInteractorStyleTrackballCamera())
 
-        self.AddObserver(
-            "LeftButtonPressEvent", self._leftButtonPressEvent
-        )
+        self.AddObserver("LeftButtonPressEvent", self._leftButtonPressEvent)
 
     @time_and_log
     def _leftButtonPressEvent(self, obj, event):
@@ -56,7 +52,7 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
         self.state.multiple_selections_enabled = bool(obj.GetShiftKey())
         if pickedActor is not None:
             self.select_actor(pickedPos, pickedActor)
-                #obj.GetRenderWindow()
+            # obj.GetRenderWindow()
 
         return 0
 
@@ -102,7 +98,11 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
         scene_idx = self.state.scene_list_ids.index(so_id)
         color_by = self.state.scene_list_properties[scene_idx]["ColorBy"]
         selected = so_id in self.state.selected_ids
-        if color_by == "Solid Color" or color is not None or (selected and self.state.highlight_selected):
+        if (
+            color_by == "Solid Color"
+            or color is not None
+            or (selected and self.state.highlight_selected)
+        ):
             actor.GetMapper().ScalarVisibilityOff()
             if color is None:
                 if selected and self.state.highlight_selected:
@@ -112,7 +112,9 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
             actor.GetProperty().SetColor(color[0], color[1], color[2])
             actor.GetProperty().SetOpacity(color[3])
         else:
-            actor.GetMapper().GetInput().GetPointData().SetActiveScalars(color_by)
+            actor.GetMapper().GetInput().GetPointData().SetActiveScalars(
+                color_by
+            )
             actor.GetMapper().ScalarVisibilityOn()
         actor.GetMapper().Update()
         actor.Modified()
@@ -123,30 +125,42 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
         Private function to updated the viz of currently selected spatial objects.
         """
         if len(self.state.selected_ids) > 0:
-            scene_idx = get_tag_value_index_in_list_of_dict("Actor", actor, self.state.scene_list_properties)
+            scene_idx = get_tag_value_index_in_list_of_dict(
+                "Actor", actor, self.state.scene_list_properties
+            )
             if scene_idx == -1:
-                self.gui.log(f"Get_tag_value_index_in_list_of_dict: 'Actor'={actor} not found in list_of_dict", "ERROR")
+                self.gui.log(
+                    f"Get_tag_value_index_in_list_of_dict: 'Actor'={actor} not found in list_of_dict",
+                    "ERROR",
+                )
                 return
             so = self.state.scene_list[scene_idx]
             so_id = so.GetId()
-            if (
-                self.state.multiple_selections_enabled is False and
-                not([so_id] == self.state.selected_ids)
+            if self.state.multiple_selections_enabled is False and not (
+                [so_id] == self.state.selected_ids
             ):
                 # Unselected already selected objects
-                for selected_idx, selected_id in enumerate(self.state.selected_ids):
+                for selected_idx, selected_id in enumerate(
+                    self.state.selected_ids
+                ):
                     if selected_id != -1:
-                        selected_scene_idx = self.state.scene_list_ids.index(selected_id)
+                        selected_scene_idx = self.state.scene_list_ids.index(
+                            selected_id
+                        )
                         selected_so = self.state.scene_list[selected_scene_idx]
-                        selected_so_actor = self.state.scene_list_properties[selected_scene_idx].get("Actor")
+                        selected_so_actor = self.state.scene_list_properties[
+                            selected_scene_idx
+                        ].get("Actor")
                         self.state.selected_ids[selected_idx] = -1
                         self.redraw_actor(selected_so_actor, selected_so)
-                        self.gui.redraw_object(selected_so, update_2D=True, update_3D=False)
+                        self.gui.redraw_object(
+                            selected_so, update_2D=True, update_3D=False
+                        )
                 self.state.selected_ids = []
                 self.state.selected_point_ids = []
             elif (
-                self.state.multiple_selections_enabled is True and
-                so_id in self.state.selected_ids
+                self.state.multiple_selections_enabled is True
+                and so_id in self.state.selected_ids
             ):
                 # Unselect the selected actor
                 selected_idx = self.state.selected_ids.index(so_id)
@@ -158,9 +172,7 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
         if actor is not None:
             pos = [pickedPos[0], pickedPos[1], pickedPos[2]]
             so_poly_data = actor.GetMapper().GetInput()
-            so_id = so_poly_data.GetPointData().GetScalars(
-                "Id"
-            ).GetTuple(0)[0]
+            so_id = so_poly_data.GetPointData().GetScalars("Id").GetTuple(0)[0]
             scene_idx = self.state.scene_list_ids.index(so_id)
             so = self.state.scene_list[scene_idx]
             print("picked so_id:", so_id, "scene_idx:", scene_idx)

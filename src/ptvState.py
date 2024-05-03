@@ -8,7 +8,7 @@ from sovColorMapUtils import (
 )
 
 
-class PTVState():
+class PTVState:
     def __init__(self):
         # Types
         self.image_pixel_type = itk.F
