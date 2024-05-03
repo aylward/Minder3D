@@ -41,7 +41,7 @@ class LogWindow(QMainWindow):
     def __init__(self, logger, parent=None):
         super().__init__(parent)
 
-        self.setWindowTitle("Log")
+        self.setWindowTitle('Log')
         self.logTextEdit = QTextEdit()
         self.setCentralWidget(self.logTextEdit)
 
@@ -57,45 +57,45 @@ class LogWindow(QMainWindow):
         super().closeEvent(QCloseEvent)
         self.logTextEdit.close()
 
-    def log(self, message, level="info"):
-        if level.lower() == "debug":
+    def log(self, message, level='info'):
+        if level.lower() == 'debug':
             self.logger.debug(message)
-        elif level.lower() == "info":
+        elif level.lower() == 'info':
             self.logger.info(message)
-        elif level.lower() == "warning":
+        elif level.lower() == 'warning':
             self.logger.warning(message)
-        elif level.lower() == "error":
+        elif level.lower() == 'error':
             self.logger.error(message)
-        elif level.lower() == "critical":
+        elif level.lower() == 'critical':
             self.logger.critical(message)
 
 
-def sov_log(message, level="info"):
-    logger = logging.getLogger("sov")
-    if level.lower() == "debug":
+def sov_log(message, level='info'):
+    logger = logging.getLogger('sov')
+    if level.lower() == 'debug':
         logger.debug(message)
-    elif level.lower() == "info":
+    elif level.lower() == 'info':
         logger.info(message)
-    elif level.lower() == "warning":
+    elif level.lower() == 'warning':
         logger.warning(message)
-    elif level.lower() == "error":
+    elif level.lower() == 'error':
         logger.error(message)
-    elif level.lower() == "critical":
+    elif level.lower() == 'critical':
         logger.critical(message)
 
 
 def time_and_log(func):
-    if "nesting_level" not in time_and_log.__dict__:
+    if 'nesting_level' not in time_and_log.__dict__:
         time_and_log.nesting_level = 0
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        logger = logging.getLogger("sov")
-        spacing = "  " * time_and_log.nesting_level
+        logger = logging.getLogger('sov')
+        spacing = '  ' * time_and_log.nesting_level
         filename = os.path.splitext(
             os.path.split(func.__code__.co_filename)[1]
         )[0]
-        logger.info(f"{spacing}{filename}:{func.__name__} started.")
+        logger.info(f'{spacing}{filename}:{func.__name__} started.')
         time_and_log.nesting_level += 1
         start_time = time.time()
         try:
@@ -103,14 +103,14 @@ def time_and_log(func):
             end_time = time.time()
             time_and_log.nesting_level -= 1
             logger.info(
-                f"{spacing}{filename}:{func.__name__} took {(end_time - start_time):.2f} seconds to execute."
+                f'{spacing}{filename}:{func.__name__} took {(end_time - start_time):.2f} seconds to execute.'
             )
             return result
         except Exception as e:
             end_time = time.time()
             time_and_log.nesting_level -= 1
             logger.error(
-                f"{spacing}{filename}:{func.__name__} exception after {(end_time - start_time):.2f} seconds: {str(e)}"
+                f'{spacing}{filename}:{func.__name__} exception after {(end_time - start_time):.2f} seconds: {str(e)}'
             )
             raise e
 
@@ -118,7 +118,7 @@ def time_and_log(func):
 
 
 def get_settings():
-    settings = QSettings("itkSpatialObjectsViewer", "QuantAIV")
+    settings = QSettings('itkSpatialObjectsViewer', 'QuantAIV')
     return settings
 
 
@@ -129,7 +129,7 @@ class SettingsFileRecord:
         file_type,
         file_spacing=[],
         file_size=[],
-        file_thumbnail="",
+        file_thumbnail='',
     ):
         self.filename = filename
         self.file_type = file_type
@@ -141,14 +141,14 @@ class SettingsFileRecord:
 def get_file_reccords_from_settings():
     settings = get_settings()
     files = []
-    size = settings.beginReadArray("files")
+    size = settings.beginReadArray('files')
     for i in range(size):
         settings.setArrayIndex(i)
-        filename = settings.value("filename", "")
-        file_type = settings.value("file_type", "")
-        file_spacing = settings.value("file_spacing", [], float)
-        file_size = settings.value("file_size", [], int)
-        file_thumbnail = settings.value("file_thumbnail", "")
+        filename = settings.value('filename', '')
+        file_type = settings.value('file_type', '')
+        file_spacing = settings.value('file_spacing', [], float)
+        file_size = settings.value('file_size', [], int)
+        file_thumbnail = settings.value('file_thumbnail', '')
         rec = SettingsFileRecord(
             filename, file_type, file_spacing, file_size, file_thumbnail
         )
@@ -159,29 +159,29 @@ def get_file_reccords_from_settings():
 
 def add_file_to_settings(obj, filename, file_type, qthumbnail=None):
     settings = get_settings()
-    settings.beginWriteArray("files")
+    settings.beginWriteArray('files')
     files = get_file_reccords_from_settings()
     file_spacing = []
     file_size = []
-    file_thumbnail = ""
-    if file_type == "image":
+    file_thumbnail = ''
+    if file_type == 'image':
         file_spacing = [s for s in obj.GetSpacing()]
         file_size = [s for s in obj.GetLargestPossibleRegion().GetSize()]
         if qthumbnail is not None:
             data_dir = QStandardPaths.writableLocation(
                 QStandardPaths.AppDataLocation
             )
-            file_thumbnail = str(uuid.uuid4()) + ".png"
+            file_thumbnail = str(uuid.uuid4()) + '.png'
             file_thumbnail = os.path.join(data_dir, file_thumbnail)
             qthumbnail.save(file_thumbnail)
     for i, file in enumerate(files):
         if file.filename == filename:
             settings.setArrayIndex(i)
-            settings.setValue("file_type", file_type)
-            settings.setValue("file_spacing", file_spacing)
-            settings.setValue("file_size", file_size)
+            settings.setValue('file_type', file_type)
+            settings.setValue('file_spacing', file_spacing)
+            settings.setValue('file_size', file_size)
             os.remove(file.file_thumbnail)
-            settings.setValue("file_thumbnail", file_thumbnail)
+            settings.setValue('file_thumbnail', file_thumbnail)
             settings.endArray()
             return
     if len(files) > 10:
@@ -189,17 +189,17 @@ def add_file_to_settings(obj, filename, file_type, qthumbnail=None):
         files.pop(-1)
         for i, file in enumerate(files):
             settings.setArrayIndex(i)
-            settings.setValue("filename", file.filename)
-            settings.setValue("file_type", file.file_type)
-            settings.setValue("file_spacing", file.file_spacing)
-            settings.setValue("file_size", file.file_size)
-            settings.setValue("file_thumbnail", file.file_thumbnail)
+            settings.setValue('filename', file.filename)
+            settings.setValue('file_type', file.file_type)
+            settings.setValue('file_spacing', file.file_spacing)
+            settings.setValue('file_size', file.file_size)
+            settings.setValue('file_thumbnail', file.file_thumbnail)
     settings.setArrayIndex(len(files))
-    settings.setValue("filename", filename)
-    settings.setValue("file_type", file_type)
-    settings.setValue("file_spacing", file_spacing)
-    settings.setValue("file_size", file_size)
-    settings.setValue("file_thumbnail", file_thumbnail)
+    settings.setValue('filename', filename)
+    settings.setValue('file_type', file_type)
+    settings.setValue('file_spacing', file_spacing)
+    settings.setValue('file_size', file_size)
+    settings.setValue('file_thumbnail', file_thumbnail)
     settings.endArray()
 
 
@@ -255,7 +255,7 @@ def add_objects_in_mask_image_to_scene(mask_image, scene):
         )
         color[3] = 1.0
         mask_so.GetProperty().SetColor(color)
-        mask_so.GetProperty().SetName(f"Otsu Threshold Mask {mask_id}")
+        mask_so.GetProperty().SetName(f'Otsu Threshold Mask {mask_id}')
         mask_so.SetUseMaskValue(True)
         mask_so.SetMaskValue(int(mask_id))
         scene.AddChild(mask_so)
@@ -263,7 +263,7 @@ def add_objects_in_mask_image_to_scene(mask_image, scene):
 
 @time_and_log
 def get_children_as_list(
-    grp: itk.GroupSpatialObject, child_type: str = ""
+    grp: itk.GroupSpatialObject, child_type: str = ''
 ) -> list:
     """Finds all children of a given type in a Group and returns as a list.
 

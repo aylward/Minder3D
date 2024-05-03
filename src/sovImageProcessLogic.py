@@ -7,14 +7,14 @@ class ImageProcessLogic:
     def make_high_res_iso(self, inputImage):
         isoImageFilter = tube.ResampleImage.New(Input=inputImage)
         isoImageFilter.SetMakeHighResIso(True)
-        isoImageFilter.SetInterpolator("Sinc")
+        isoImageFilter.SetInterpolator('Sinc')
         isoImageFilter.Update()
         return isoImageFilter.GetOutput()
 
     def make_low_res_iso(self, inputImage):
         isoImageFilter = tube.ResampleImage.New(Input=inputImage)
         isoImageFilter.SetMakeIsotropic(True)
-        isoImageFilter.SetInterpolator("Sinc")
+        isoImageFilter.SetInterpolator('Sinc')
         isoImageFilter.Update()
         return isoImageFilter.GetOutput()
 
@@ -23,7 +23,7 @@ class ImageProcessLogic:
 
         isoImageFilter = tube.ResampleImage.New(Input=inputImage)
         isoImageFilter.SetSpacing(spacing)
-        isoImageFilter.SetInterpolator("Sinc")
+        isoImageFilter.SetInterpolator('Sinc')
         isoImageFilter.Update()
         return isoImageFilter.GetOutput()
 

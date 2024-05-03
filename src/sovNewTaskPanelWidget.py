@@ -33,7 +33,7 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
         if self.gui.tabWidget.indexOf(self.gui.lungCTAPanel) == -1:
             indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
             self.gui.tabWidget.insertTab(
-                indx, self.gui.lungCTAPanel, "Lung CTA"
+                indx, self.gui.lungCTAPanel, 'Lung CTA'
             )
             self.gui.tabWidget.setCurrentWidget(self.gui.lungCTAPanel)
 
@@ -46,7 +46,7 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
         if self.gui.tabWidget.indexOf(self.gui.imageProcessPanel) == -1:
             indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
             self.gui.tabWidget.insertTab(
-                indx, self.gui.imageProcessPanel, "Image Processing"
+                indx, self.gui.imageProcessPanel, 'Image Processing'
             )
             self.gui.tabWidget.setCurrentWidget(self.gui.imageProcessPanel)
 
@@ -57,6 +57,6 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
         if self.gui.tabWidget.indexOf(self.gui.otsuPanel) == -1:
             indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
             self.gui.tabWidget.insertTab(
-                indx, self.gui.otsuPanel, "Otsu Threshold"
+                indx, self.gui.otsuPanel, 'Otsu Threshold'
             )
             self.gui.tabWidget.setCurrentWidget(self.gui.otsuPanel)

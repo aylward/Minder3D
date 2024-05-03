@@ -6,7 +6,7 @@ from PySide6.QtWidgets import QApplication
 
 from ptvWindow import PTVWindow
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app = QApplication(sys.argv)
 
     pytubeview = PTVWindow()
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     palette.setColor(QPalette.ColorRole.Highlight, QColor(42, 130, 218))
     palette.setColor(QPalette.ColorRole.HighlightedText, QColor(127, 127, 127))
     app.setPalette(palette)
-    app.setStyle("Fusion")
+    app.setStyle('Fusion')
 
     if len(sys.argv) > 1:
         pytubeview.load_image(sys.argv[1])

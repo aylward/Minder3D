@@ -50,7 +50,7 @@ class PTVState:
         self.scene_list = []
         self.scene_list_ids = []
         self.scene_list_properties = dict()
-        self.scene_filename = "./scene.tre"
+        self.scene_filename = './scene.tre'
 
         # Selected Spatial Objects
         self.multiple_selections_enabled = False
@@ -58,4 +58,4 @@ class PTVState:
         self.selected_point_ids = []
         self.highlight_selected = True
 
-        self.logger = logging.getLogger("sov")
+        self.logger = logging.getLogger('sov')
