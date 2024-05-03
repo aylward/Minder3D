@@ -67,6 +67,15 @@ class LungCTALogic:
         return self.pre_image
 
     def run(self):
+        """        Perform preprocessing and segmentation on the input image.
+
+        If the pre_image is not provided, it performs preprocessing using the preprocess method.
+        Then, it uses the preprocessed image to perform lung vessel segmentation using the totalsegmentator API.
+
+        Returns:
+            itk.Image: The segmented image.
+        """
+
         if self.pre_image is None:
             self.preprocess()
             if self.pre_image is None:
