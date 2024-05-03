@@ -11,7 +11,7 @@ from ui_sovOtsuPanelWidget import Ui_OtsuPanelWidget
 
 class OtsuPanelWidget(QWidget, Ui_OtsuPanelWidget):
     def __init__(self, gui, state, parent=None):
-        """        Initialize the OtsuThresholdDialog.
+        """Initialize the OtsuThresholdDialog.
 
         Args:
             gui: The GUI object.
@@ -31,7 +31,7 @@ class OtsuPanelWidget(QWidget, Ui_OtsuPanelWidget):
 
     @time_and_log
     def otsu_threshold(self):
-        """        Apply Otsu's thresholding to the current image.
+        """Apply Otsu's thresholding to the current image.
 
         This function applies Otsu's thresholding to the current image using the specified number of thresholds.
         It then updates the scene with the segmented image.
