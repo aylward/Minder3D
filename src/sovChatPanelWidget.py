@@ -12,9 +12,7 @@ class ChatPanelWidget(QWidget, Ui_ChatPanelWidget):
         self.gui = gui
         self.state = state
 
-        self.chatGoButton.clicked.connect(
-            self.go
-        )
+        self.chatGoButton.clicked.connect(self.go)
 
     def go(self):
         print("click")

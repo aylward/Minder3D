@@ -98,12 +98,16 @@ def sov_log(message, level="info"):
 
 
 def time_and_log(func):
-    if "nesting_level" not in time_and_log.__dict__: time_and_log.nesting_level = 0
+    if "nesting_level" not in time_and_log.__dict__:
+        time_and_log.nesting_level = 0
+
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         logger = logging.getLogger("sov")
         spacing = "  " * time_and_log.nesting_level
-        filename = os.path.splitext(os.path.split(func.__code__.co_filename)[1])[0]
+        filename = os.path.splitext(
+            os.path.split(func.__code__.co_filename)[1]
+        )[0]
         logger.info(f"{spacing}{filename}:{func.__name__} started.")
         time_and_log.nesting_level += 1
         start_time = time.time()
@@ -111,13 +115,18 @@ def time_and_log(func):
             result = func(*args, **kwargs)
             end_time = time.time()
             time_and_log.nesting_level -= 1
-            logger.info(f"{spacing}{filename}:{func.__name__} took {(end_time - start_time):.2f} seconds to execute.")
+            logger.info(
+                f"{spacing}{filename}:{func.__name__} took {(end_time - start_time):.2f} seconds to execute."
+            )
             return result
         except Exception as e:
             end_time = time.time()
             time_and_log.nesting_level -= 1
-            logger.error(f"{spacing}{filename}:{func.__name__} exception after {(end_time - start_time):.2f} seconds: {str(e)}")
+            logger.error(
+                f"{spacing}{filename}:{func.__name__} exception after {(end_time - start_time):.2f} seconds: {str(e)}"
+            )
             raise e
+
     return wrapper
 
 
@@ -125,13 +134,22 @@ def get_settings():
     settings = QSettings("itkSpatialObjectsViewer", "QuantAIV")
     return settings
 
+
 class SettingsFileRecord:
-    def __init__(self, filename, file_type, file_spacing=[], file_size=[], file_thumbnail=""):
+    def __init__(
+        self,
+        filename,
+        file_type,
+        file_spacing=[],
+        file_size=[],
+        file_thumbnail="",
+    ):
         self.filename = filename
         self.file_type = file_type
         self.file_spacing = file_spacing
         self.file_size = file_size
         self.file_thumbnail = file_thumbnail
+
 
 def get_file_reccords_from_settings():
     settings = get_settings()
@@ -144,10 +162,13 @@ def get_file_reccords_from_settings():
         file_spacing = settings.value("file_spacing", [], float)
         file_size = settings.value("file_size", [], int)
         file_thumbnail = settings.value("file_thumbnail", "")
-        rec = SettingsFileRecord(filename, file_type, file_spacing, file_size, file_thumbnail)
+        rec = SettingsFileRecord(
+            filename, file_type, file_spacing, file_size, file_thumbnail
+        )
         files.append(rec)
     settings.endArray()
     return files
+
 
 def add_file_to_settings(obj, filename, file_type, qthumbnail=None):
     settings = get_settings()
@@ -160,11 +181,13 @@ def add_file_to_settings(obj, filename, file_type, qthumbnail=None):
         file_spacing = [s for s in obj.GetSpacing()]
         file_size = [s for s in obj.GetLargestPossibleRegion().GetSize()]
         if qthumbnail is not None:
-            data_dir = QStandardPaths.writableLocation(QStandardPaths.AppDataLocation)
-            file_thumbnail = str(uuid.uuid4())+".png"
+            data_dir = QStandardPaths.writableLocation(
+                QStandardPaths.AppDataLocation
+            )
+            file_thumbnail = str(uuid.uuid4()) + ".png"
             file_thumbnail = os.path.join(data_dir, file_thumbnail)
             qthumbnail.save(file_thumbnail)
-    for i,file in enumerate(files):
+    for i, file in enumerate(files):
         if file.filename == filename:
             settings.setArrayIndex(i)
             settings.setValue("file_type", file_type)
@@ -177,7 +200,7 @@ def add_file_to_settings(obj, filename, file_type, qthumbnail=None):
     if len(files) > 10:
         os.remove(files[-1].file_thumbnail)
         files.pop(-1)
-        for i,file in enumerate(files):
+        for i, file in enumerate(files):
             settings.setArrayIndex(i)
             settings.setValue("filename", file.filename)
             settings.setValue("file_type", file.file_type)
@@ -192,8 +215,9 @@ def add_file_to_settings(obj, filename, file_type, qthumbnail=None):
     settings.setValue("file_thumbnail", file_thumbnail)
     settings.endArray()
 
+
 @time_and_log
-def resample_overlay_to_match_image( input_overlay, match_image ) -> itk.Image:
+def resample_overlay_to_match_image(input_overlay, match_image) -> itk.Image:
     """Resamples an overlay to match the geometry of a given image.
 
     Args:
@@ -204,11 +228,15 @@ def resample_overlay_to_match_image( input_overlay, match_image ) -> itk.Image:
         itk.Image: The resampled overlay.
     """
     # Resample the overlay to match the geometry of the image
-    resampler = itk.ResampleImageFilter[itk.Image[itk.RGBAPixel[itk.UC],3], itk.Image[itk.RGBAPixel[itk.UC],3]].New()
+    resampler = itk.ResampleImageFilter[
+        itk.Image[itk.RGBAPixel[itk.UC], 3], itk.Image[itk.RGBAPixel[itk.UC], 3]
+    ].New()
     resampler.SetInput(input_overlay)
     resampler.SetReferenceImage(match_image)
     resampler.SetUseReferenceImage(True)
-    interp = itk.NearestNeighborInterpolateImageFunction[itk.Image[itk.RGBAPixel[itk.UC],3], itk.D].New()
+    interp = itk.NearestNeighborInterpolateImageFunction[
+        itk.Image[itk.RGBAPixel[itk.UC], 3], itk.D
+    ].New()
     interp.SetInputImage(input_overlay)
     resampler.SetInterpolator(interp)
     resampler.Update()
@@ -231,15 +259,20 @@ def add_objects_in_mask_image_to_scene(mask_image, scene):
         if mask_id == 0:
             continue
         mask_so = itk.ImageMaskSpatialObject[3].New(Image=mask_image)
-        color_name = list(short_colormap)[int((mask_num+1) % len(short_colormap))]
+        color_name = list(short_colormap)[
+            int((mask_num + 1) % len(short_colormap))
+        ]
         color = np.empty(4)
-        color[0:3] = np.array(short_colormap[color_name]) / short_colormap_scale_factor
+        color[0:3] = (
+            np.array(short_colormap[color_name]) / short_colormap_scale_factor
+        )
         color[3] = 1.0
         mask_so.GetProperty().SetColor(color)
         mask_so.GetProperty().SetName(f"Otsu Threshold Mask {mask_id}")
         mask_so.SetUseMaskValue(True)
         mask_so.SetMaskValue(int(mask_id))
         scene.AddChild(mask_so)
+
 
 @time_and_log
 def get_children_as_list(
@@ -255,20 +288,12 @@ def get_children_as_list(
     Returns:
         list: The list of children of the given type.
     """
-    soList = grp.GetChildren(
-        grp.GetMaximumDepth(),
-        child_type
-    )
-    return [
-        itk.down_cast(soList[i])
-        for i in range(len(soList))
-    ]
+    soList = grp.GetChildren(grp.GetMaximumDepth(), child_type)
+    return [itk.down_cast(soList[i]) for i in range(len(soList))]
 
 
 @time_and_log
-def get_so_index_in_list(
-    so_id: int, so_list: list
-) -> int:
+def get_so_index_in_list(so_id: int, so_list: list) -> int:
     """Finds the index of a so in a list of sos.
 
     Args:
@@ -282,10 +307,9 @@ def get_so_index_in_list(
     index = id_list.index(so_id)
     return index
 
+
 @time_and_log
-def get_tag_value_index_in_list_of_dict(
-    tag, value, list_of_dict
-) -> int:
+def get_tag_value_index_in_list_of_dict(tag, value, list_of_dict) -> int:
     """Finds the index of a value for a tag in a list of dicts
 
     Args:

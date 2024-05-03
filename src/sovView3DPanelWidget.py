@@ -17,7 +17,7 @@ class View3DPanelWidget(QWidget, Ui_View3DPanelWidget):
 
         self.vtk3DViewWidget = View3DRenderWindowInteractor(gui, state, self)
         self.view3DLayout.addWidget(self.vtk3DViewWidget)
-        #self.vtk3DViewWidget.AddObserver('LeftButtonPressEvent', DummyFunc1, 1.0)
+        # self.vtk3DViewWidget.AddObserver('LeftButtonPressEvent', DummyFunc1, 1.0)
 
         self.view3DResetButton.clicked.connect(self.reset_camera)
 

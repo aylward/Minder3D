@@ -26,8 +26,8 @@ class InfoTablePanelWidget(QWidget, Ui_InfoTablePanelWidget):
         self.infoTableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         self.infoTableWidget.setSelectionMode(QTableWidget.NoSelection)
         self.infoTableWidget.setShowGrid(True)
-        #self.infoTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
-        #self.infoTableWidget.verticalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        # self.infoTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        # self.infoTableWidget.verticalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.infoTableWidget.verticalHeader().hide()
 
     @time_and_log
@@ -36,7 +36,7 @@ class InfoTablePanelWidget(QWidget, Ui_InfoTablePanelWidget):
 
     @time_and_log
     def update_pixel(self):
-        pos_str = ', '.join([f"{x:0.1f}" for x in self.state.current_pixel])
+        pos_str = ", ".join([f"{x:0.1f}" for x in self.state.current_pixel])
         self.infoTableWidget.setItem(0, 1, QTableWidgetItem(pos_str))
         self.infoTableWidget.setItem(1, 1, QTableWidgetItem("0"))
         self.infoTableWidget.setItem(2, 1, QTableWidgetItem("0"))

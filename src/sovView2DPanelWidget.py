@@ -27,17 +27,19 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.vtk2DViewWidget = View2DRenderWindowInteractor(gui, state, self)
         self.view2DLayout.addWidget(self.vtk2DViewWidget)
 
-        self.view2DSliceSlider.valueChanged.connect(self.update_slice_from_slider)
+        self.view2DSliceSlider.valueChanged.connect(
+            self.update_slice_from_slider
+        )
         self.view2DSliceText.textChanged.connect(self.update_slice_from_text)
-        self.view2DOverlayOpacitySlider.valueChanged.connect(self.update_overlay_opacity)
+        self.view2DOverlayOpacitySlider.valueChanged.connect(
+            self.update_overlay_opacity
+        )
 
         self.view2DXYButton.clicked.connect(self.update_axis_xy)
         self.view2DXZButton.clicked.connect(self.update_axis_xz)
         self.view2DYZButton.clicked.connect(self.update_axis_yz)
 
-        self.view2DResetButton.pressed.connect(
-            self.update_reset
-        )
+        self.view2DResetButton.pressed.connect(self.update_reset)
 
         self.update_gui = True
 
@@ -67,16 +69,26 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.update_gui = False
 
         self.view2DSliceSlider.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_axis[self.state.current_image_num]
+            ]
+            - 1
         )
         self.view2DSliceSlider.setValue(
-            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
+            self.state.view2D_slice[self.state.current_image_num][
+                self.state.view2D_axis[self.state.current_image_num]
+            ]
         )
         self.view2DSliceText.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_axis[self.state.current_image_num]
+            ]
+            - 1
         )
         self.view2DSliceText.setValue(
-            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
+            self.state.view2D_slice[self.state.current_image_num][
+                self.state.view2D_axis[self.state.current_image_num]
+            ]
         )
 
         self.gui.visualizationPanel.update_view2D()
@@ -96,16 +108,26 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.update_gui = False
 
         self.view2DSliceSlider.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_axis[self.state.current_image_num]
+            ]
+            - 1
         )
         self.view2DSliceSlider.setValue(
-            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
+            self.state.view2D_slice[self.state.current_image_num][
+                self.state.view2D_axis[self.state.current_image_num]
+            ]
         )
         self.view2DSliceText.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_axis[self.state.current_image_num]
+            ]
+            - 1
         )
         self.view2DSliceText.setValue(
-            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
+            self.state.view2D_slice[self.state.current_image_num][
+                self.state.view2D_axis[self.state.current_image_num]
+            ]
         )
 
         self.gui.visualizationPanel.update_view2D()
@@ -125,16 +147,26 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.update_gui = False
 
         self.view2DSliceSlider.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_axis[self.state.current_image_num]
+            ]
+            - 1
         )
         self.view2DSliceSlider.setValue(
-            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
+            self.state.view2D_slice[self.state.current_image_num][
+                self.state.view2D_axis[self.state.current_image_num]
+            ]
         )
         self.view2DSliceText.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_axis[self.state.current_image_num]
+            ]
+            - 1
         )
         self.view2DSliceText.setValue(
-            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
+            self.state.view2D_slice[self.state.current_image_num][
+                self.state.view2D_axis[self.state.current_image_num]
+            ]
         )
 
         self.gui.visualizationPanel.update_view2D()
@@ -154,16 +186,26 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.update_gui = False
 
         self.view2DSliceSlider.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_axis[self.state.current_image_num]
+            ]
+            - 1
         )
         self.view2DSliceSlider.setValue(
-            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
+            self.state.view2D_slice[self.state.current_image_num][
+                self.state.view2D_axis[self.state.current_image_num]
+            ]
         )
         self.view2DSliceText.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_axis[self.state.current_image_num]
+            ]
+            - 1
         )
         self.view2DSliceSlider.setValue(
-            self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]]
+            self.state.view2D_slice[self.state.current_image_num][
+                self.state.view2D_axis[self.state.current_image_num]
+            ]
         )
 
         self.update_gui = True
@@ -190,20 +232,30 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         irange = imax - imin
 
         auto_range = np.quantile(self.state.image_array[-1], [0.1, 0.9])
-        self.state.view2D_intensity_window_min[self.state.current_image_num] = auto_range[0]
-        self.state.view2D_intensity_window_max[self.state.current_image_num] = auto_range[1]
+        self.state.view2D_intensity_window_min[
+            self.state.current_image_num
+        ] = auto_range[0]
+        self.state.view2D_intensity_window_max[
+            self.state.current_image_num
+        ] = auto_range[1]
 
         self.update_gui = False
 
         self.view2DSliceSlider.setMinimum(0)
         self.view2DSliceSlider.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_axis[self.state.current_image_num]
+            ]
+            - 1
         )
         self.view2DSliceSlider.setValue(0)
 
         self.view2DSliceText.setMinimum(0)
         self.view2DSliceText.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[2-self.state.view2D_axis[self.state.current_image_num]]-1
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_axis[self.state.current_image_num]
+            ]
+            - 1
         )
         self.view2DSliceText.setValue(0)
 
@@ -225,11 +277,15 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
             self.state.image[self.state.current_image_num],
             self.state.overlay_array[self.state.current_image_num],
         )
-        self.state.overlay[self.state.current_image_num] = itk.GetImageFromArray(
+        self.state.overlay[
+            self.state.current_image_num
+        ] = itk.GetImageFromArray(
             self.state.overlay_array[self.state.current_image_num],
             ttype=self.state.overlay_type,
         )
-        self.state.overlay[self.state.current_image_num].CopyInformation(self.state.image[self.state.current_image_num])
+        self.state.overlay[self.state.current_image_num].CopyInformation(
+            self.state.image[self.state.current_image_num]
+        )
 
         self.update()
 
@@ -245,13 +301,18 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         current_slice = value
         if current_slice < 0:
             current_slice = 0
-        max_slice = self.state.image_array[self.state.current_image_num].shape[
-            2-self.state.view2D_axis[self.state.current_image_num]]-1
+        max_slice = (
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_axis[self.state.current_image_num]
+            ]
+            - 1
+        )
         if current_slice > max_slice:
             current_slice = max_slice
 
         self.state.view2D_slice[self.state.current_image_num][
-            self.state.view2D_axis[self.state.current_image_num]] = current_slice
+            self.state.view2D_axis[self.state.current_image_num]
+        ] = current_slice
 
         self.update_gui = False
         self.view2DSliceSlider.setValue(current_slice)
@@ -268,12 +329,18 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         current_slice = value
         if current_slice < 0:
             current_slice = 0
-        max_slice = self.state.image_array[self.state.current_image_num].shape[
-            2-self.state.view2D_axis[self.state.current_image_num]]-1
+        max_slice = (
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_axis[self.state.current_image_num]
+            ]
+            - 1
+        )
         if current_slice > max_slice:
             current_slice = max_slice
 
-        self.state.view2D_slice[self.state.current_image_num][self.state.view2D_axis[self.state.current_image_num]] = current_slice
+        self.state.view2D_slice[self.state.current_image_num][
+            self.state.view2D_axis[self.state.current_image_num]
+        ] = current_slice
 
         self.update_gui = False
         self.view2DSliceSlider.setValue(current_slice)
@@ -288,7 +355,10 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
     @time_and_log
     def redraw_object(self, so):
-        if self.state.highlight_selected and so.GetId() in self.state.selected_ids:
+        if (
+            self.state.highlight_selected
+            and so.GetId() in self.state.selected_ids
+        ):
             render_object_in_overlay_array(
                 so,
                 self.state.image[self.state.current_image_num],
@@ -299,13 +369,17 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
             render_object_in_overlay_array(
                 so,
                 self.state.image[self.state.current_image_num],
-                self.state.overlay_array[self.state.current_image_num]
+                self.state.overlay_array[self.state.current_image_num],
             )
-        self.state.overlay[self.state.current_image_num] = itk.GetImageFromArray(
+        self.state.overlay[
+            self.state.current_image_num
+        ] = itk.GetImageFromArray(
             self.state.overlay_array[self.state.current_image_num],
             ttype=self.state.overlay_type,
         )
-        self.state.overlay[self.state.current_image_num].CopyInformation(self.state.image[self.state.current_image_num])
+        self.state.overlay[self.state.current_image_num].CopyInformation(
+            self.state.image[self.state.current_image_num]
+        )
         self.update()
 
     @time_and_log

@@ -18,17 +18,13 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
 
         self.update_gui = True
 
-        self.vizUpdate2DOverlayButton.pressed.connect(
-            self.update_2D_overlay
-        )
+        self.vizUpdate2DOverlayButton.pressed.connect(self.update_2D_overlay)
 
         self.vizView2DFlipXCheckBox.stateChanged.connect(self.update_flip_x)
         self.vizView2DFlipYCheckBox.stateChanged.connect(self.update_flip_y)
         self.vizView2DFlipZCheckBox.stateChanged.connect(self.update_flip_z)
 
-        self.vizUpdate3DSceneButton.pressed.connect(
-            self.update_3D_scene
-        )
+        self.vizUpdate3DSceneButton.pressed.connect(self.update_3D_scene)
 
         self.vizAutoUpdate2DOverlayCheckBox.stateChanged.connect(
             self.auto_update_2D_overlay
@@ -59,15 +55,19 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
         if self.update_gui == False:
             return
 
-        self.state.view2D_flip[self.state.current_image_num][0] = not (value == 0)
+        self.state.view2D_flip[self.state.current_image_num][0] = not (
+            value == 0
+        )
         self.gui.view2DPanel.update()
-    
+
     @time_and_log
     def update_flip_y(self, value):
         if self.update_gui == False:
             return
 
-        self.state.view2D_flip[self.state.current_image_num][1] = not (value == 0)
+        self.state.view2D_flip[self.state.current_image_num][1] = not (
+            value == 0
+        )
         self.gui.view2DPanel.update()
 
     @time_and_log
@@ -75,18 +75,26 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
         if self.update_gui == False:
             return
 
-        self.state.view2D_flip[self.state.current_image_num][2] = not (value == 0)
+        self.state.view2D_flip[self.state.current_image_num][2] = not (
+            value == 0
+        )
         self.gui.view2DPanel.update()
 
     @time_and_log
     def update_view2D(self):
         if self.update_gui == False:
             return
-        
+
         self.update_gui = False
-        self.vizView2DFlipXCheckBox.setChecked(self.state.view2D_flip[self.state.current_image_num][0])
-        self.vizView2DFlipYCheckBox.setChecked(self.state.view2D_flip[self.state.current_image_num][1])
-        self.vizView2DFlipZCheckBox.setChecked(self.state.view2D_flip[self.state.current_image_num][2])
+        self.vizView2DFlipXCheckBox.setChecked(
+            self.state.view2D_flip[self.state.current_image_num][0]
+        )
+        self.vizView2DFlipYCheckBox.setChecked(
+            self.state.view2D_flip[self.state.current_image_num][1]
+        )
+        self.vizView2DFlipZCheckBox.setChecked(
+            self.state.view2D_flip[self.state.current_image_num][2]
+        )
         self.update_gui = True
 
     @time_and_log
