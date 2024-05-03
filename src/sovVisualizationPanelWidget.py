@@ -1,10 +1,8 @@
 import numpy as np
-
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget
 
 from sovUtils import time_and_log
-
 from ui_sovVisualizationPanelWidget import Ui_VisualizationPanelWidget
 
 

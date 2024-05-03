@@ -11,9 +11,9 @@ jobs:
   Documentation:
     runs-on: ubuntu-latest
     steps:
-    - name: Snorkell DocGen Client
-      uses: SingularityX-ai/snorkell-documentation-client@v1.0.0
-      with:
-        client_id: ${{ secrets.SNORKELL_CLIENT_ID }}
-        api_key: ${{ secrets.SNORKELL_API_KEY }}
-        branch_name: "main"
+      - name: Snorkell DocGen Client
+        uses: SingularityX-ai/snorkell-documentation-client@v1.0.0
+        with:
+          client_id: ${{ secrets.SNORKELL_CLIENT_ID }}
+          api_key: ${{ secrets.SNORKELL_API_KEY }}
+          branch_name: "main"
