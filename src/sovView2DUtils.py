@@ -6,7 +6,7 @@ from sovUtils import get_children_as_list, time_and_log
 
 @time_and_log
 def render_tube_in_overlay_array(tube, image, overlay_array, color=None):
-    """Render a tube in an overlay array.
+    """    Render a tube in an overlay array.
 
     This function renders a tube in the given overlay array based on the input tube, image, and color.
 
@@ -114,7 +114,7 @@ def render_mask_in_overlay_array(mask, image, overlay_array, color=None):
 
 @time_and_log
 def render_scene_in_overlay_array(scene, selected_ids, image, overlay_array):
-    """Render the scene in the overlay array with selected IDs highlighted.
+    """    Render the scene in the overlay array with selected IDs highlighted.
 
     This function updates the scene, retrieves the masks and tubes as lists, and renders them in the overlay array with specified colors based on whether they are selected or not.
 
@@ -141,7 +141,7 @@ def render_scene_in_overlay_array(scene, selected_ids, image, overlay_array):
 
 
 def render_object_in_overlay_array(so, image, overlay_array, color=None):
-    """Render the object in the overlay array.
+    """    Render the object in the overlay array.
 
     This function renders the given object in the overlay array based on its type.
 
