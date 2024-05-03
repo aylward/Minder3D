@@ -9,6 +9,14 @@ from ui_sovNewTaskPanelWidget import Ui_NewTaskPanelWidget
 
 class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
     def __init__(self, gui, state, parent=None):
+        """        Initialize the GUI and state for the parent widget.
+
+        Args:
+            gui: The graphical user interface object.
+            state: The state object.
+            parent: The parent widget (default is None).
+        """
+
         super().__init__(parent)
         self.setupUi(self)
 
@@ -28,6 +36,15 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
 
     @time_and_log
     def add_lung_cta_panel(self):
+        """        Add the Lung CTA panel to the GUI tab widget if it is not already added.
+
+        If the Lung CTA panel is not already created, it creates a new instance of LungCTAPanelWidget and adds it to the tab widget.
+        If the Lung CTA panel is already added, it sets the current widget to the Lung CTA panel.
+
+        Args:
+            self (object): The instance of the class.
+        """
+
         if self.gui.lungCTAPanel is None:
             self.gui.lungCTAPanel = LungCTAPanelWidget(self.gui, self.state)
         if self.gui.tabWidget.indexOf(self.gui.lungCTAPanel) == -1:
@@ -39,6 +56,15 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
 
     @time_and_log
     def add_image_process_panel(self):
+        """        Add an image processing panel to the GUI if it does not already exist.
+
+        If the image processing panel does not exist, it creates a new ImageProcessPanelWidget and adds it to the tab widget.
+        If the image processing panel already exists, it sets the current widget to the existing panel.
+
+        Args:
+            self (object): The current instance of the class.
+        """
+
         if self.gui.imageProcessPanel is None:
             self.gui.imageProcessPanel = ImageProcessPanelWidget(
                 self.gui, self.state
@@ -52,6 +78,15 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
 
     @time_and_log
     def add_otsu_panel(self):
+        """        Add Otsu panel to the GUI tab widget if it doesn't already exist.
+
+        If the Otsu panel does not exist, it creates a new OtsuPanelWidget and adds it to the tab widget.
+        If the Otsu panel already exists, it sets the current widget to the Otsu panel.
+
+        Args:
+            self (object): The instance of the class.
+        """
+
         if self.gui.otsuPanel is None:
             self.gui.otsuPanel = OtsuPanelWidget(self.gui, self.state)
         if self.gui.tabWidget.indexOf(self.gui.otsuPanel) == -1:
