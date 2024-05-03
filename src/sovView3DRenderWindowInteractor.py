@@ -17,7 +17,7 @@ from sovView3DUtils import (
 
 class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
     def __init__(self, gui, state, parent=None):
-        """Initialize the class with the provided GUI and state.
+        """        Initialize the class with the provided GUI and state.
 
         Args:
             gui: The GUI object.
@@ -69,7 +69,7 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
     @time_and_log
     def update_scene(self):
-        """Update the scene with the latest changes.
+        """        Update the scene with the latest changes.
 
         This function updates the scene by converting the scene to surfaces, removing all view props, and then adding actors
         for each scene in the scene list based on the scene properties.
@@ -103,7 +103,7 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
     @time_and_log
     def redraw_actor(self, actor, so, color=None):
-        """Redraws the given actor with the specified state object and color.
+        """        Redraws the given actor with the specified state object and color.
 
         This function updates the appearance of the given actor based on the provided state object and color. It handles various conditions such as solid color, selected state, and scalar visibility.
 
@@ -111,7 +111,7 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
             self: The instance of the class.
             actor: vtkActor object to be redrawn.
             so: State object used to update the actor.
-            color (list?): The color to be applied to the actor. Defaults to None.
+            color (list): The color to be applied to the actor. Defaults to None.
         """
 
         if actor is None or so is None:
@@ -144,7 +144,7 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
     @time_and_log
     def select_actor(self, pickedPos, actor):
-        """Private function to updated the viz of currently selected spatial objects.
+        """        Private function to update the visualization of currently selected spatial objects.
 
         Args:
             pickedPos (list): A list containing the x, y, and z coordinates of the picked position.
@@ -214,7 +214,7 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
     @time_and_log
     def redraw_object(self, so):
-        """Redraws the object in the scene.
+        """        Redraws the object in the scene.
 
         This function retrieves the object ID and scene index from the input object, then obtains the corresponding actor
         from the scene list properties. It then triggers a redraw of the actor and updates the render window.
