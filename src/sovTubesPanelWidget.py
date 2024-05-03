@@ -6,7 +6,7 @@ from ui_sovPreProcessPanelWidget import Ui_PreProcessPanelWidget
 
 class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
     def __init__(self, gui, state, parent=None):
-        """Initialize the class with the provided GUI, state, and optional parent.
+        """        Initialize the class with the provided GUI, state, and optional parent.
 
         Args:
             gui: The GUI object.
@@ -23,7 +23,7 @@ class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
         self.preprocHighResIsoButton.clicked.connect(self.make_high_res_iso)
 
     def make_high_res_iso(self):
-        """Print 'click'.
+        """        Print 'click'.
 
         This function prints 'click' when called.
         """
