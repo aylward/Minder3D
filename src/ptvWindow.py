@@ -30,7 +30,7 @@ from ui_pytubeview import Ui_MainWindow
 
 class PTVWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
-        """Initialize the parent widget and set up the UI.
+        """        Initialize the parent widget and set up the UI.
 
         Args:
             parent: The parent widget (default is None).
@@ -158,7 +158,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.view3DPanel.close()
 
     def log(self, message, level='info'):
-        """Set the status text and color based on the log level, and update the log window.
+        """        Set the status text and color based on the log level, and update the log window.
 
         Args:
             message (str): The message to be displayed in the status text.
@@ -179,7 +179,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def load_image(self, filename=None):
-        """Load an image from a file.
+        """        Load an image from a file.
 
         If filename is not provided, it opens a file dialog to select an image file.
         It then creates a new image from the selected file and updates the image and overlay.
@@ -209,14 +209,13 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def load_scene(self, filename=None):
-        """Load a scene from a file and update the application state.
+        """        Load a scene from a file and update the application state.
 
         If filename is not provided, a file dialog is opened to select the file.
         If a valid filename is provided, the scene is loaded from the file and added to the application state.
 
         Args:
             filename (str?): The name of the file to load the scene from.
-
 
         Raises:
             IOError: If the file cannot be read or does not exist.
@@ -236,7 +235,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def save_image(self, filename=None):
-        """Save the current image to a file.
+        """        Save the current image to a file.
 
         If no filename is provided, a file dialog will be opened to select the save location.
 
@@ -260,13 +259,14 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def save_overlay(self, filename=None):
-        """Save the overlay of the current image to a file.
+        """        Save the overlay of the current image to a file.
 
         If no filename is provided, it prompts the user to select a file location.
         If a filename is provided, it saves the overlay of the current image to that file location.
 
         Args:
-            filename (str?): The name of the file to save the overlay to. If not provided, a file dialog will be shown.
+            filename (str?): The name of the file to save the overlay to.
+                If not provided, a file dialog will be shown.
         """
 
         if not filename:
@@ -287,7 +287,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def save_vtk_models(self, filename=None):
-        """Save VTK models to a VRML file.
+        """        Save VTK models to a VRML file.
 
         If no filename is provided, a file dialog is opened to prompt the user for a filename.
         The VTK models are exported to the specified VRML file.
@@ -313,14 +313,13 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def save_scene(self, filename=None):
-        """Save the current scene to a file.
+        """        Save the current scene to a file.
 
         If no filename is provided, a file dialog will be shown to select the file.
         If a filename is provided, the scene will be saved to that file.
 
         Args:
             filename (str?): The name of the file to save the scene to.
-
 
         Raises:
             IOError: If there is an issue writing the scene to the file.
@@ -337,7 +336,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def create_new_image(self, img, filename=None, tag=None):
-        """Create a new image and update the state with the new image information.
+        """        Create a new image and update the state with the new image information.
 
         Args:
             img: The new image to be added.
@@ -401,14 +400,13 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def replace_image(self, img, update_overlay=True):
-        """Replace the current image with a new image and update the overlay if specified.
+        """        Replace the current image with a new image and update the overlay if specified.
 
         This function replaces the current image with the provided image and updates the corresponding image array, minimum and maximum values. If `update_overlay` is True, it also updates the overlay to match the new image. Additionally, it appends view2D_flip based on the file extension of the image.
 
         Args:
             img: The new image to be set as the current image.
             update_overlay (bool?): Flag to indicate whether to update the overlay. Defaults to True.
-
 
         Raises:
             TypeError: If the input image is not of the correct type.
@@ -456,7 +454,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def update_scene(self):
-        """Update the scene with the latest changes.
+        """        Update the scene with the latest changes.
 
         This method updates the scene by updating the scene list, scene list ids, and scene list properties.
         It also clears the object name combo box and adds items to it based on the scene list.
@@ -487,7 +485,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def update_highlight_selected(self, value):
-        """Update the highlight selected state and redraw the selected objects.
+        """        Update the highlight selected state and redraw the selected objects.
 
         Args:
             value (bool): The new value for the highlight selected state.
@@ -523,7 +521,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def redraw_object(self, so, update_2D=True, update_3D=True):
-        """Redraws the specified object in the scene.
+        """        Redraws the specified object in the scene.
 
         This method updates the visual representation of the specified object in the 2D and 3D views if the corresponding
         update flags are set to True. It also updates the object's properties in the GUI.
@@ -578,7 +576,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def modify_selected_objects(self, _):
-        """Modify the selected objects in the scene with new color and properties.
+        """        Modify the selected objects in the scene with new color and properties.
 
         This function modifies the color and properties of the selected objects in the scene based on the current state
         of the application. It updates the color, opacity, and color-by property of the selected objects.
@@ -608,7 +606,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def delete_selected_objects(self):
-        """Delete the selected objects from the scene.
+        """        Delete the selected objects from the scene.
 
         This function deletes the selected objects from the scene by removing them from the scene list and updating the GUI accordingly.
         """
@@ -634,7 +632,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def propogate_properties_to_all(self):
-        """Propagate properties to all objects in the scene.
+        """        Propagate properties to all objects in the scene.
 
         This function updates the properties of all objects in the scene based on the current settings.
 
@@ -654,7 +652,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def propogate_properties_to_children(self):
-        """Propagate properties to the children objects.
+        """        Propagate properties to the children objects.
 
         This function propagates the selected properties to the children objects in the scene.
         """
