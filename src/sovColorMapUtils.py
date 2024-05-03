@@ -340,7 +340,7 @@ short_colormap_scale_factor = 255.0
 
 
 def get_nearest_color_index_and_name(color, colormap):
-    """    Get the index and name of the nearest color in the colormap to the given color.
+    """Get the index and name of the nearest color in the colormap to the given color.
 
     It calculates the distance between the given color and each color in the colormap
     and returns the index and name of the color with the minimum distance.

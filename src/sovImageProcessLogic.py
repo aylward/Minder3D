@@ -5,7 +5,7 @@ from itk import TubeTK as tube
 
 class ImageProcessLogic:
     def make_high_res_iso(self, inputImage):
-        """        Make a high resolution isotropic image from the input image.
+        """Make a high resolution isotropic image from the input image.
 
         This function creates a high resolution isotropic image from the input image using resampling and interpolation.
 
@@ -23,7 +23,7 @@ class ImageProcessLogic:
         return isoImageFilter.GetOutput()
 
     def make_low_res_iso(self, inputImage):
-        """        Make the input image isotropic with low resolution.
+        """Make the input image isotropic with low resolution.
 
         This function resamples the input image to make it isotropic with low resolution using the Sinc interpolator.
 
@@ -41,7 +41,7 @@ class ImageProcessLogic:
         return isoImageFilter.GetOutput()
 
     def make_iso(self, inputImage, spacingX):
-        """        Resamples the input image to have isotropic spacing.
+        """Resamples the input image to have isotropic spacing.
 
         This function resamples the input image to have isotropic spacing in all three dimensions.
 

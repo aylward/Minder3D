@@ -17,7 +17,7 @@ class LungCTALogic:
 
     @time_and_log
     def initialize(self, image):
-        """        Initialize the AI model with the given image.
+        """Initialize the AI model with the given image.
 
         This method initializes the AI model with the given image. It first checks for the presence of required dependencies and GPU support, and then sets the input image for further processing.
 
@@ -57,7 +57,7 @@ class LungCTALogic:
         return status, msg, ask_to_continue
 
     def preprocess(self):
-        """        Preprocesses the input image for further analysis.
+        """Preprocesses the input image for further analysis.
 
         If the input image is None, returns None. If the 'totalsegmentator' module is not found, it installs it using pip.
         Then, it checks the spacing of the image and if it does not meet the specified conditions, it preprocesses the image
@@ -91,7 +91,7 @@ class LungCTALogic:
         return self.pre_image
 
     def run(self):
-        """        Perform image preprocessing and segmentation using the TotalSegmentator library.
+        """Perform image preprocessing and segmentation using the TotalSegmentator library.
 
         If the pre_image is not provided, it will be preprocessed before segmentation.
         The preprocessing step includes converting the input image to a NIfTI format and applying a transformation matrix.

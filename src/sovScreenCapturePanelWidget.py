@@ -6,7 +6,7 @@ from ui_sovScreenCapturePanelWidget import Ui_ScreenCapturePanelWidget
 
 class ScreenCapturePanelWidget(QWidget, Ui_ScreenCapturePanelWidget):
     def __init__(self, gui, state, parent=None):
-        """        Initialize the class with the provided GUI and state.
+        """Initialize the class with the provided GUI and state.
 
         Args:
             gui: The GUI object.
@@ -23,7 +23,7 @@ class ScreenCapturePanelWidget(QWidget, Ui_ScreenCapturePanelWidget):
         self.scCapture2DButton.clicked.connect(self.capture_2d)
 
     def capture_2d(self):
-        """        Print 'click'.
+        """Print 'click'.
 
         This function prints 'click' when called.
 

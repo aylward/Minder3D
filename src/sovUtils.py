@@ -39,7 +39,7 @@ class LogHandler(logging.Handler):
 
 class LogWindow(QMainWindow):
     def __init__(self, logger, parent=None):
-        """        Initialize the LogWindow.
+        """Initialize the LogWindow.
 
         Args:
             logger: The logger object to be used for logging.
@@ -65,7 +65,7 @@ class LogWindow(QMainWindow):
         self.logTextEdit.close()
 
     def log(self, message, level='info'):
-        """        Log a message with the specified logging level.
+        """Log a message with the specified logging level.
 
         This function logs the given message with the specified logging level using the logger object.
 
@@ -87,7 +87,7 @@ class LogWindow(QMainWindow):
 
 
 def sov_log(message, level='info'):
-    """    Log a message with the specified logging level.
+    """Log a message with the specified logging level.
 
     This function logs the input message with the specified logging level using the 'sov' logger.
 
@@ -110,7 +110,7 @@ def sov_log(message, level='info'):
 
 
 def time_and_log(func):
-    """    Decorator to log the start and end of function execution along with its duration.
+    """Decorator to log the start and end of function execution along with its duration.
 
     It logs the start of the function execution, then executes the function, logs the end of the function execution
     along with the duration, and returns the result. If an exception occurs during the function execution, it logs
@@ -128,7 +128,7 @@ def time_and_log(func):
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        """        Log the start and end time of the function execution and handle exceptions.
+        """Log the start and end time of the function execution and handle exceptions.
 
         Args:
             *args: Variable length argument list.
@@ -169,7 +169,7 @@ def time_and_log(func):
 
 
 def get_settings():
-    """    Get the application settings.
+    """Get the application settings.
 
     This function retrieves the application settings using QSettings from 'itkSpatialObjectsViewer' and 'QuantAIV'.
 
@@ -190,7 +190,7 @@ class SettingsFileRecord:
         file_size=[],
         file_thumbnail='',
     ):
-        """        Initialize the object with the provided file details.
+        """Initialize the object with the provided file details.
 
         Args:
             filename (str): The name of the file.
@@ -208,7 +208,7 @@ class SettingsFileRecord:
 
 
 def get_file_reccords_from_settings():
-    """    Get file records from the settings.
+    """Get file records from the settings.
 
     This function retrieves file records from the settings and returns a list of file records.
 
@@ -235,7 +235,7 @@ def get_file_reccords_from_settings():
 
 
 def add_file_to_settings(obj, filename, file_type, qthumbnail=None):
-    """    Add a file to the settings.
+    """Add a file to the settings.
 
     This function adds a file to the settings, including its filename, type, spacing, size, and thumbnail.
 
@@ -324,7 +324,7 @@ def resample_overlay_to_match_image(input_overlay, match_image) -> itk.Image:
 
 @time_and_log
 def add_objects_in_mask_image_to_scene(mask_image, scene):
-    """    Adds objects in a mask to a scene.
+    """Adds objects in a mask to a scene.
 
     It extracts the objects from the input mask image and adds them to the provided scene.
 
@@ -357,7 +357,7 @@ def add_objects_in_mask_image_to_scene(mask_image, scene):
 def get_children_as_list(
     grp: itk.GroupSpatialObject, child_type: str = ''
 ) -> list:
-    """    Finds all children of a given type in a Group and returns as a list.
+    """Finds all children of a given type in a Group and returns as a list.
 
     Args:
         grp (itk.GroupSpatialObject): The GroupSpatialObject to search.
