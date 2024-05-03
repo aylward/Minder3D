@@ -14,6 +14,14 @@ from ui_sovImageTablePanelWidget import Ui_ImageTablePanelWidget
 
 class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
     def __init__(self, gui, state, parent=None):
+        """        Initialize the GUI and state for the application.
+
+        Args:
+            gui: The graphical user interface object.
+            state: The state object for the application.
+            parent: The parent widget (default is None).
+        """
+
         super().__init__(parent)
         self.setupUi(self)
 
@@ -50,6 +58,19 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
 
     @time_and_log
     def redraw_image(self, img_num):
+        """        Redraws the image at the specified index in the image table widget.
+
+        This function updates the information displayed in the image table widget for the image at the specified index.
+
+        Args:
+            self: The object instance.
+            img_num (int): The index of the image to be redrawn.
+
+
+        Raises:
+            IndexError: If the specified img_num is out of range.
+        """
+
         self.imageTableWidget.setItem(
             img_num, 0, QTableWidgetItem(str(img_num))
         )
@@ -81,6 +102,16 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
 
     @time_and_log
     def fill_table(self):
+        """        Fill the image table with image records from the state and file records from settings.
+
+        This method clears the existing image table and fills it with image records from the state. It then retrieves file
+        records from the settings and adds them to the table if they are not already present. For each file record, it
+        populates the table with the file's thumbnail, filename, size, and spacing.
+
+        Args:
+            self: The instance of the class.
+        """
+
         self.imageTableWidget.clear()
         for img_num in range(len(self.state.image)):
             self.imageTableWidget.insertRow(img_num)

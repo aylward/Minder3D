@@ -9,6 +9,14 @@ from ui_sovLungCTAPanelWidget import Ui_LungCTAPanelWidget
 
 class LungCTAPanelWidget(QWidget, Ui_LungCTAPanelWidget):
     def __init__(self, gui, state, parent=None):
+        """        Initialize the LungCTA application.
+
+        Args:
+            gui: The graphical user interface object.
+            state: The state object.
+            parent: The parent widget (default is None).
+        """
+
         super().__init__(parent)
         self.setupUi(self)
 
@@ -23,6 +31,12 @@ class LungCTAPanelWidget(QWidget, Ui_LungCTAPanelWidget):
 
     @time_and_log
     def segment_ai(self):
+        """        Segment the current image using AI.
+
+        This method initializes the AI logic with the current image and preprocesses it.
+        Then it runs the AI logic to segment the image and adds the segmented objects to the scene.
+        """
+
         status, msg, ask_to_continue = self.logic.initialize(
             self.state.image[self.state.current_image_num]
         )

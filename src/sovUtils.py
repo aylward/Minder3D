@@ -39,6 +39,13 @@ class LogHandler(logging.Handler):
 
 class LogWindow(QMainWindow):
     def __init__(self, logger, parent=None):
+        """        Initialize the LogWindow.
+
+        Args:
+            logger: The logger object to be used for logging.
+            parent: The parent widget (optional).
+        """
+
         super().__init__(parent)
 
         self.setWindowTitle('Log')
@@ -58,6 +65,15 @@ class LogWindow(QMainWindow):
         self.logTextEdit.close()
 
     def log(self, message, level='info'):
+        """        Log a message with the specified logging level.
+
+        This function logs the given message with the specified logging level using the logger object.
+
+        Args:
+            message (str): The message to be logged.
+            level (str?): The logging level. Defaults to 'info'.
+        """
+
         if level.lower() == 'debug':
             self.logger.debug(message)
         elif level.lower() == 'info':
@@ -71,6 +87,15 @@ class LogWindow(QMainWindow):
 
 
 def sov_log(message, level='info'):
+    """    Log a message with the specified logging level.
+
+    This function logs the input message with the specified logging level using the 'sov' logger.
+
+    Args:
+        message (str): The message to be logged.
+        level (str?): The logging level. Defaults to 'info'.
+    """
+
     logger = logging.getLogger('sov')
     if level.lower() == 'debug':
         logger.debug(message)
@@ -85,11 +110,37 @@ def sov_log(message, level='info'):
 
 
 def time_and_log(func):
+    """    Decorator to log the start and end of function execution along with its duration.
+
+    It logs the start of the function execution, then executes the function, logs the end of the function execution
+    along with the duration, and returns the result. If an exception occurs during the function execution, it logs
+    the exception and re-raises it.
+
+    Args:
+        func (function): The function to be decorated.
+
+    Returns:
+        function: The decorated function.
+    """
+
     if 'nesting_level' not in time_and_log.__dict__:
         time_and_log.nesting_level = 0
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+        """        Log the start and end time of the function execution and handle exceptions.
+
+        Args:
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            Any: The result of the function execution.
+
+        Raises:
+            Exception: If an exception occurs during the function execution.
+        """
+
         logger = logging.getLogger('sov')
         spacing = '  ' * time_and_log.nesting_level
         filename = os.path.splitext(
@@ -118,6 +169,14 @@ def time_and_log(func):
 
 
 def get_settings():
+    """    Get the application settings.
+
+    This function retrieves the application settings using QSettings from 'itkSpatialObjectsViewer' and 'QuantAIV'.
+
+    Returns:
+        QSettings: The application settings.
+    """
+
     settings = QSettings('itkSpatialObjectsViewer', 'QuantAIV')
     return settings
 
@@ -131,6 +190,16 @@ class SettingsFileRecord:
         file_size=[],
         file_thumbnail='',
     ):
+        """        Initialize the object with the provided file details.
+
+        Args:
+            filename (str): The name of the file.
+            file_type (str): The type of the file.
+            file_spacing (list?): A list of spacing details. Defaults to [].
+            file_size (list?): A list of size details. Defaults to [].
+            file_thumbnail (str?): The thumbnail of the file. Defaults to ''.
+        """
+
         self.filename = filename
         self.file_type = file_type
         self.file_spacing = file_spacing
@@ -139,6 +208,14 @@ class SettingsFileRecord:
 
 
 def get_file_reccords_from_settings():
+    """    Get file records from the settings.
+
+    This function retrieves file records from the settings and returns a list of file records.
+
+    Returns:
+        list: A list of file records retrieved from the settings.
+    """
+
     settings = get_settings()
     files = []
     size = settings.beginReadArray('files')
@@ -158,6 +235,21 @@ def get_file_reccords_from_settings():
 
 
 def add_file_to_settings(obj, filename, file_type, qthumbnail=None):
+    """    Add a file to the settings.
+
+    This function adds a file to the settings, including its filename, type, spacing, size, and thumbnail.
+
+    Args:
+        obj: The object representing the file.
+        filename (str): The name of the file.
+        file_type (str): The type of the file.
+        qthumbnail (Optional[QImage]): The thumbnail of the file.
+
+
+    Raises:
+        IndexError: If the input list is empty.
+    """
+
     settings = get_settings()
     settings.beginWriteArray('files')
     files = get_file_reccords_from_settings()
@@ -232,13 +324,13 @@ def resample_overlay_to_match_image(input_overlay, match_image) -> itk.Image:
 
 @time_and_log
 def add_objects_in_mask_image_to_scene(mask_image, scene):
-    """Adds objects in a mask to a scene
+    """    Adds objects in a mask to a scene.
+
+    It extracts the objects from the input mask image and adds them to the provided scene.
 
     Args:
-        mask (itk.Image): The mask to be converted.
-
-    Returns:
-        list: The list of objects.
+        mask_image (itk.Image): The mask image containing objects to be added to the scene.
+        scene: The scene to which the objects will be added.
     """
     mask_array = itk.GetArrayFromImage(mask_image)
     mask_ids = np.unique(mask_array)
@@ -265,11 +357,11 @@ def add_objects_in_mask_image_to_scene(mask_image, scene):
 def get_children_as_list(
     grp: itk.GroupSpatialObject, child_type: str = ''
 ) -> list:
-    """Finds all children of a given type in a Group and returns as a list.
+    """    Finds all children of a given type in a Group and returns as a list.
 
     Args:
         grp (itk.GroupSpatialObject): The GroupSpatialObject to search.
-        child_type (str, optional): The type of object to be included.
+        child_type (str?): The type of object to be included.
             Defaults to "" = all objects.
 
     Returns:
