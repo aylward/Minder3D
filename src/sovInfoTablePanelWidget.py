@@ -11,7 +11,7 @@ from ui_sovInfoTablePanelWidget import Ui_InfoTablePanelWidget
 
 class InfoTablePanelWidget(QWidget, Ui_InfoTablePanelWidget):
     def __init__(self, gui, state, parent=None):
-        """Initialize the GUI and state for the parent widget.
+        """        Initialize the GUI and state for the parent widget.
 
         Args:
             gui: The graphical user interface object.
@@ -43,7 +43,7 @@ class InfoTablePanelWidget(QWidget, Ui_InfoTablePanelWidget):
 
     @time_and_log
     def update_pixel(self):
-        """Update the pixel information in the info table widget.
+        """        Update the pixel information in the info table widget.
 
         This function updates the pixel information in the info table widget with the current pixel position and default values for other attributes.
 
