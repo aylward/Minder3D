@@ -1,6 +1,5 @@
-import numpy as np
-
 import itk
+import numpy as np
 
 
 class OtsuLogic:

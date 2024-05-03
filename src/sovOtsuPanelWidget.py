@@ -1,20 +1,11 @@
-import numpy as np
-
 import importlib.util as imp
 
+import numpy as np
 from PySide6.QtGui import QCloseEvent
-
-from PySide6.QtWidgets import (
-    QWidget,
-)
-
-from sovUtils import (
-    time_and_log,
-    add_objects_in_mask_image_to_scene,
-)
+from PySide6.QtWidgets import QWidget
 
 from sovOtsuLogic import OtsuLogic
-
+from sovUtils import add_objects_in_mask_image_to_scene, time_and_log
 from ui_sovOtsuPanelWidget import Ui_OtsuPanelWidget
 
 

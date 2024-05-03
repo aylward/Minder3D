@@ -1,13 +1,11 @@
-import sys
 import importlib.util as imp
-
-import numpy as np
+import sys
 
 import itk
-
-from sovUtils import time_and_log
+import numpy as np
 
 from sovImageProcessLogic import ImageProcessLogic
+from sovUtils import time_and_log
 
 
 class LungCTALogic:
@@ -74,8 +72,8 @@ class LungCTALogic:
             if self.pre_image is None:
                 return None
 
-        from totalsegmentator.python_api import totalsegmentator
         import nibabel as nib
+        from totalsegmentator.python_api import totalsegmentator
 
         pre_array = itk.GetArrayFromImage(self.pre_image)
         mat = np.eye(4)

@@ -1,9 +1,5 @@
 import numpy as np
-
-from PySide6.QtGui import (
-    QImage,
-    QPixmap,
-)
+from PySide6.QtGui import QImage, QPixmap
 
 
 def get_qthumbnail_from_array(thumb_array):

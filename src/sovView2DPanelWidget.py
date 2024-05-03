@@ -1,19 +1,11 @@
-import numpy as np
-
 import itk
-
+import numpy as np
 from PySide6.QtWidgets import QWidget
 
-from sovView2DUtils import (
-    render_scene_in_overlay_array,
-    render_object_in_overlay_array,
-)
-
 from sovUtils import time_and_log
-
-from ui_sovView2DPanelWidget import Ui_View2DPanelWidget
-
 from sovView2DRenderWindowInteractor import View2DRenderWindowInteractor
+from sovView2DUtils import render_object_in_overlay_array, render_scene_in_overlay_array
+from ui_sovView2DPanelWidget import Ui_View2DPanelWidget
 
 
 class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):

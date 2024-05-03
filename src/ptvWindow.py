@@ -1,44 +1,30 @@
 import os
 
-import numpy as np
-
 import itk
-
+import numpy as np
 import vtk
-
-from PySide6.QtWidgets import (
-    QMainWindow,
-    QFileDialog,
-    QInputDialog,
-    QTabBar,
-)
+from PySide6.QtWidgets import QFileDialog, QInputDialog, QMainWindow, QTabBar
 
 from ptvState import PTVState
-
 from sovColorMapUtils import get_nearest_color_index_and_name
-
-from sovUtils import (
-    time_and_log,
-    LogWindow,
-    read_group,
-    write_group,
-    get_children_as_list,
-    resample_overlay_to_match_image,
-    add_file_to_settings,
-    get_file_reccords_from_settings,
-)
-
 from sovImageTablePanelUtils import get_qthumbnail_from_array
-
+from sovImageTablePanelWidget import ImageTablePanelWidget
+from sovInfoTablePanelWidget import InfoTablePanelWidget
+from sovNewTaskPanelWidget import NewTaskPanelWidget
+from sovUtils import (
+    LogWindow,
+    add_file_to_settings,
+    get_children_as_list,
+    get_file_reccords_from_settings,
+    read_group,
+    resample_overlay_to_match_image,
+    time_and_log,
+    write_group,
+)
 from sovView2DPanelWidget import View2DPanelWidget
 from sovView3DPanelWidget import View3DPanelWidget
-
-from sovWelcomePanelWidget import WelcomePanelWidget
 from sovVisualizationPanelWidget import VisualizationPanelWidget
-from sovNewTaskPanelWidget import NewTaskPanelWidget
-from sovInfoTablePanelWidget import InfoTablePanelWidget
-from sovImageTablePanelWidget import ImageTablePanelWidget
-
+from sovWelcomePanelWidget import WelcomePanelWidget
 from ui_pytubeview import Ui_MainWindow
 
 

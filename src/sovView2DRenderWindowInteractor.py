@@ -1,8 +1,6 @@
 import numpy as np
-
-from PySide6.QtCore import Qt
-
 import vtk
+from PySide6.QtCore import Qt
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from vtk.util.numpy_support import numpy_to_vtk
 

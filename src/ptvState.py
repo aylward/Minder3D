@@ -1,11 +1,8 @@
-import itk
-
 import logging
 
-from sovColorMapUtils import (
-    short_colormap,
-    short_colormap_scale_factor,
-)
+import itk
+
+from sovColorMapUtils import short_colormap, short_colormap_scale_factor
 
 
 class PTVState:

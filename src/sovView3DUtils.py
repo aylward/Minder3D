@@ -1,25 +1,10 @@
-import numpy as np
-
 import itk
+import numpy as np
+from vtkmodules.vtkCommonCore import vtkDoubleArray, vtkPoints
+from vtkmodules.vtkCommonDataModel import vtkCellArray, vtkPolyData, vtkPolyLine
+from vtkmodules.vtkFiltersCore import vtkSurfaceNets3D, vtkTubeFilter
 
-from vtkmodules.vtkCommonCore import (
-    vtkDoubleArray,
-    vtkPoints,
-)
-from vtkmodules.vtkCommonDataModel import (
-    vtkCellArray,
-    vtkPolyData,
-    vtkPolyLine,
-)
-from vtkmodules.vtkFiltersCore import (
-    vtkTubeFilter,
-    vtkSurfaceNets3D,
-)
-
-from sovUtils import (
-    time_and_log,
-    get_children_as_list,
-)
+from sovUtils import get_children_as_list, time_and_log
 
 
 @time_and_log

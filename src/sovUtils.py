@@ -10,32 +10,19 @@ Functions:
     write_group: Writes a group to a file.
 """
 
+import functools
+import logging
 import os
 import time
-import logging
-import functools
 import uuid
-
 from typing import Union
 
-import numpy as np
-
 import itk
+import numpy as np
+from PySide6.QtCore import QSettings, QStandardPaths
+from PySide6.QtWidgets import QMainWindow, QTextEdit
 
-from PySide6.QtWidgets import (
-    QMainWindow,
-    QTextEdit,
-)
-
-from PySide6.QtCore import (
-    QSettings,
-    QStandardPaths,
-)
-
-from sovColorMapUtils import (
-    short_colormap,
-    short_colormap_scale_factor,
-)
+from sovColorMapUtils import short_colormap, short_colormap_scale_factor
 
 logging.basicConfig(level=logging.DEBUG)
 
