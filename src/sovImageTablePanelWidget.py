@@ -1,6 +1,11 @@
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon, QPixmap
-from PySide6.QtWidgets import QHeaderView, QTableWidget, QTableWidgetItem, QWidget
+from PySide6.QtWidgets import (
+    QHeaderView,
+    QTableWidget,
+    QTableWidgetItem,
+    QWidget,
+)
 
 from sovImageTablePanelUtils import get_qthumbnail_from_array
 from sovUtils import get_file_reccords_from_settings, time_and_log

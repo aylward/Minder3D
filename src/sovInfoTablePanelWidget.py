@@ -1,4 +1,9 @@
-from PySide6.QtWidgets import QHeaderView, QTableWidget, QTableWidgetItem, QWidget
+from PySide6.QtWidgets import (
+    QHeaderView,
+    QTableWidget,
+    QTableWidgetItem,
+    QWidget,
+)
 
 from sovUtils import time_and_log
 from ui_sovInfoTablePanelWidget import Ui_InfoTablePanelWidget
