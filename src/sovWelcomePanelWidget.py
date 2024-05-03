@@ -5,7 +5,7 @@ from ui_sovWelcomePanelWidget import Ui_WelcomePanelWidget
 
 class WelcomePanelWidget(QWidget, Ui_WelcomePanelWidget):
     def __init__(self, gui, state, parent=None):
-        """Initialize the GUI and state for the application.
+        """        Initialize the GUI and state for the application.
 
         Args:
             gui: The graphical user interface object.
