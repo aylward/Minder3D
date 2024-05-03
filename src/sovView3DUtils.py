@@ -9,6 +9,19 @@ from sovUtils import get_children_as_list, time_and_log
 
 @time_and_log
 def convert_tubes_to_polylines(tube_list):
+    """    Convert a list of tubes to polylines.
+
+    This function takes a list of tubes and converts them into polylines by extracting various properties of the tubes
+    such as points, radius, color, ridgeness, medialness, branchness, curvature, intensity, roundness, levelness,
+    alpha1, alpha2, and alpha3.
+
+    Args:
+        tube_list (list): A list of tubes to be converted to polylines.
+
+    Returns:
+        list: A list of vtkPolyData objects representing the converted polylines.
+    """
+
     tube_polylines = []
 
     for tube in tube_list:
@@ -140,6 +153,17 @@ def convert_tubes_to_surfaces(tube_list, number_of_sides=5):
 
 @time_and_log
 def convert_masks_to_surfaces(mask_list):
+    """    Convert a list of masks to surfaces.
+
+    This function takes a list of masks and converts them to surfaces using VTK SurfaceNets3D algorithm.
+
+    Args:
+        mask_list (list): A list of itk.Image objects representing masks.
+
+    Returns:
+        list: A list of VTK surfaces representing the converted masks.
+    """
+
     num_masks = len(mask_list)
     mask_surfaces = []
     if num_masks > 0:
@@ -164,6 +188,17 @@ def convert_masks_to_surfaces(mask_list):
 
 @time_and_log
 def convert_scene_to_surfaces(scene):
+    """    Convert the given scene into a list of surfaces.
+
+    This function takes a scene as input and converts the tubes and masks within the scene into surfaces. It first retrieves the tubes and masks from the scene and then converts them to surfaces.
+
+    Args:
+        scene (object): The scene object containing tubes and masks.
+
+    Returns:
+        list: A list of surfaces extracted from the tubes and masks in the scene.
+    """
+
     surfaces = []
     tube_list = get_children_as_list(scene, 'Tube')
     if len(tube_list) > 0:
@@ -176,6 +211,17 @@ def convert_scene_to_surfaces(scene):
 
 @time_and_log
 def get_object_forms(obj):
+    """    Get the forms available for the given object type.
+
+    This function checks the type of the input object and returns the available forms based on the object type.
+
+    Args:
+        obj: The input object for which forms are to be retrieved.
+
+    Returns:
+        list: A list of available forms for the input object type.
+    """
+
     if 'Tube' in obj.GetTypeName():
         forms = ['Surface', 'Wireframe', 'Points']
     elif 'Mask' in obj.GetTypeName():
@@ -185,6 +231,18 @@ def get_object_forms(obj):
 
 @time_and_log
 def get_closest_point_in_world_space(so, pos):
+    """    Get the closest point in world space to the given position.
+
+    This function takes a spatial object and a position as input and returns the closest point in world space to the given position.
+
+    Args:
+        so (SpatialObject): A spatial object.
+        pos (list): A list representing the position in world space.
+
+    Returns:
+        SpatialObjectPoint: The closest point in world space to the given position.
+    """
+
     if so.GetTypeName() == 'TubeSpatialObject':
         return so.ClosestPointInWorldSpace(pos)
 
