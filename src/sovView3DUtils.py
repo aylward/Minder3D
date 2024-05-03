@@ -22,57 +22,57 @@ def convert_tubes_to_polylines(tube_list):
         data_point.SetNumberOfPoints(tube_num_points)
 
         data_radius = vtkDoubleArray()
-        data_radius.SetName("Radius")
+        data_radius.SetName('Radius')
         data_radius.SetNumberOfTuples(tube_num_points)
 
         data_id = vtkDoubleArray()
-        data_id.SetName("Id")
+        data_id.SetName('Id')
         data_id.SetNumberOfTuples(tube_num_points)
         data_id.Fill(tube.GetId())
 
         data_color = vtkDoubleArray()
-        data_color.SetName("Color")
+        data_color.SetName('Color')
         data_color.SetNumberOfComponents(4)
         data_color.SetNumberOfTuples(tube_num_points)
 
         data_a1 = vtkDoubleArray()
-        data_a1.SetName("Alpha1")
+        data_a1.SetName('Alpha1')
         data_a1.SetNumberOfTuples(tube_num_points)
 
         data_a2 = vtkDoubleArray()
-        data_a2.SetName("Alpha2")
+        data_a2.SetName('Alpha2')
         data_a2.SetNumberOfTuples(tube_num_points)
 
         data_a3 = vtkDoubleArray()
-        data_a3.SetName("Alpha3")
+        data_a3.SetName('Alpha3')
         data_a3.SetNumberOfTuples(tube_num_points)
 
         data_ridgeness = vtkDoubleArray()
-        data_ridgeness.SetName("Ridgeness")
+        data_ridgeness.SetName('Ridgeness')
         data_ridgeness.SetNumberOfTuples(tube_num_points)
 
         data_medialness = vtkDoubleArray()
-        data_medialness.SetName("Medialness")
+        data_medialness.SetName('Medialness')
         data_medialness.SetNumberOfTuples(tube_num_points)
 
         data_branchness = vtkDoubleArray()
-        data_branchness.SetName("Branchness")
+        data_branchness.SetName('Branchness')
         data_branchness.SetNumberOfTuples(tube_num_points)
 
         data_intensity = vtkDoubleArray()
-        data_intensity.SetName("Intensity")
+        data_intensity.SetName('Intensity')
         data_intensity.SetNumberOfTuples(tube_num_points)
 
         data_curvature = vtkDoubleArray()
-        data_curvature.SetName("Curvature")
+        data_curvature.SetName('Curvature')
         data_curvature.SetNumberOfTuples(tube_num_points)
 
         data_roundness = vtkDoubleArray()
-        data_roundness.SetName("Roundness")
+        data_roundness.SetName('Roundness')
         data_roundness.SetNumberOfTuples(tube_num_points)
 
         data_levelness = vtkDoubleArray()
-        data_levelness.SetName("Levelness")
+        data_levelness.SetName('Levelness')
         data_levelness.SetNumberOfTuples(tube_num_points)
 
         tube_line = vtkPolyLine()
@@ -115,7 +115,7 @@ def convert_tubes_to_polylines(tube_list):
         tube_polylines[-1].GetPointData().AddArray(data_a2)
         tube_polylines[-1].GetPointData().AddArray(data_a3)
 
-        tube_polylines[-1].GetPointData().SetActiveScalars("Radius")
+        tube_polylines[-1].GetPointData().SetActiveScalars('Radius')
 
     return tube_polylines
 
@@ -148,13 +148,13 @@ def convert_masks_to_surfaces(mask_list):
             SN = vtkSurfaceNets3D()
             SN.SetInputData(vtkmask)
             mask_id = mask.GetMaskValue()
-            print(f"Mask_num: {mask_num}, Mask_id: {mask_id}")
+            print(f'Mask_num: {mask_num}, Mask_id: {mask_id}')
             SN.SetLabel(0, mask_id)
             SN.Update()
             SN.DeleteSelectedLabel(0)
             mask_surfaces.append(SN.GetOutput())
             data_id = vtkDoubleArray()
-            data_id.SetName("Id")
+            data_id.SetName('Id')
             data_id.SetNumberOfTuples(mask_surfaces[-1].GetNumberOfPoints())
             data_id.Fill(mask.GetId())
             mask_surfaces[-1].GetPointData().AddArray(data_id)
@@ -165,10 +165,10 @@ def convert_masks_to_surfaces(mask_list):
 @time_and_log
 def convert_scene_to_surfaces(scene):
     surfaces = []
-    tube_list = get_children_as_list(scene, "Tube")
+    tube_list = get_children_as_list(scene, 'Tube')
     if len(tube_list) > 0:
         surfaces = surfaces + convert_tubes_to_surfaces(tube_list)
-    mask_list = get_children_as_list(scene, "Mask")
+    mask_list = get_children_as_list(scene, 'Mask')
     if len(mask_list) > 0:
         surfaces = surfaces + convert_masks_to_surfaces(mask_list)
     return surfaces
@@ -176,19 +176,19 @@ def convert_scene_to_surfaces(scene):
 
 @time_and_log
 def get_object_forms(obj):
-    if "Tube" in obj.GetTypeName():
-        forms = ["Surface", "Wireframe", "Points"]
-    elif "Mask" in obj.GetTypeName():
-        forms = ["Surface", "Wireframe", "Points"]
+    if 'Tube' in obj.GetTypeName():
+        forms = ['Surface', 'Wireframe', 'Points']
+    elif 'Mask' in obj.GetTypeName():
+        forms = ['Surface', 'Wireframe', 'Points']
     return forms
 
 
 @time_and_log
 def get_closest_point_in_world_space(so, pos):
-    if so.GetTypeName() == "TubeSpatialObject":
+    if so.GetTypeName() == 'TubeSpatialObject':
         return so.ClosestPointInWorldSpace(pos)
 
-    if so.GetTypeName() == "MaskImageSpatialObject":
+    if so.GetTypeName() == 'MaskImageSpatialObject':
         for offset in range(0, 5):
             for xs in range(-1, 1):
                 for ys in range(-1, 1):

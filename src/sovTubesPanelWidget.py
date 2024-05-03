@@ -15,4 +15,4 @@ class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
         self.preprocHighResIsoButton.clicked.connect(self.make_high_res_iso)
 
     def make_high_res_iso(self):
-        print("click")
+        print('click')

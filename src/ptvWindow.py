@@ -95,7 +95,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.imageTablePanel = ImageTablePanelWidget(self, self.state)
         self.imageTableLayout.addWidget(self.imageTablePanel)
 
-        self.statusText.setText("Ready")
+        self.statusText.setText('Ready')
 
         self.log_window = LogWindow(self.state.logger)
         self.statusViewLogButton.pressed.connect(self.log_window.show)
@@ -151,16 +151,16 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         self.view2DPanel.close()
         self.view3DPanel.close()
 
-    def log(self, message, level="info"):
+    def log(self, message, level='info'):
         self.statusText.setText(message)
-        if level.lower() == "error" or level.lower() == "critical":
-            self.statusText.setStyleSheet("background-color: red")
-        elif level.lower() == "warning":
-            self.statusText.setStyleSheet("background-color: yellow")
-        elif level.lower() == "debug":
-            self.statusText.setStyleSheet("background-color: green")
+        if level.lower() == 'error' or level.lower() == 'critical':
+            self.statusText.setStyleSheet('background-color: red')
+        elif level.lower() == 'warning':
+            self.statusText.setStyleSheet('background-color: yellow')
+        elif level.lower() == 'debug':
+            self.statusText.setStyleSheet('background-color: green')
         else:
-            self.statusText.setStyleSheet("background-color: white")
+            self.statusText.setStyleSheet('background-color: white')
         self.statusText.update()
         self.log_window.log(message, level)
 
@@ -170,7 +170,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             if len(self.state.image_filename) > 0:
                 filename = self.state.image_filename[-1]
             filename, _ = QFileDialog.getOpenFileName(
-                self, "Open File", filename, "All Files (*)"
+                self, 'Open File', filename, 'All Files (*)'
             )
         if filename is not None:
             self.create_new_image(
@@ -182,35 +182,35 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
             qthumb = get_qthumbnail_from_array(self.state.image_array[-1])
             add_file_to_settings(
-                self.state.image[-1], filename, "image", qthumb
+                self.state.image[-1], filename, 'image', qthumb
             )
 
     @time_and_log
     def load_scene(self, filename=None):
         if not filename:
             filename, _ = QFileDialog.getOpenFileName(
-                self, "Open File", self.state.scene_filename, "All Files (*)"
+                self, 'Open File', self.state.scene_filename, 'All Files (*)'
             )
         if filename:
             self.state.scene_filename = filename
             self.state.scene = read_group(filename)
-            add_file_to_settings(self.state.scene, filename, "scenes")
+            add_file_to_settings(self.state.scene, filename, 'scenes')
 
         self.update_scene()
-        add_file_to_settings(self.state.scene, filename, "scene")
+        add_file_to_settings(self.state.scene, filename, 'scene')
 
     @time_and_log
     def save_image(self, filename=None):
         if not filename:
             filename, _ = QFileDialog.getSaveFileName(
                 self,
-                "Save File",
+                'Save File',
                 self.state.image_filename[self.state.current_image_num],
-                "All Files (*)",
+                'All Files (*)',
             )
         if filename:
             self.state.image_filename[self.state.current_image_num] = filename
-            self.log(f"Saving image to {filename}")
+            self.log(f'Saving image to {filename}')
             itk.imwrite(
                 self.state.image[self.state.current_image_num], filename
             )
@@ -223,12 +223,12 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             )
             filename, _ = QFileDialog.getSaveFileName(
                 self,
-                "Save File",
-                guess_filename + "_overlay" + guess_extension,
-                "All Files (*)",
+                'Save File',
+                guess_filename + '_overlay' + guess_extension,
+                'All Files (*)',
             )
         if filename:
-            self.log(f"Saving overlay to {filename}")
+            self.log(f'Saving overlay to {filename}')
             itk.imwrite(
                 self.state.overlay[self.state.current_image_num], filename
             )
@@ -239,9 +239,9 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             guess_filename, _ = os.path.splitext(self.state.scene_filename)
             filename, _ = QFileDialog.getSaveFileName(
                 self,
-                "Save File",
-                guess_filename + "_models.vrml",
-                "All Files (*)",
+                'Save File',
+                guess_filename + '_models.vrml',
+                'All Files (*)',
             )
         if filename:
             exporter = vtk.vtkVRMLExporter()
@@ -254,11 +254,11 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
     def save_scene(self, filename=None):
         if not filename:
             filename, _ = QFileDialog.getSaveFileName(
-                self, "Save File", self.state.scene_filename, "All Files (*)"
+                self, 'Save File', self.state.scene_filename, 'All Files (*)'
             )
         if filename:
             self.state.scene_filename = filename
-            self.log(f"Saving scene to {filename}")
+            self.log(f'Saving scene to {filename}')
             write_group(self.state.scene, filename)
 
     @time_and_log
@@ -266,7 +266,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         if filename is None:
             filename, fileext = os.path.splitext(self.state.image_filename[-1])
             if tag is None:
-                filename = filename + "_" + str(len(self.state.image)) + fileext
+                filename = filename + '_' + str(len(self.state.image)) + fileext
                 dlg = QInputDialog(self)
                 dlg.setInputMode(QInputDialog.TextInput)
                 dlg.setLabelText("New image's filename:")
@@ -277,7 +277,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
                 if not valid:
                     return False
             else:
-                filename = filename + "_" + tag + fileext
+                filename = filename + '_' + tag + fileext
         self.state.image_filename.append(str(filename))
 
         self.state.image.append(img)
@@ -331,7 +331,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
                 self.state.overlay[num]
             )
 
-        if os.path.splitext(filename)[1] == ".mha":
+        if os.path.splitext(filename)[1] == '.mha':
             self.state.view2D_flip.append([True, True, False])
         else:
             self.state.view2D_flip.append([False, False, False])
@@ -364,13 +364,13 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
         self.disconnect_object_gui()
         self.objectNameComboBox.clear()
-        self.objectNameComboBox.addItem("None")
+        self.objectNameComboBox.addItem('None')
         for so in self.state.scene_list:
             self.state.scene_list_ids.append(so.GetId())
             self.state.scene_list_properties.append(
-                dict(ColorBy="Solid Color", Actor=None)
+                dict(ColorBy='Solid Color', Actor=None)
             )
-            self.objectNameComboBox.addItem(f"{so.GetTypeName()} {so.GetId()}")
+            self.objectNameComboBox.addItem(f'{so.GetTypeName()} {so.GetId()}')
         if self.state.view2D_overlay_auto_update:
             self.view2DPanel.update_scene()
         if self.state.view3D_scene_auto_update:
@@ -381,7 +381,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
     def update_highlight_selected(self, value):
         self.state.highlight_selected = value
         for selected_id in self.state.selected_ids:
-            self.log(f"update_highlight_selected: Id={selected_id}")
+            self.log(f'update_highlight_selected: Id={selected_id}')
             so = self.state.scene_list[
                 self.state.scene_list_ids.index(selected_id)
             ]
@@ -411,7 +411,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
     def redraw_object(self, so, update_2D=True, update_3D=True):
         so_id = so.GetId()
         if so_id not in self.state.scene_list_ids:
-            self.log("ERROR: so_id not in scene_list_ids", "error")
+            self.log('ERROR: so_id not in scene_list_ids', 'error')
             return
         scene_idx = self.state.scene_list_ids.index(so_id)
 
@@ -436,8 +436,8 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
         # Must call after view3DPanel.redraw_object() so that actors defined.
         self.objectColorByComboBox.clear()
-        self.objectColorByComboBox.addItem("Solid Color")
-        actor = self.state.scene_list_properties[scene_idx].get("Actor")
+        self.objectColorByComboBox.addItem('Solid Color')
+        actor = self.state.scene_list_properties[scene_idx].get('Actor')
         if actor is not None:
             pdata = actor.GetMapper().GetInput()
             for i in range(pdata.GetPointData().GetNumberOfArrays()):
@@ -445,7 +445,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
                 self.objectColorByComboBox.addItem(pname)
 
             self.objectColorByComboBox.setCurrentText(
-                self.state.scene_list_properties[scene_idx]["ColorBy"]
+                self.state.scene_list_properties[scene_idx]['ColorBy']
             )
 
         self.connect_object_gui()
@@ -463,7 +463,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             color[3] = self.objectOpacitySlider.value() / 100.0
             so.GetProperty().SetColor(color)
             self.state.scene_list_properties[scene_idx][
-                "ColorBy"
+                'ColorBy'
             ] = self.objectColorByComboBox.currentText()
 
             if self.state.view2D_overlay_auto_update:
@@ -474,7 +474,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
     @time_and_log
     def delete_selected_objects(self):
         for so_id in self.state.selected_ids:
-            print("deleting so_id:", so_id)
+            print('deleting so_id:', so_id)
             scene_idx = self.state.scene_list_ids.index(so_id)
             so = self.state.scene_list[scene_idx]
             so_parent = so.GetParent()
@@ -486,9 +486,9 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
 
         self.disconnect_object_gui()
         self.objectNameComboBox.clear()
-        self.objectNameComboBox.addItem("None")
+        self.objectNameComboBox.addItem('None')
         for so in self.state.scene_list:
-            self.objectNameComboBox.addItem(f"{so.GetTypeName()} {so.GetId()}")
+            self.objectNameComboBox.addItem(f'{so.GetTypeName()} {so.GetId()}')
         self.connect_object_gui()
         self.update_scene()
 
@@ -500,7 +500,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         color[0:3] /= self.state.colormap_scale_factor
         color[3] = self.objectOpacitySlider.value() / 100.0
         for idx in range(len(self.state.scene_list)):
-            self.state.scene_list_properties[idx]["ColorBy"] = color_by
+            self.state.scene_list_properties[idx]['ColorBy'] = color_by
             self.state.scene_list[idx].GetProperty().SetColor(color)
             self.redraw_object(self.state.scene_list[idx])
 
@@ -519,6 +519,6 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
             children = get_children_as_list(so)
             for child_so in children:
                 idx = self.state.scene_list.index(child_so)
-                self.state.scene_list_properties[idx]["ColorBy"] = color_by
+                self.state.scene_list_properties[idx]['ColorBy'] = color_by
                 self.state.scene_list[idx].GetProperty().SetColor(color)
                 self.redraw_object(child_so)

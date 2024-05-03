@@ -52,7 +52,7 @@ def render_tube_in_overlay_array(tube, image, overlay_array, color=None):
             - point_index[0]
         )
         o0 = np.arange(oMin, oMax)
-        mat = np.meshgrid(o0, o1, o2, indexing="ij")
+        mat = np.meshgrid(o0, o1, o2, indexing='ij')
         dist = (
             (mat[2] * spacing[2]) ** 2
             + (mat[1] * spacing[1]) ** 2
@@ -104,13 +104,13 @@ def render_mask_in_overlay_array(mask, image, overlay_array, color=None):
 @time_and_log
 def render_scene_in_overlay_array(scene, selected_ids, image, overlay_array):
     scene.Update()
-    mask_list = get_children_as_list(scene, "ImageMask")
+    mask_list = get_children_as_list(scene, 'ImageMask')
     for mask in mask_list:
         color = None
         if mask.GetId() in selected_ids:
             color = [0, 255, 0, 255]
         render_mask_in_overlay_array(mask, image, overlay_array, color)
-    tube_list = get_children_as_list(scene, "Tube")
+    tube_list = get_children_as_list(scene, 'Tube')
     for tube in tube_list:
         color = None
         if tube.GetId() in selected_ids:
@@ -119,7 +119,7 @@ def render_scene_in_overlay_array(scene, selected_ids, image, overlay_array):
 
 
 def render_object_in_overlay_array(so, image, overlay_array, color=None):
-    if "ImageMask" in so.GetTypeName():
+    if 'ImageMask' in so.GetTypeName():
         render_mask_in_overlay_array(so, image, overlay_array, color)
-    if "Tube" in so.GetTypeName():
+    if 'Tube' in so.GetTypeName():
         render_tube_in_overlay_array(so, image, overlay_array, color)
