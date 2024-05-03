@@ -17,16 +17,16 @@ class LungCTALogic:
 
     @time_and_log
     def initialize(self, image):
-        if self.ai_first_run and imp.find_spec("totalsegmentator") is None:
+        if self.ai_first_run and imp.find_spec('totalsegmentator') is None:
             self.ai_first_run = False
             status = False
-            msg = "This method works best with NVidia GPUs.\nFirst install CUDA (https://developer.nvidia.com/cuda-downloads)\nand then install PyTorch (https://pytorch.org/get-started/locally/)"
+            msg = 'This method works best with NVidia GPUs.\nFirst install CUDA (https://developer.nvidia.com/cuda-downloads)\nand then install PyTorch (https://pytorch.org/get-started/locally/)'
             ask_to_continue = False
             return status, msg, ask_to_continue
 
-        if imp.find_spec("torch") is None:
+        if imp.find_spec('torch') is None:
             status = False
-            msg = "PyTorch not found:\nFirst install CUDA (https://developer.nvidia.com/cuda-downloads)\nand then PyTorch (https://pytorch.org/get-started/locally/)"
+            msg = 'PyTorch not found:\nFirst install CUDA (https://developer.nvidia.com/cuda-downloads)\nand then PyTorch (https://pytorch.org/get-started/locally/)'
             ask_to_continue = False
             return status, msg, ask_to_continue
 
@@ -34,14 +34,14 @@ class LungCTALogic:
 
         if not torch.cuda.is_available():
             status = False
-            msg = "WARNING: PyTorch installed without CUDA support.\nThe AI methods will run on the CPU and be very slow.\nContinue?"
+            msg = 'WARNING: PyTorch installed without CUDA support.\nThe AI methods will run on the CPU and be very slow.\nContinue?'
             ask_to_continue = True
             return status, msg, ask_to_continue
 
         self.image = image
 
         status = True
-        msg = ""
+        msg = ''
         ask_to_continue = False
         return status, msg, ask_to_continue
 
@@ -49,9 +49,9 @@ class LungCTALogic:
         if self.image is None:
             return None
 
-        if imp.find_spec("totalsegmentator") is None:
+        if imp.find_spec('totalsegmentator') is None:
             subprocess.check_call(
-                [sys.executable, "-m", "pip", "install", "TotalSegmentator"]
+                [sys.executable, '-m', 'pip', 'install', 'TotalSegmentator']
             )
 
         spacing = self.image.GetSpacing()
@@ -83,7 +83,7 @@ class LungCTALogic:
             np.transpose(pre_array, (2, 1, 0)).copy(), mat
         )
         seg_nib = totalsegmentator(
-            input=nifti_nib, output=None, task="lung_vessels"
+            input=nifti_nib, output=None, task='lung_vessels'
         )
 
         seg_array = seg_nib.get_fdata().astype(np.uint8)

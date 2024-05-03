@@ -18,7 +18,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         self.imageTableWidget.setRowCount(0)
         self.imageTableWidget.setColumnCount(5)
         self.imageTableWidget.setHorizontalHeaderLabels(
-            ["Loaded", "Filename", "Size", "Spacing", "Thumbnail"]
+            ['Loaded', 'Filename', 'Size', 'Spacing', 'Thumbnail']
         )
         self.imageTableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         self.imageTableWidget.setSelectionBehavior(QTableWidget.SelectRows)
@@ -33,7 +33,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         self.imageTableWidget.setIconSize(QSize(75, 75))
         self.imageTableWidget.verticalHeader().hide()
         self.imageTableWidget.setStyleSheet(
-            "QTableView{ selection-background-color: rgba(0, 50, 0, 50);  }"
+            'QTableView{ selection-background-color: rgba(0, 50, 0, 50);  }'
         )
 
         self.imageTableWidget.cellClicked.connect(self.select_image_by_table)
@@ -54,7 +54,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             ]
         )
         self.imageTableWidget.setItem(
-            img_num, 1, QTableWidgetItem(QIcon(qthumb), "")
+            img_num, 1, QTableWidgetItem(QIcon(qthumb), '')
         )
         filename = self.state.image_filename[img_num][-20:]
         self.imageTableWidget.setItem(img_num, 2, QTableWidgetItem(filename))
@@ -65,13 +65,13 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             .GetSize()
         ]
         self.imageTableWidget.setItem(
-            img_num, 3, QTableWidgetItem("x".join(size_str))
+            img_num, 3, QTableWidgetItem('x'.join(size_str))
         )
         spacing_str = [
-            f"{i:.4f}" for i in self.state.image[img_num].GetSpacing()
+            f'{i:.4f}' for i in self.state.image[img_num].GetSpacing()
         ]
         self.imageTableWidget.setItem(
-            img_num, 4, QTableWidgetItem(", ".join(spacing_str))
+            img_num, 4, QTableWidgetItem(', '.join(spacing_str))
         )
 
     @time_and_log
@@ -85,12 +85,12 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         for file in file_records:
             if (
                 file.filename not in self.state.image_filename
-                and file.file_type == "image"
+                and file.file_type == 'image'
             ):
                 self.imageTableWidget.insertRow(img_num)
                 qthumb = QPixmap(file.file_thumbnail)
                 self.imageTableWidget.setItem(
-                    img_num, 1, QTableWidgetItem(QIcon(qthumb), "")
+                    img_num, 1, QTableWidgetItem(QIcon(qthumb), '')
                 )
                 self.imageTableWidget.setItem(
                     img_num, 2, QTableWidgetItem(file.filename)
@@ -98,15 +98,15 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 if type(file.file_size) == type([]) and len(file.file_size) > 0:
                     size_str = [str(i) for i in file.file_size]
                     self.imageTableWidget.setItem(
-                        img_num, 3, QTableWidgetItem("x".join(size_str))
+                        img_num, 3, QTableWidgetItem('x'.join(size_str))
                     )
                 if (
                     type(file.file_spacing) == type([])
                     and len(file.file_spacing) > 0
                 ):
-                    spacing_str = [f"{i:.4f}" for i in file.file_spacing]
+                    spacing_str = [f'{i:.4f}' for i in file.file_spacing]
                     self.imageTableWidget.setItem(
-                        img_num, 4, QTableWidgetItem(", ".join(spacing_str))
+                        img_num, 4, QTableWidgetItem(', '.join(spacing_str))
                     )
                 img_num += 1
 
