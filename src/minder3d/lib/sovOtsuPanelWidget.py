@@ -1,4 +1,3 @@
-
 from PySide6.QtWidgets import QWidget
 
 from .sovOtsuLogic import OtsuLogic
