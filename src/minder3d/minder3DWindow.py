@@ -5,7 +5,6 @@ import numpy as np
 import vtk
 from PySide6.QtWidgets import QFileDialog, QInputDialog, QMainWindow, QTabBar
 
-from .minder3DState import Minder3DState
 from .lib.sovColorMapUtils import get_nearest_color_index_and_name
 from .lib.sovImageTablePanelUtils import get_qthumbnail_from_array
 from .lib.sovImageTablePanelWidget import ImageTablePanelWidget
@@ -25,6 +24,7 @@ from .lib.sovView2DPanelWidget import View2DPanelWidget
 from .lib.sovView3DPanelWidget import View3DPanelWidget
 from .lib.sovVisualizationPanelWidget import VisualizationPanelWidget
 from .lib.sovWelcomePanelWidget import WelcomePanelWidget
+from .minder3DState import Minder3DState
 from .ui_minder3DWindow import Ui_MainWindow
 
 

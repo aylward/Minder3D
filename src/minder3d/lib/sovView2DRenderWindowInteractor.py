@@ -120,12 +120,12 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
     @time_and_log
     def update_image(self):
-        self.state.view2D_intensity_window_min[
-            self.state.current_image_num
-        ] = self.state.image_min[self.state.current_image_num]
-        self.state.view2D_intensity_window_max[
-            self.state.current_image_num
-        ] = self.state.image_max[self.state.current_image_num]
+        self.state.view2D_intensity_window_min[self.state.current_image_num] = (
+            self.state.image_min[self.state.current_image_num]
+        )
+        self.state.view2D_intensity_window_max[self.state.current_image_num] = (
+            self.state.image_max[self.state.current_image_num]
+        )
         if self.view2D is None:
             self.view2D = vtk.vtkImageViewer2()
             self.view2D.SetupInteractor(self)

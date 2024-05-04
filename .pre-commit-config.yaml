@@ -4,11 +4,10 @@ repos:
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
-      - id: requirements-txt-fixer
       - id: trailing-whitespace
       - id: double-quote-string-fixer
   - repo: https://github.com/python/black.git
-    rev: 22.10.0
+    rev: 24.4.2
     hooks:
       - id: black
         language_version: python3
@@ -30,4 +29,4 @@ repos:
     hooks:
       - id: prettier
         stages: [commit]
-exclude: ["src/ui_*", "*.md"]
+exclude: "ui_.*|.*md|.*ui"

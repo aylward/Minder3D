@@ -13,6 +13,7 @@ from PySide6.QtWidgets import QApplication
 from .config import parse_config
 from .minder3DWindow import Minder3DWindow
 
+
 def main():
     """
     Application entrypoint.
@@ -56,5 +57,6 @@ def main():
 
     app.exec()
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     main()

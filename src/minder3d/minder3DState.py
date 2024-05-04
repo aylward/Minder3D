@@ -1,4 +1,5 @@
 """The global state of the Minder3D application."""
+
 import logging
 
 import itk
