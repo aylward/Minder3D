@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "minder3d"
 description = "Using AI to foster innovation in the exploration of radiological images."
 license = {text = "Apache 2.0"}
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python :: 3"
 ]
@@ -25,9 +25,8 @@ dependencies = [
 minder3d = "minder3d.main:main"
 
 [project.optional-dependencies]
-
 develop = [
-  'black',
+  'black==24.4.2',
   'pylint',
   'flake8'
 ]
@@ -43,6 +42,7 @@ readme = {file = ["README.md"]}
 line-length = 80
 skip-string-normalization = 1
 target_version = ['py311']
+required_version = "24.4.2"
 include = "src/*py"
 force-exclude = '''
 (
