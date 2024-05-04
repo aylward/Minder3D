@@ -1,6 +1,6 @@
 name: "Auto-Format"
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   ruff-check:
