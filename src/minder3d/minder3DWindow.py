@@ -429,13 +429,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
                 self.state.overlay[num]
             )
 
-        if os.path.splitext(filename)[1] == '.mha':
-            self.state.view2D_flip.append([True, True, False])
-        else:
-            self.state.view2D_flip.append([False, False, False])
-
-        self.state.current_image_num = len(self.state.image) - 1
-
         self.imageTablePanel.replace_image()
 
     @time_and_log

@@ -222,10 +222,6 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
     @time_and_log
     def update_image(self):
-        imin = self.state.image_min[self.state.current_image_num]
-        imax = self.state.image_max[self.state.current_image_num]
-        irange = imax - imin
-
         auto_range = np.quantile(self.state.image_array[-1], [0.1, 0.9])
         self.state.view2D_intensity_window_min[self.state.current_image_num] = (
             auto_range[0]
