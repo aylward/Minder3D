@@ -14,7 +14,6 @@ from .lib.sovUtils import (
     LogWindow,
     add_file_to_settings,
     get_children_as_list,
-    get_file_reccords_from_settings,
     read_group,
     resample_overlay_to_match_image,
     time_and_log,

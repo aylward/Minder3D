@@ -1,5 +1,4 @@
 from PySide6.QtWidgets import (
-    QHeaderView,
     QTableWidget,
     QTableWidgetItem,
     QWidget,

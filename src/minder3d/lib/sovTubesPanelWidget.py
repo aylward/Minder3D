@@ -1,4 +1,3 @@
-from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget
 
 from .ui_sovPreProcessPanelWidget import Ui_PreProcessPanelWidget

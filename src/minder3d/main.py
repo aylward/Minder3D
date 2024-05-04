@@ -4,7 +4,6 @@
 Launch the minder3D application
 """
 
-import sys
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPalette
