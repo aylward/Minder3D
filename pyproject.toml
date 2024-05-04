@@ -56,7 +56,7 @@ extend-ignore = ["E501"]
 
 [tool.isort]
 profile = "black"
-skip_glob = ["ui_.*", ".*\.ui"]
+skip_glob = ["ui_*", "*.ui"]
 line_length = 80
 
 [tool.pylint]
@@ -64,5 +64,5 @@ max-line-length = 80
 
 [tool.ruff]
 include = ["src"]
-exclude = [".*\.ui", "ui_.*", "\.gitignore"]
+exclude = ["*.ui", "ui_*", "\.gitignore"]
 line-length = 80
