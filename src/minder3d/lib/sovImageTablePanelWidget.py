@@ -136,10 +136,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 self.imageTableWidget.setItem(
                     img_num, 2, QTableWidgetItem(file.filename)
                 )
-                if (
-                    isinstance(file.file_size, [])
-                    and len(file.file_size) > 0
-                ):
+                if isinstance(file.file_size, []) and len(file.file_size) > 0:
                     size_str = [str(i) for i in file.file_size]
                     self.imageTableWidget.setItem(
                         img_num, 3, QTableWidgetItem('x'.join(size_str))
