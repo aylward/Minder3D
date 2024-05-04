@@ -63,6 +63,6 @@ line_length = 80
 max-line-length = 80
 
 [tool.ruff]
-include = ["src"]
+include = ["*.py"]
 exclude = ["*.ui", "ui_*", ".gitignore"]
 line-length = 80
