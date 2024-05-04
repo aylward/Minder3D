@@ -46,7 +46,7 @@ required_version = "24.4.2"
 include = ["src"]
 force-exclude = '''
 (
-  \./src/ui_.*|\./src/.*\.ui|\...*
+  ui_.*|.*\.ui|\.gitignore
 )
 '''
 
@@ -56,13 +56,13 @@ extend-ignore = ["E501"]
 
 [tool.isort]
 profile = "black"
-skip_glob = "src/ui_*"
+skip_glob = ["ui_.*", ".*\.ui"]
 line_length = 80
 
 [tool.pylint]
 max-line-length = 80
 
 [tool.ruff]
-include = ["src/*py"]
-exclude = ["*.ui", "ui_*", ".gitignore"]
+include = ["src"]
+exclude = [".*\.ui", "ui_.*", "\.gitignore"]
 line-length = 80
