@@ -23,4 +23,4 @@ jobs:
           args: "check --fix --config pyproject.toml"
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit-message: "STYLE:Fixes by auto-format"
+          commit_message: "STYLE:Fixes by auto-format"
