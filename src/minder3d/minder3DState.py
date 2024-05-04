@@ -1,18 +1,18 @@
+"""The global state of the Minder3D application."""
 import logging
 
 import itk
 
-from sovColorMapUtils import short_colormap, short_colormap_scale_factor
+from .lib.sovColorMapUtils import short_colormap, short_colormap_scale_factor
 
 
-class PTVState:
+class Minder3DState:
     def __init__(self):
         """Initialize the attributes of the class.
 
-        Initializes various attributes related to image, overlay, current image, 2D and 3D view settings,
-        scene, and selected spatial objects.
+        Initializes various attributes related to image, overlay, current image,
+        2D and 3D view settings, scene, and selected spatial objects.
         """
-
         # Types
         self.image_pixel_type = itk.F
         self.image_type = itk.Image[self.image_pixel_type, 3]

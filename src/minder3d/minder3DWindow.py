@@ -5,13 +5,13 @@ import numpy as np
 import vtk
 from PySide6.QtWidgets import QFileDialog, QInputDialog, QMainWindow, QTabBar
 
-from ptvState import PTVState
-from sovColorMapUtils import get_nearest_color_index_and_name
-from sovImageTablePanelUtils import get_qthumbnail_from_array
-from sovImageTablePanelWidget import ImageTablePanelWidget
-from sovInfoTablePanelWidget import InfoTablePanelWidget
-from sovNewTaskPanelWidget import NewTaskPanelWidget
-from sovUtils import (
+from .minder3DState import Minder3DState
+from .lib.sovColorMapUtils import get_nearest_color_index_and_name
+from .lib.sovImageTablePanelUtils import get_qthumbnail_from_array
+from .lib.sovImageTablePanelWidget import ImageTablePanelWidget
+from .lib.sovInfoTablePanelWidget import InfoTablePanelWidget
+from .lib.sovNewTaskPanelWidget import NewTaskPanelWidget
+from .lib.sovUtils import (
     LogWindow,
     add_file_to_settings,
     get_children_as_list,
@@ -21,14 +21,14 @@ from sovUtils import (
     time_and_log,
     write_group,
 )
-from sovView2DPanelWidget import View2DPanelWidget
-from sovView3DPanelWidget import View3DPanelWidget
-from sovVisualizationPanelWidget import VisualizationPanelWidget
-from sovWelcomePanelWidget import WelcomePanelWidget
-from ui_pytubeview import Ui_MainWindow
+from .lib.sovView2DPanelWidget import View2DPanelWidget
+from .lib.sovView3DPanelWidget import View3DPanelWidget
+from .lib.sovVisualizationPanelWidget import VisualizationPanelWidget
+from .lib.sovWelcomePanelWidget import WelcomePanelWidget
+from .ui_minder3DWindow import Ui_MainWindow
 
 
-class PTVWindow(QMainWindow, Ui_MainWindow):
+class Minder3DWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         """Initialize the parent widget and set up the UI.
 
@@ -39,7 +39,7 @@ class PTVWindow(QMainWindow, Ui_MainWindow):
         super().__init__(parent)
         self.setupUi(self)
 
-        self.state = PTVState()
+        self.state = Minder3DState()
 
         # File Menu
         self.loadImageMenuItem.triggered.connect(self.load_image)

@@ -4,9 +4,9 @@ import numpy as np
 from PySide6.QtGui import QCloseEvent
 from PySide6.QtWidgets import QWidget
 
-from sovOtsuLogic import OtsuLogic
-from sovUtils import add_objects_in_mask_image_to_scene, time_and_log
-from ui_sovOtsuPanelWidget import Ui_OtsuPanelWidget
+from .sovOtsuLogic import OtsuLogic
+from .sovUtils import add_objects_in_mask_image_to_scene, time_and_log
+from .ui_sovOtsuPanelWidget import Ui_OtsuPanelWidget
 
 
 class OtsuPanelWidget(QWidget, Ui_OtsuPanelWidget):

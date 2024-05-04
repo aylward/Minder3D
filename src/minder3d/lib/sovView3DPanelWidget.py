@@ -1,8 +1,8 @@
 from PySide6.QtWidgets import QWidget
 
-from sovUtils import time_and_log
-from sovView3DRenderWindowInteractor import View3DRenderWindowInteractor
-from ui_sovView3DPanelWidget import Ui_View3DPanelWidget
+from .sovUtils import time_and_log
+from .sovView3DRenderWindowInteractor import View3DRenderWindowInteractor
+from .ui_sovView3DPanelWidget import Ui_View3DPanelWidget
 
 
 class View3DPanelWidget(QWidget, Ui_View3DPanelWidget):

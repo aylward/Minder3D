@@ -5,8 +5,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from sovUtils import time_and_log
-from ui_sovInfoTablePanelWidget import Ui_InfoTablePanelWidget
+from .sovUtils import time_and_log
+from .ui_sovInfoTablePanelWidget import Ui_InfoTablePanelWidget
 
 
 class InfoTablePanelWidget(QWidget, Ui_InfoTablePanelWidget):

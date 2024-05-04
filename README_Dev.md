@@ -1,5 +1,6 @@
-QT Designer was used to define the layout:
-qt6-tools.exe designer pytubeview.ui
+Prior to making a commit, please verify your code is compliant:
+    pre-commit run --all-files
 
-Then view the python code and same to
-ui_pytubeview.py
+QT Designer was used to define the layout.  On Windows, to launch
+designer, use this command:
+    qt6-tools.exe designer pytubeview.ui

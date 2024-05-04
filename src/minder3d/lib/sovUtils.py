@@ -22,7 +22,7 @@ import numpy as np
 from PySide6.QtCore import QSettings, QStandardPaths
 from PySide6.QtWidgets import QMainWindow, QTextEdit
 
-from sovColorMapUtils import short_colormap, short_colormap_scale_factor
+from .sovColorMapUtils import short_colormap, short_colormap_scale_factor
 
 logging.basicConfig(level=logging.DEBUG)
 

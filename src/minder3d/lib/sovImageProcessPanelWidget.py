@@ -1,8 +1,8 @@
 from PySide6.QtWidgets import QWidget
 
-from sovImageProcessLogic import ImageProcessLogic
-from sovUtils import time_and_log
-from ui_sovImageProcessPanelWidget import Ui_ImageProcessPanelWidget
+from .sovImageProcessLogic import ImageProcessLogic
+from .sovUtils import time_and_log
+from .ui_sovImageProcessPanelWidget import Ui_ImageProcessPanelWidget
 
 
 class ImageProcessPanelWidget(QWidget, Ui_ImageProcessPanelWidget):

@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget
 
-from ui_sovWelcomePanelWidget import Ui_WelcomePanelWidget
+from .ui_sovWelcomePanelWidget import Ui_WelcomePanelWidget
 
 
 class WelcomePanelWidget(QWidget, Ui_WelcomePanelWidget):
@@ -12,7 +12,6 @@ class WelcomePanelWidget(QWidget, Ui_WelcomePanelWidget):
             state: The state object for the application.
             parent: The parent widget (default is None).
         """
-
         super().__init__(parent)
         self.setupUi(self)
 

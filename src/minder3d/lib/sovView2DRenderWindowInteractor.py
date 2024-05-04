@@ -4,7 +4,7 @@ from PySide6.QtCore import Qt
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from vtk.util.numpy_support import numpy_to_vtk
 
-from sovUtils import time_and_log
+from .sovUtils import time_and_log
 
 
 class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):

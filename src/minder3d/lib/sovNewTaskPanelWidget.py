@@ -1,10 +1,10 @@
 from PySide6.QtWidgets import QWidget
 
-from sovImageProcessPanelWidget import ImageProcessPanelWidget
-from sovLungCTAPanelWidget import LungCTAPanelWidget
-from sovOtsuPanelWidget import OtsuPanelWidget
-from sovUtils import time_and_log
-from ui_sovNewTaskPanelWidget import Ui_NewTaskPanelWidget
+from .sovImageProcessPanelWidget import ImageProcessPanelWidget
+from .sovLungCTAPanelWidget import LungCTAPanelWidget
+from .sovOtsuPanelWidget import OtsuPanelWidget
+from .sovUtils import time_and_log
+from .ui_sovNewTaskPanelWidget import Ui_NewTaskPanelWidget
 
 
 class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):

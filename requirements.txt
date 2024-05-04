@@ -1,4 +1,0 @@
-PyQt6>=6.6
-PySide6>=6.6
-Qt6-tools>=6.5
-vtk>=9.3

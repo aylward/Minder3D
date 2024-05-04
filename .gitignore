@@ -1,6 +1,9 @@
+build
+*egg-info
 experiments
 venv*
 archive
 __pycache__
 *.swp
 *~
+*.zip
