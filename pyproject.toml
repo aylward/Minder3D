@@ -46,7 +46,7 @@ required_version = "24.4.2"
 include = "src/*py"
 force-exclude = '''
 (
-  src\/ui_*|\.??*
+  \./src/ui_.*|\...*
 )
 '''
 
