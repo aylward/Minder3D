@@ -1,5 +1,4 @@
 import itk
-import numpy as np
 from vtkmodules.vtkCommonCore import vtkDoubleArray, vtkPoints
 from vtkmodules.vtkCommonDataModel import vtkCellArray, vtkPolyData, vtkPolyLine
 from vtkmodules.vtkFiltersCore import vtkSurfaceNets3D, vtkTubeFilter

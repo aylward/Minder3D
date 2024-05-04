@@ -1,5 +1,3 @@
-import numpy as np
-from PySide6.QtGui import QCloseEvent
 from PySide6.QtWidgets import QMessageBox, QWidget
 
 from .sovLungCTALogic import LungCTALogic

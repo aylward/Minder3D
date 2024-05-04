@@ -5,7 +5,6 @@ import numpy as np
 import vtk
 from PySide6.QtWidgets import QFileDialog, QInputDialog, QMainWindow, QTabBar
 
-from .minder3DState import Minder3DState
 from .lib.sovColorMapUtils import get_nearest_color_index_and_name
 from .lib.sovImageTablePanelUtils import get_qthumbnail_from_array
 from .lib.sovImageTablePanelWidget import ImageTablePanelWidget
@@ -15,7 +14,6 @@ from .lib.sovUtils import (
     LogWindow,
     add_file_to_settings,
     get_children_as_list,
-    get_file_reccords_from_settings,
     read_group,
     resample_overlay_to_match_image,
     time_and_log,
@@ -25,6 +23,7 @@ from .lib.sovView2DPanelWidget import View2DPanelWidget
 from .lib.sovView3DPanelWidget import View3DPanelWidget
 from .lib.sovVisualizationPanelWidget import VisualizationPanelWidget
 from .lib.sovWelcomePanelWidget import WelcomePanelWidget
+from .minder3DState import Minder3DState
 from .ui_minder3DWindow import Ui_MainWindow
 
 
@@ -428,13 +427,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             self.state.overlay_array[num] = itk.GetArrayFromImage(
                 self.state.overlay[num]
             )
-
-        if os.path.splitext(filename)[1] == '.mha':
-            self.state.view2D_flip.append([True, True, False])
-        else:
-            self.state.view2D_flip.append([False, False, False])
-
-        self.state.current_image_num = len(self.state.image) - 1
 
         self.imageTablePanel.replace_image()
 

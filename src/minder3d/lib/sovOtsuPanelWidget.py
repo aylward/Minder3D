@@ -1,7 +1,3 @@
-import importlib.util as imp
-
-import numpy as np
-from PySide6.QtGui import QCloseEvent
 from PySide6.QtWidgets import QWidget
 
 from .sovOtsuLogic import OtsuLogic

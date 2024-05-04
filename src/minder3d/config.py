@@ -13,13 +13,14 @@ def parse_config() -> argparse.Namespace:
     """
 
     parser = argparse.ArgumentParser(
-        description="Enabling innovative AI for medical imaging.")
+        description='Enabling innovative AI for medical imaging.'
+    )
 
     parser.add_argument(
-        "--load-image", type=str, required=False, help="Path to image"
+        '--load-image', type=str, required=False, help='Path to image'
     )
     parser.add_argument(
-        "--load-scene", type=str, required=False, help="Path to scene"
+        '--load-scene', type=str, required=False, help='Path to scene'
     )
 
     args = parser.parse_args()

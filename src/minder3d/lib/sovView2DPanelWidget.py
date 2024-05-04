@@ -222,17 +222,13 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
     @time_and_log
     def update_image(self):
-        imin = self.state.image_min[self.state.current_image_num]
-        imax = self.state.image_max[self.state.current_image_num]
-        irange = imax - imin
-
         auto_range = np.quantile(self.state.image_array[-1], [0.1, 0.9])
-        self.state.view2D_intensity_window_min[
-            self.state.current_image_num
-        ] = auto_range[0]
-        self.state.view2D_intensity_window_max[
-            self.state.current_image_num
-        ] = auto_range[1]
+        self.state.view2D_intensity_window_min[self.state.current_image_num] = (
+            auto_range[0]
+        )
+        self.state.view2D_intensity_window_max[self.state.current_image_num] = (
+            auto_range[1]
+        )
 
         self.update_gui = False
 
@@ -272,11 +268,11 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
             self.state.image[self.state.current_image_num],
             self.state.overlay_array[self.state.current_image_num],
         )
-        self.state.overlay[
-            self.state.current_image_num
-        ] = itk.GetImageFromArray(
-            self.state.overlay_array[self.state.current_image_num],
-            ttype=self.state.overlay_type,
+        self.state.overlay[self.state.current_image_num] = (
+            itk.GetImageFromArray(
+                self.state.overlay_array[self.state.current_image_num],
+                ttype=self.state.overlay_type,
+            )
         )
         self.state.overlay[self.state.current_image_num].CopyInformation(
             self.state.image[self.state.current_image_num]
@@ -366,11 +362,11 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
                 self.state.image[self.state.current_image_num],
                 self.state.overlay_array[self.state.current_image_num],
             )
-        self.state.overlay[
-            self.state.current_image_num
-        ] = itk.GetImageFromArray(
-            self.state.overlay_array[self.state.current_image_num],
-            ttype=self.state.overlay_type,
+        self.state.overlay[self.state.current_image_num] = (
+            itk.GetImageFromArray(
+                self.state.overlay_array[self.state.current_image_num],
+                ttype=self.state.overlay_type,
+            )
         )
         self.state.overlay[self.state.current_image_num].CopyInformation(
             self.state.image[self.state.current_image_num]

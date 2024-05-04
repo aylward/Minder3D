@@ -4,7 +4,6 @@
 Launch the minder3D application
 """
 
-import sys
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPalette
@@ -12,6 +11,7 @@ from PySide6.QtWidgets import QApplication
 
 from .config import parse_config
 from .minder3DWindow import Minder3DWindow
+
 
 def main():
     """
@@ -56,5 +56,6 @@ def main():
 
     app.exec()
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     main()

@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "minder3d"
 description = "Using AI to foster innovation in the exploration of radiological images."
 license = {text = "Apache 2.0"}
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python :: 3"
 ]
@@ -25,11 +25,11 @@ dependencies = [
 minder3d = "minder3d.main:main"
 
 [project.optional-dependencies]
-
 develop = [
-  'black',
+  'black==24.4.2',
   'pylint',
-  'flake8'
+  'flake8',
+  'pre-commit',
 ]
 
 [tool.setuptools.packages.find]
@@ -41,22 +41,12 @@ readme = {file = ["README.md"]}
 
 [tool.black]
 line-length = 80
-skip-string-normalization = 1
+skip-string-normalization = true
 target_version = ['py311']
-exclude = '''
+include = ["src"]
+force-exclude = '''
 (
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | _build
-    | build
-    | dist
-  )/
-  | .gitignore
+  ui_.*|.*\.ui|\.gitignore|.*\.yml|.*\.yaml|.*\.toml
 )
 '''
 
@@ -66,8 +56,13 @@ extend-ignore = ["E501"]
 
 [tool.isort]
 profile = "black"
-skip_glob = "src/ui_*"
+skip_glob = ["ui_*", "*.ui"]
 line_length = 80
 
 [tool.pylint]
 max-line-length = 80
+
+[tool.ruff]
+include = ["*.py"]
+exclude = ["*.ui", "ui_*", ".gitignore"]
+line-length = 80

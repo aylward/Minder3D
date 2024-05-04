@@ -1,0 +1,26 @@
+name: "Auto-Format"
+
+on: [push]
+
+jobs:
+  ruff-check:
+    name: "Auto-Format"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: psf/black@stable
+        with:
+          use_pyproject: true
+      - uses: chartboost/ruff-action@v1
+        with:
+          args: "check --fix --config pyproject.toml"
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "STYLE:Fixes by auto-format"
