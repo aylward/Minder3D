@@ -43,22 +43,8 @@ readme = {file = ["README.md"]}
 line-length = 80
 skip-string-normalization = 1
 target_version = ['py311']
-exclude = '''
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | _build
-    | build
-    | dist
-  )/
-  | .gitignore
-)
-'''
+include = ["src/*py"]
+exclude = ["ui_*", ".??*", "build", "_build", "dist"]
 
 [tool.flake8]
 max-line-length = 80
@@ -71,3 +57,8 @@ line_length = 80
 
 [tool.pylint]
 max-line-length = 80
+
+[tool.ruff]
+include = ["src/*py"]
+exclude = ["*.ui", "ui_*", ".gitignore"]
+line-length = 80
