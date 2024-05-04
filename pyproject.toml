@@ -1,9 +1,73 @@
-# Python
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "minder3d"
+description = "Using AI to foster innovation in the exploration of radiological images."
+license = {text = "Apache 2.0"}
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3"
+]
+dynamic = ["version", "readme"]
+
+dependencies = [
+  'PyQt6',
+  'PySide6',
+  'numpy',
+  'vtk',
+  #'itk',  # Do not install until ITK pypi is updated
+]
+
+[project.scripts]
+
+minder3d = "minder3d.main:main"
+
+[project.optional-dependencies]
+
+develop = [
+  'black',
+  'pylint',
+  'flake8'
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {attr = "minder3d.__version__"}
+readme = {file = ["README.md"]}
+
 [tool.black]
 line-length = 80
 skip-string-normalization = 1
-target_version = ["py311"]
+target_version = ['py311']
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | build
+    | dist
+  )/
+  | .gitignore
+)
+'''
 
 [tool.flake8]
 max-line-length = 80
 extend-ignore = ["E501"]
+
+[tool.isort]
+profile = "black"
+skip_glob = "src/ui_*"
+line_length = 80
+
+[tool.pylint]
+max-line-length = 80

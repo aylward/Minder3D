@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'pytubeviewMbPino.ui'
+## Form generated from reading UI file 'minder3DWindowPfcNFq.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -316,7 +316,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"PyTubeView", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Minder3D", None))
         self.loadImageMenuItem.setText(QCoreApplication.translate("MainWindow", u"Load Image", None))
         self.saveImageMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Image", None))
         self.saveOverlayMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Overlay", None))

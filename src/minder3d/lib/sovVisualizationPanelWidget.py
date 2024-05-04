@@ -1,9 +1,7 @@
-import numpy as np
-from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget
 
-from sovUtils import time_and_log
-from ui_sovVisualizationPanelWidget import Ui_VisualizationPanelWidget
+from .sovUtils import time_and_log
+from .ui_sovVisualizationPanelWidget import Ui_VisualizationPanelWidget
 
 
 class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
@@ -50,7 +48,7 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
 
     @time_and_log
     def update_flip_x(self, value):
-        if self.update_gui == False:
+        if self.update_gui is False:
             return
 
         self.state.view2D_flip[self.state.current_image_num][0] = not (
@@ -60,7 +58,7 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
 
     @time_and_log
     def update_flip_y(self, value):
-        if self.update_gui == False:
+        if self.update_gui is False:
             return
 
         self.state.view2D_flip[self.state.current_image_num][1] = not (
@@ -70,7 +68,7 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
 
     @time_and_log
     def update_flip_z(self, value):
-        if self.update_gui == False:
+        if self.update_gui is False:
             return
 
         self.state.view2D_flip[self.state.current_image_num][2] = not (
@@ -80,7 +78,7 @@ class VisualizationPanelWidget(QWidget, Ui_VisualizationPanelWidget):
 
     @time_and_log
     def update_view2D(self):
-        if self.update_gui == False:
+        if self.update_gui is False:
             return
 
         self.update_gui = False

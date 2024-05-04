@@ -2,9 +2,9 @@ import numpy as np
 from PySide6.QtGui import QCloseEvent
 from PySide6.QtWidgets import QMessageBox, QWidget
 
-from sovLungCTALogic import LungCTALogic
-from sovUtils import add_objects_in_mask_image_to_scene, time_and_log
-from ui_sovLungCTAPanelWidget import Ui_LungCTAPanelWidget
+from .sovLungCTALogic import LungCTALogic
+from .sovUtils import add_objects_in_mask_image_to_scene, time_and_log
+from .ui_sovLungCTAPanelWidget import Ui_LungCTAPanelWidget
 
 
 class LungCTAPanelWidget(QWidget, Ui_LungCTAPanelWidget):

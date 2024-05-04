@@ -1,3 +1,4 @@
+"""This module provides the ImageTablePanelWidget class."""
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import (
@@ -7,9 +8,9 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from sovImageTablePanelUtils import get_qthumbnail_from_array
-from sovUtils import get_file_reccords_from_settings, time_and_log
-from ui_sovImageTablePanelWidget import Ui_ImageTablePanelWidget
+from .sovImageTablePanelUtils import get_qthumbnail_from_array
+from .sovUtils import get_file_reccords_from_settings, time_and_log
+from .ui_sovImageTablePanelWidget import Ui_ImageTablePanelWidget
 
 
 class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
@@ -60,7 +61,8 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
     def redraw_image(self, img_num):
         """Redraws the image at the specified index in the image table widget.
 
-        This function updates the information displayed in the image table widget for the image at the specified index.
+        This function updates the information displayed in the image table
+        widget for the image at the specified index.
 
         Args:
             self: The object instance.
@@ -102,11 +104,13 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
 
     @time_and_log
     def fill_table(self):
-        """Fill the image table with image records from the state and file records from settings.
+        """Fill the image table with images from the state and from settings.
 
-        This method clears the existing image table and fills it with image records from the state. It then retrieves file
-        records from the settings and adds them to the table if they are not already present. For each file record, it
-        populates the table with the file's thumbnail, filename, size, and spacing.
+        This method clears the existing image table and fills it with image
+        records from the state. It then retrieves file records from the
+        settings and adds them to the table if they are not already present.
+        For each file record, it populates the table with the file's thumbnail,
+        filename, size, and spacing.
 
         Args:
             self: The instance of the class.
@@ -131,13 +135,13 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 self.imageTableWidget.setItem(
                     img_num, 2, QTableWidgetItem(file.filename)
                 )
-                if type(file.file_size) == type([]) and len(file.file_size) > 0:
+                if type(file.file_size) is type([]) and len(file.file_size) > 0:
                     size_str = [str(i) for i in file.file_size]
                     self.imageTableWidget.setItem(
                         img_num, 3, QTableWidgetItem('x'.join(size_str))
                     )
                 if (
-                    type(file.file_spacing) == type([])
+                    type(file.file_spacing) is type([])
                     and len(file.file_spacing) > 0
                 ):
                     spacing_str = [f'{i:.4f}' for i in file.file_spacing]

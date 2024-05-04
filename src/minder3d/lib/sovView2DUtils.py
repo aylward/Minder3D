@@ -1,7 +1,7 @@
 import itk
 import numpy as np
 
-from sovUtils import get_children_as_list, time_and_log
+from .sovUtils import get_children_as_list, time_and_log
 
 
 @time_and_log

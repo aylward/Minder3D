@@ -1,3 +1,3 @@
-# pytubeview
+# Minder3D
 
-Analyze and visualize vessels in 3D
+Using AI to foster innovation in the exploration of radiological images.

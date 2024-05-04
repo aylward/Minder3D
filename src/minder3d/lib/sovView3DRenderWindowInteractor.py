@@ -8,8 +8,8 @@ from vtkmodules.vtkRenderingCore import (
     vtkRenderer,
 )
 
-from sovUtils import get_tag_value_index_in_list_of_dict, time_and_log
-from sovView3DUtils import (
+from .sovUtils import get_tag_value_index_in_list_of_dict, time_and_log
+from .sovView3DUtils import (
     convert_scene_to_surfaces,
     get_closest_point_in_world_space,
 )

@@ -1,15 +1,29 @@
+#!/usr/bin/env python
+
+"""
+Launch the minder3D application
+"""
+
 import sys
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPalette
 from PySide6.QtWidgets import QApplication
 
-from ptvWindow import PTVWindow
+from .config import parse_config
+from .minder3DWindow import Minder3DWindow
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
+def main():
+    """
+    Application entrypoint.
 
-    pytubeview = PTVWindow()
+    Parse arguments and pass them to the application
+    """
+    config = parse_config()
+
+    app = QApplication()
+
+    minder3D = Minder3DWindow()
 
     palette = QPalette()
     palette.setColor(QPalette.ColorRole.Window, QColor(53, 53, 53))
@@ -32,11 +46,15 @@ if __name__ == '__main__':
     app.setPalette(palette)
     app.setStyle('Fusion')
 
-    if len(sys.argv) > 1:
-        pytubeview.load_image(sys.argv[1])
-        if len(sys.argv) > 2:
-            pytubeview.load_scene(sys.argv[2])
+    if config.load_image is not None:
+        minder3D.load_image(config.load_image)
 
-    pytubeview.show()
+    if config.load_scene is not None:
+        minder3D.load_scene(config.load_scene)
+
+    minder3D.show()
 
     app.exec()
+
+if __name__ == "__main__":
+    main()

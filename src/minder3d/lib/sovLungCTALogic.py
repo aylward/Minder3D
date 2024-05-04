@@ -4,8 +4,8 @@ import sys
 import itk
 import numpy as np
 
-from sovImageProcessLogic import ImageProcessLogic
-from sovUtils import time_and_log
+from .sovImageProcessLogic import ImageProcessLogic
+from .sovUtils import time_and_log
 
 
 class LungCTALogic:

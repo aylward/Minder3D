@@ -30,4 +30,4 @@ repos:
     hooks:
       - id: prettier
         stages: [commit]
-exclude: "src/ui_*"
+exclude: ["src/ui_*", "*.md"]

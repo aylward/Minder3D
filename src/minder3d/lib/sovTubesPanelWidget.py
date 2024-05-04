@@ -1,17 +1,17 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget
 
-from ui_sovScreenCapturePanelWidget import Ui_ScreenCapturePanelWidget
+from .ui_sovPreProcessPanelWidget import Ui_PreProcessPanelWidget
 
 
-class ScreenCapturePanelWidget(QWidget, Ui_ScreenCapturePanelWidget):
+class PreProcessPanelWidget(QWidget, Ui_PreProcessPanelWidget):
     def __init__(self, gui, state, parent=None):
-        """Initialize the class with the provided GUI and state.
+        """Initialize the class with the provided GUI, state, and optional parent.
 
         Args:
             gui: The GUI object.
             state: The state object.
-            parent: The parent widget (default is None).
+            parent: Optional parent widget.
         """
 
         super().__init__(parent)
@@ -20,15 +20,12 @@ class ScreenCapturePanelWidget(QWidget, Ui_ScreenCapturePanelWidget):
         self.gui = gui
         self.state = state
 
-        self.scCapture2DButton.clicked.connect(self.capture_2d)
+        self.preprocHighResIsoButton.clicked.connect(self.make_high_res_iso)
 
-    def capture_2d(self):
+    def make_high_res_iso(self):
         """Print 'click'.
 
         This function prints 'click' when called.
-
-        Args:
-            self: The instance of the class.
         """
 
         print('click')

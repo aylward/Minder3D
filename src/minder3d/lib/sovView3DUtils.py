@@ -4,7 +4,7 @@ from vtkmodules.vtkCommonCore import vtkDoubleArray, vtkPoints
 from vtkmodules.vtkCommonDataModel import vtkCellArray, vtkPolyData, vtkPolyLine
 from vtkmodules.vtkFiltersCore import vtkSurfaceNets3D, vtkTubeFilter
 
-from sovUtils import get_children_as_list, time_and_log
+from .sovUtils import get_children_as_list, time_and_log
 
 
 @time_and_log
