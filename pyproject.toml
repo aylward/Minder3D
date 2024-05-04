@@ -43,7 +43,7 @@ line-length = 80
 skip-string-normalization = 1
 target_version = ['py311']
 required_version = "24.4.2"
-include = "src/*py"
+include = ["src/.*py"]
 force-exclude = '''
 (
   \./src/ui_.*|\...*
