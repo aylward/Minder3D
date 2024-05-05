@@ -3,6 +3,7 @@ import os
 import itk
 import numpy as np
 import vtk
+from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QFileDialog, QInputDialog, QMainWindow, QTabBar
 
 from .lib.sovColorMapUtils import get_nearest_color_index_and_name
@@ -37,6 +38,9 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
 
         super().__init__(parent)
         self.setupUi(self)
+
+        QCoreApplication.setOrganizationName("Aylward")
+        QCoreApplication.setApplicationName("Minder3D")
 
         self.state = Minder3DState()
 
@@ -180,8 +184,9 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
     def load_image(self, filename=None):
         """Load an image from a file.
 
-        If filename is not provided, it opens a file dialog to select an image file.
-        It then creates a new image from the selected file and updates the image and overlay.
+        If filename is not provided, it opens a file dialog to select an image
+        file.  It then creates a new image from the selected file and updates
+        the image and overlay.
 
         Args:
             filename (str?): The path of the image file to be loaded.
@@ -201,7 +206,11 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             self.update_image()
             self.update_overlay()
 
-            qthumb = get_qthumbnail_from_array(self.state.image_array[-1])
+            qthumb = get_qthumbnail_from_array(
+                self.state.image_array[-1][
+                    self.state.image_array[-1].shape[0] // 2, ::-1, :
+                ]
+            )
             add_file_to_settings(
                 self.state.image[-1], filename, 'image', qthumb
             )
@@ -210,8 +219,9 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
     def load_scene(self, filename=None):
         """Load a scene from a file and update the application state.
 
-        If filename is not provided, a file dialog is opened to select the file.
-        If a valid filename is provided, the scene is loaded from the file and added to the application state.
+        If filename is not provided, a file dialog is opened to select the
+        file.  If a valid filename is provided, the scene is loaded from the
+        file and added to the application state.
 
         Args:
             filename (str?): The name of the file to load the scene from.

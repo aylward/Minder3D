@@ -28,15 +28,13 @@ dependencies = [
 [project.scripts]
 minder3d = "minder3d.__main__:main"
 
-[project.gui-scripts]
-minder3d = "minder3d.__main__:main"
-
 [project.urls]
 Homepage = "https://github.com/aylward/Minder3D"
 Aylward = "https://www.aylward.org"
 
 [project.optional-dependencies]
 dev = [
+  'qt6-tools',
   'black==24.4.2',
   'pylint',
   'flake8',
@@ -61,8 +59,8 @@ tag             = true
 push            = false
 
 [tool.bumpver.file_patterns]
-"pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
-"src/minder3d/__init__.py" = ["{version}"]
+"pyproject.toml" = ['current_version = "{version}"']
+"src/minder3d/__init__.py" = ["__version__ = '{version}'"]
 
 [tool.black]
 line-length = 80

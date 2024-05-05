@@ -136,13 +136,13 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 self.imageTableWidget.setItem(
                     img_num, 2, QTableWidgetItem(file.filename)
                 )
-                if isinstance(file.file_size, []) and len(file.file_size) > 0:
+                if isinstance(file.file_size, list) and len(file.file_size) > 0:
                     size_str = [str(i) for i in file.file_size]
                     self.imageTableWidget.setItem(
                         img_num, 3, QTableWidgetItem('x'.join(size_str))
                     )
                 if (
-                    isinstance(file.file_spacing, [])
+                    isinstance(file.file_spacing, list)
                     and len(file.file_spacing) > 0
                 ):
                     spacing_str = [f'{i:.4f}' for i in file.file_spacing]
