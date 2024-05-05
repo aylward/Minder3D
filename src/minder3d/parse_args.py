@@ -7,7 +7,7 @@ Helper utility to parse input parameters for a given run.
 import argparse
 
 
-def parse_config() -> argparse.Namespace:
+def parse_args() -> argparse.Namespace:
     """
     Parse command line arguments to configure the run.
     """

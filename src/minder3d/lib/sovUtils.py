@@ -170,13 +170,25 @@ def time_and_log(func):
 def get_settings():
     """Get the application settings.
 
-    This function retrieves the application settings using QSettings from 'itkSpatialObjectsViewer' and 'QuantAIV'.
+    This function retrieves the application settings via QSettings.
+
+    The main application should set the CoreApplication variables, as shown
+    in the example below:
+        from PySide6.QtCore import QCoreApplication
+
+        QCoreApplication.setOrganizationName("aylward")
+        QCoreApplication.setApplicationName("Minder3D")
 
     Returns:
         QSettings: The application settings.
     """
+    settings_file = os.path.join(
+        QStandardPaths.writableLocation(QStandardPaths.AppDataLocation),
+        'settings.ini',
+    )
+    os.makedirs(os.path.dirname(settings_file), exist_ok=True)
+    settings = QSettings(settings_file, QSettings.IniFormat)
 
-    settings = QSettings('itkSpatialObjectsViewer', 'QuantAIV')
     return settings
 
 
@@ -236,7 +248,8 @@ def get_file_reccords_from_settings():
 def add_file_to_settings(obj, filename, file_type, qthumbnail=None):
     """Add a file to the settings.
 
-    This function adds a file to the settings, including its filename, type, spacing, size, and thumbnail.
+    This function adds a file to the settings, including its filename, type,
+    spacing, size, and thumbnail.
 
     Args:
         obj: The object representing the file.

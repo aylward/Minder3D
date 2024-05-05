@@ -9,8 +9,8 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPalette
 from PySide6.QtWidgets import QApplication
 
-from .config import parse_config
 from .minder3DWindow import Minder3DWindow
+from .parse_args import parse_args
 
 
 def main():
@@ -19,7 +19,7 @@ def main():
 
     Parse arguments and pass them to the application
     """
-    config = parse_config()
+    cli_args = parse_args()
 
     app = QApplication()
 
@@ -46,11 +46,11 @@ def main():
     app.setPalette(palette)
     app.setStyle('Fusion')
 
-    if config.load_image is not None:
-        minder3D.load_image(config.load_image)
+    if cli_args.load_image is not None:
+        minder3D.load_image(cli_args.load_image)
 
-    if config.load_scene is not None:
-        minder3D.load_scene(config.load_scene)
+    if cli_args.load_scene is not None:
+        minder3D.load_scene(cli_args.load_scene)
 
     minder3D.show()
 

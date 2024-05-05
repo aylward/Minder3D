@@ -3,7 +3,7 @@ from PySide6.QtGui import QImage, QPixmap
 
 
 def get_qthumbnail_from_array(thumb_array):
-    auto_range = np.quantile(thumb_array, [0.1, 0.9])
+    auto_range = np.quantile(thumb_array, [0.05, 0.95])
     thumb_array = np.clip(thumb_array, auto_range[0], auto_range[1])
     thumb_array = (
         (thumb_array - auto_range[0]) / (auto_range[1] - auto_range[0]) * 255
