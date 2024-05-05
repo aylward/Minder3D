@@ -18,7 +18,7 @@ import uuid
 
 import itk
 import numpy as np
-from PySide6.QtCore import QSettings, QStandardPaths, QCoreApplication
+from PySide6.QtCore import QCoreApplication, QSettings, QStandardPaths
 from PySide6.QtWidgets import QMainWindow, QTextEdit
 
 from .sovColorMapUtils import short_colormap, short_colormap_scale_factor
@@ -182,8 +182,10 @@ def get_settings():
     Returns:
         QSettings: The application settings.
     """
-    settings_file = os.path.join(QStandardPaths.writableLocation(
-        QStandardPaths.AppDataLocation), "settings.ini")
+    settings_file = os.path.join(
+        QStandardPaths.writableLocation(QStandardPaths.AppDataLocation),
+        'settings.ini',
+    )
     os.makedirs(os.path.dirname(settings_file), exist_ok=True)
     settings = QSettings(settings_file, QSettings.IniFormat)
 

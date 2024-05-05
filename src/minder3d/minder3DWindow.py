@@ -39,8 +39,8 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         super().__init__(parent)
         self.setupUi(self)
 
-        QCoreApplication.setOrganizationName("Aylward")
-        QCoreApplication.setApplicationName("Minder3D")
+        QCoreApplication.setOrganizationName('Aylward')
+        QCoreApplication.setApplicationName('Minder3D')
 
         self.state = Minder3DState()
 

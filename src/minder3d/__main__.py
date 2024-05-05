@@ -9,8 +9,8 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPalette
 from PySide6.QtWidgets import QApplication
 
-from .parse_args import parse_args
 from .minder3DWindow import Minder3DWindow
+from .parse_args import parse_args
 
 
 def main():
