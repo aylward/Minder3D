@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovImageTablePanelWidgetobPDfU.ui'
+## Form generated from reading UI file 'sovImageTablePanelWidgetGkmGIl.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -15,8 +15,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QSizePolicy,
-    QTableWidget, QTableWidgetItem, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QHBoxLayout, QHeaderView,
+    QSizePolicy, QTableWidget, QTableWidgetItem, QWidget)
 
 class Ui_ImageTablePanelWidget(object):
     def setupUi(self, ImageTablePanelWidget):
@@ -35,6 +35,10 @@ class Ui_ImageTablePanelWidget(object):
         self.horizontalLayout.setContentsMargins(3, 3, 3, 3)
         self.imageTableWidget = QTableWidget(ImageTablePanelWidget)
         self.imageTableWidget.setObjectName(u"imageTableWidget")
+        self.imageTableWidget.setAlternatingRowColors(True)
+        self.imageTableWidget.setSelectionMode(QAbstractItemView.NoSelection)
+        self.imageTableWidget.horizontalHeader().setVisible(True)
+        self.imageTableWidget.verticalHeader().setVisible(False)
 
         self.horizontalLayout.addWidget(self.imageTableWidget)
 

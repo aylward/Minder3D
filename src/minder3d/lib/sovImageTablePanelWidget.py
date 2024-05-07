@@ -9,8 +9,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from .sovImageTablePanelUtils import get_qthumbnail_from_array
-from .sovUtils import get_file_reccords_from_settings, time_and_log
+from .sovImageTableSettings import ImageTableSettings
+from .sovUtils import time_and_log
 from .ui_sovImageTablePanelWidget import Ui_ImageTablePanelWidget
 
 
@@ -30,10 +30,12 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         self.gui = gui
         self.state = state
 
+        self.settings = ImageTableSettings()
+
         self.imageTableWidget.setRowCount(0)
-        self.imageTableWidget.setColumnCount(5)
+        self.imageTableWidget.setColumnCount(6)
         self.imageTableWidget.setHorizontalHeaderLabels(
-            ['Loaded', 'Filename', 'Size', 'Spacing', 'Thumbnail']
+            ['Loaded', 'Type', 'Thumbnail', 'Filename', 'Size', 'Spacing']
         )
         self.imageTableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         self.imageTableWidget.setSelectionBehavior(QTableWidget.SelectRows)
@@ -51,15 +53,22 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             'QTableView{ selection-background-color: rgba(0, 50, 0, 50);  }'
         )
 
-        self.imageTableWidget.cellClicked.connect(self.select_image_by_table)
+        self.imageTableWidget.cellClicked.connect(self.select_data_by_table)
 
         self.fill_table()
 
+    @time_and_log
     def update_image(self):
+        self.fill_table()
         self.imageTableWidget.selectRow(self.state.current_image_num)
 
     @time_and_log
-    def redraw_image(self, img_num):
+    def update_scene(self):
+        self.fill_table()
+        self.imageTableWidget.selectRow(self.state.current_image_num)
+
+    @time_and_log
+    def redraw_image_row(self, row_num):
         """Redraws the image at the specified index in the image table widget.
 
         This function updates the information displayed in the image table
@@ -74,19 +83,23 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             IndexError: If the specified img_num is out of range.
         """
 
+        img_num = row_num
+        if img_num < len(self.state.image_filename):
+            self.imageTableWidget.setItem(
+                row_num, 0, QTableWidgetItem(str('X'))
+            )
+        else:
+            self.imageTableWidget.setItem(row_num, 0, QTableWidgetItem(str('')))
         self.imageTableWidget.setItem(
-            img_num, 0, QTableWidgetItem(str(img_num))
-        )
-        qthumb = get_qthumbnail_from_array(
-            self.state.image_array[img_num][
-                self.state.image_array[img_num].shape[0] // 2, ::-1, :
-            ]
+            row_num, 1, QTableWidgetItem(str('Image'))
         )
         self.imageTableWidget.setItem(
-            img_num, 1, QTableWidgetItem(QIcon(qthumb), '')
+            row_num,
+            2,
+            QTableWidgetItem(QIcon(self.state.image_thumbnail[img_num]), ''),
         )
-        filename = self.state.image_filename[img_num][-20:]
-        self.imageTableWidget.setItem(img_num, 2, QTableWidgetItem(filename))
+        filename = self.state.image_filename[img_num]
+        self.imageTableWidget.setItem(row_num, 3, QTableWidgetItem(filename))
         size_str = [
             str(i)
             for i in self.state.image[img_num]
@@ -94,14 +107,39 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             .GetSize()
         ]
         self.imageTableWidget.setItem(
-            img_num, 3, QTableWidgetItem('x'.join(size_str))
+            row_num, 4, QTableWidgetItem('x'.join(size_str))
         )
         spacing_str = [
             f'{i:.4f}' for i in self.state.image[img_num].GetSpacing()
         ]
         self.imageTableWidget.setItem(
-            img_num, 4, QTableWidgetItem(', '.join(spacing_str))
+            row_num, 5, QTableWidgetItem(','.join(spacing_str))
         )
+
+    @time_and_log
+    def redraw_scene_row(self, row_num, selected=False):
+        if selected or (
+            self.imageTableWidget.item(row_num, 3) is not None
+            and self.imageTableWidget.item(row_num, 3).text()
+            == self.state.scene_filename
+        ):
+            self.imageTableWidget.setItem(
+                row_num, 0, QTableWidgetItem(str('X'))
+            )
+        else:
+            self.imageTableWidget.setItem(row_num, 0, QTableWidgetItem(str('')))
+        self.imageTableWidget.setItem(
+            row_num, 1, QTableWidgetItem(str('Scene'))
+        )
+        self.imageTableWidget.setItem(
+            row_num, 2, QTableWidgetItem(QIcon(self.state.scene_thumbnail), '')
+        )
+        self.imageTableWidget.setItem(
+            row_num, 3, QTableWidgetItem(str(self.state.scene_filename))
+        )
+        size = self.state.scene.GetNumberOfChildren()
+        self.imageTableWidget.setItem(row_num, 4, QTableWidgetItem(str(size)))
+        self.imageTableWidget.setItem(row_num, 5, QTableWidgetItem(str('')))
 
     @time_and_log
     def fill_table(self):
@@ -118,54 +156,123 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         """
 
         self.imageTableWidget.clear()
-        for img_num in range(len(self.state.image)):
-            self.imageTableWidget.insertRow(img_num)
-            self.redraw_image(img_num)
-        file_records = get_file_reccords_from_settings()
-        img_num = self.imageTableWidget.rowCount()
+        self.imageTableWidget.setRowCount(0)
+        self.imageTableWidget.setHorizontalHeaderLabels(
+            ['Loaded', 'Type', 'Thumbnail', 'Filename', 'Size', 'Spacing']
+        )
+        row_num = 0
+        for _ in range(len(self.state.image)):
+            self.imageTableWidget.insertRow(row_num)
+            self.redraw_image_row(row_num)
+            row_num += 1
+        if self.state.scene.GetNumberOfChildren() > 0:
+            self.imageTableWidget.insertRow(row_num)
+            self.redraw_scene_row(row_num, selected=True)
+            row_num += 1
+
+        file_records = self.settings.get_file_records()
         for file in file_records:
             if (
                 file.filename not in self.state.image_filename
                 and file.file_type == 'image'
             ):
-                self.imageTableWidget.insertRow(img_num)
+                self.imageTableWidget.insertRow(row_num)
+                self.imageTableWidget.setItem(
+                    row_num, 1, QTableWidgetItem('Image')
+                )
+                if file.file_thumbnail != '':
+                    qthumb = QPixmap(file.file_thumbnail)
+                    self.imageTableWidget.setItem(
+                        row_num, 2, QTableWidgetItem(QIcon(qthumb), '')
+                    )
+                self.imageTableWidget.setItem(
+                    row_num, 3, QTableWidgetItem(str(file.filename))
+                )
+                self.imageTableWidget.setItem(
+                    row_num, 4, QTableWidgetItem(str(file.file_size))
+                )
+                self.imageTableWidget.setItem(
+                    row_num, 5, QTableWidgetItem(str(file.file_spacing))
+                )
+                row_num += 1
+            elif (
+                file.filename != self.state.scene_filename
+                and file.file_type == 'scene'
+            ):
+                self.imageTableWidget.insertRow(row_num)
+                self.imageTableWidget.setItem(
+                    row_num, 1, QTableWidgetItem('Scene')
+                )
                 qthumb = QPixmap(file.file_thumbnail)
                 self.imageTableWidget.setItem(
-                    img_num, 1, QTableWidgetItem(QIcon(qthumb), '')
+                    row_num, 2, QTableWidgetItem(QIcon(qthumb), '')
                 )
                 self.imageTableWidget.setItem(
-                    img_num, 2, QTableWidgetItem(file.filename)
+                    row_num, 3, QTableWidgetItem(file.filename)
                 )
-                if isinstance(file.file_size, list) and len(file.file_size) > 0:
-                    size_str = [str(i) for i in file.file_size]
-                    self.imageTableWidget.setItem(
-                        img_num, 3, QTableWidgetItem('x'.join(size_str))
-                    )
-                if (
-                    isinstance(file.file_spacing, list)
-                    and len(file.file_spacing) > 0
-                ):
-                    spacing_str = [f'{i:.4f}' for i in file.file_spacing]
-                    self.imageTableWidget.setItem(
-                        img_num, 4, QTableWidgetItem(', '.join(spacing_str))
-                    )
-                img_num += 1
+                self.imageTableWidget.setItem(
+                    row_num, 4, QTableWidgetItem(file.file_size)
+                )
+                row_num += 1
 
+    @time_and_log
     def create_new_image(self):
-        img_num = self.state.current_image_num
-        self.imageTableWidget.insertRow(img_num)
-        self.redraw_image(img_num)
+        self.state.image_thumbnail.append(
+            self.settings.get_thumbnail(
+                self.state.image[-1], self.state.image_filename[-1], 'image'
+            )
+        )
+        self.settings.add_data(
+            self.state.image[-1],
+            self.state.image_filename[-1],
+            'image',
+            self.state.image_thumbnail[-1],
+        )
+        self.fill_table()
 
+    @time_and_log
+    def save_image(self, filename):
+        self.settings.add_data(
+            self.state.image[self.state.current_image_num],
+            filename,
+            'image',
+            self.state.image_thumbnail[self.state.current_image_num],
+        )
+        self.fill_table()
+
+    @time_and_log
+    def load_scene(self):
+        self.state.scene_thumbnail = self.settings.get_thumbnail(
+            self.state.scene, self.state.scene_filename, 'scene'
+        )
+        self.settings.add_data(
+            self.state.scene,
+            self.state.scene_filename,
+            'scene',
+            self.state.scene_thumbnail,
+        )
+        self.fill_table()
+
+    @time_and_log
+    def save_scene(self, filename):
+        self.settings.add_data(
+            self.state.scene, filename, 'scene', self.state.scene_thumbnail
+        )
+
+    @time_and_log
     def replace_image(self, img_num):
-        self.redraw_image(img_num)
+        self.redraw_image_row(img_num)
 
-    def select_image_by_table(self, row, _):
-        sel_num = int(self.imageTableWidget.item(row, 0).text())
-        if self.state.current_image_num == sel_num:
-            return
+    @time_and_log
+    def select_data_by_table(self, row, _):
+        if row < len(self.state.image_filename):
+            self.state.current_image_num = row
+            self.gui.update_image()
 
-        self.state.current_image_num = sel_num
-        self.gui.update_image()
-
-        if self.state.view2D_overlay_auto_update:
-            self.gui.update_overlay()
+            if self.state.view2D_overlay_auto_update:
+                self.gui.update_overlay()
+        else:
+            if self.imageTableWidget.item(row, 1).text() == 'Image':
+                self.gui.load_image(self.imageTableWidget.item(row, 3).text())
+            elif self.imageTableWidget.item(row, 1).text() == 'Scene':
+                self.gui.load_scene(self.imageTableWidget.item(row, 3).text())

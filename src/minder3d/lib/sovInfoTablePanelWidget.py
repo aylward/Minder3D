@@ -28,9 +28,10 @@ class InfoTablePanelWidget(QWidget, Ui_InfoTablePanelWidget):
         self.infoTableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         self.infoTableWidget.setSelectionMode(QTableWidget.NoSelection)
         self.infoTableWidget.setShowGrid(True)
-        # self.infoTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
-        # self.infoTableWidget.verticalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.infoTableWidget.verticalHeader().hide()
+        self.infoTableWidget.setStyleSheet(
+            'QTableView{ selection-background-color: rgba(0, 50, 0, 50);  }'
+        )
 
     @time_and_log
     def update_image(self):

@@ -42,7 +42,20 @@
     <number>3</number>
    </property>
    <item>
-    <widget class="QTableWidget" name="imageTableWidget"/>
+    <widget class="QTableWidget" name="imageTableWidget">
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::NoSelection</enum>
+     </property>
+     <attribute name="horizontalHeaderVisible">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+    </widget>
    </item>
   </layout>
  </widget>

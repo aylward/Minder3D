@@ -69,7 +69,7 @@ target_version = ['py311']
 include = ["src"]
 force-exclude = '''
 (
-  ui_.*|.*\.ui|\.gitignore|.*\.yml|.*\.yaml|.*\.toml
+  ui_.*|.*\.ui|\.gitignore|.*\.yml|.*\.yaml|.*\.toml|.*\.png
 )
 '''
 
@@ -87,5 +87,5 @@ max-line-length = 80
 
 [tool.ruff]
 include = ["*.py"]
-exclude = ["*.ui", "ui_*", ".gitignore"]
+exclude = ["ui_*"]
 line-length = 80

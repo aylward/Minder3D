@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovInfoTablePanelWidgetCuyIch.ui'
+## Form generated from reading UI file 'sovInfoTablePanelWidgetIbytOB.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -42,15 +42,20 @@ class Ui_InfoTablePanelWidget(object):
         sizePolicy1.setHeightForWidth(self.infoTableWidget.sizePolicy().hasHeightForWidth())
         self.infoTableWidget.setSizePolicy(sizePolicy1)
         self.infoTableWidget.setMinimumSize(QSize(180, 0))
-        self.infoTableWidget.setAutoFillBackground(True)
+        self.infoTableWidget.setAutoFillBackground(False)
         self.infoTableWidget.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
         self.infoTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.infoTableWidget.setAlternatingRowColors(True)
+        self.infoTableWidget.setSelectionMode(QAbstractItemView.NoSelection)
         self.infoTableWidget.setSelectionBehavior(QAbstractItemView.SelectItems)
         self.infoTableWidget.setRowCount(0)
+        self.infoTableWidget.horizontalHeader().setVisible(False)
         self.infoTableWidget.horizontalHeader().setCascadingSectionResizes(False)
+        self.infoTableWidget.horizontalHeader().setHighlightSections(False)
         self.infoTableWidget.horizontalHeader().setProperty("showSortIndicator", False)
+        self.infoTableWidget.verticalHeader().setVisible(False)
         self.infoTableWidget.verticalHeader().setCascadingSectionResizes(False)
+        self.infoTableWidget.verticalHeader().setHighlightSections(False)
 
         self.horizontalLayout.addWidget(self.infoTableWidget)
 

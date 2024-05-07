@@ -1,6 +1,8 @@
 import itk
 import numpy as np
 from PySide6.QtWidgets import QWidget
+from vtk import vtkRenderLargeImage
+from vtk.util.numpy_support import vtk_to_numpy
 
 from .sovUtils import time_and_log
 from .sovView2DRenderWindowInteractor import View2DRenderWindowInteractor
@@ -45,6 +47,22 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
     @time_and_log
     def initialize(self):
         self.vtk2DViewWidget.Initialize()
+
+    def get_screenshot(self):
+        render = vtkRenderLargeImage()
+        render.SetMagnification(1)
+        render.SetInput(self.vtk2DViewWidget.view2D.GetRenderer())
+        render.Update()
+        img = render.GetOutput()
+        data = img.GetPointData()
+        img_scalars = data.GetScalars()
+        dims = img.GetDimensions()
+        n_comp = img_scalars.GetNumberOfComponents()
+        temp = vtk_to_numpy(img_scalars)
+        numpy_data = temp.reshape(dims[1], dims[0], n_comp)
+        numpy_data = numpy_data.transpose(0, 1, 2)
+        numpy_data = np.flipud(numpy_data)
+        return numpy_data
 
     @time_and_log
     def update_overlay_opacity(self, value):

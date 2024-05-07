@@ -7,13 +7,11 @@ from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QFileDialog, QInputDialog, QMainWindow, QTabBar
 
 from .lib.sovColorMapUtils import get_nearest_color_index_and_name
-from .lib.sovImageTablePanelUtils import get_qthumbnail_from_array
 from .lib.sovImageTablePanelWidget import ImageTablePanelWidget
 from .lib.sovInfoTablePanelWidget import InfoTablePanelWidget
 from .lib.sovNewTaskPanelWidget import NewTaskPanelWidget
 from .lib.sovUtils import (
     LogWindow,
-    add_file_to_settings,
     get_children_as_list,
     read_group,
     resample_overlay_to_match_image,
@@ -181,7 +179,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.log_window.log(message, level)
 
     @time_and_log
-    def load_image(self, filename=None):
+    def load_image(self, filename=None, thumbnail=None):
         """Load an image from a file.
 
         If filename is not provided, it opens a file dialog to select an image
@@ -199,21 +197,14 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
                 self, 'Open File', filename, 'All Files (*)'
             )
         if filename is not None:
-            self.create_new_image(
-                itk.imread(filename, self.state.image_pixel_type), filename
-            )
+            img = itk.imread(filename, self.state.image_pixel_type)
+            if img is None:
+                self.log('Image could not be loaded.', 'error')
+                return
+            self.create_new_image(img, filename)
 
             self.update_image()
             self.update_overlay()
-
-            qthumb = get_qthumbnail_from_array(
-                self.state.image_array[-1][
-                    self.state.image_array[-1].shape[0] // 2, ::-1, :
-                ]
-            )
-            add_file_to_settings(
-                self.state.image[-1], filename, 'image', qthumb
-            )
 
     @time_and_log
     def load_scene(self, filename=None):
@@ -236,12 +227,16 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
                 self, 'Open File', self.state.scene_filename, 'All Files (*)'
             )
         if filename:
+            filename = os.path.abspath(filename)
             self.state.scene_filename = filename
             self.state.scene = read_group(filename)
-            add_file_to_settings(self.state.scene, filename, 'scenes')
+            if self.state.scene is None:
+                self.log('Scene could not be loaded.', 'error')
+                return
 
-        self.update_scene()
-        add_file_to_settings(self.state.scene, filename, 'scene')
+            self.update_scene()
+
+            self.imageTablePanel.load_scene()
 
     @time_and_log
     def save_image(self, filename=None):
@@ -261,11 +256,13 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
                 'All Files (*)',
             )
         if filename:
+            filename = os.path.abspath(filename)
             self.state.image_filename[self.state.current_image_num] = filename
             self.log(f'Saving image to {filename}')
             itk.imwrite(
                 self.state.image[self.state.current_image_num], filename
             )
+            self.imageTablePanel.save_image(filename)
 
     @time_and_log
     def save_overlay(self, filename=None):
@@ -340,9 +337,10 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
                 self, 'Save File', self.state.scene_filename, 'All Files (*)'
             )
         if filename:
-            self.state.scene_filename = filename
+            self.state.scene_filename = os.path.abspath(filename)
             self.log(f'Saving scene to {filename}')
             write_group(self.state.scene, filename)
+            self.state.imageTablePanel.save_scene(filename)
 
     @time_and_log
     def create_new_image(self, img, filename=None, tag=None):
@@ -372,7 +370,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
                     return False
             else:
                 filename = filename + '_' + tag + fileext
-        self.state.image_filename.append(str(filename))
+        self.state.image_filename.append(str(os.path.abspath(filename)))
 
         self.state.image.append(img)
         self.state.image_array.append(
@@ -402,9 +400,9 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
 
         self.state.current_image_num = len(self.state.image) - 1
 
-        self.imageTablePanel.create_new_image()
         self.view2DPanel.create_new_image()
         self.view3DPanel.create_new_image()
+        self.imageTablePanel.create_new_image()
 
         return True
 
@@ -485,6 +483,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             self.view2DPanel.update_scene()
         if self.state.view3D_scene_auto_update:
             self.view3DPanel.update_scene()
+        self.imageTablePanel.update_scene()
         self.connect_object_gui()
 
     @time_and_log
