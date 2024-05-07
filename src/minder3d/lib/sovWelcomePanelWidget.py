@@ -1,3 +1,4 @@
+from PySide6.QtGui import QColor, QPalette
 from PySide6.QtWidgets import QWidget
 
 from .ui_sovWelcomePanelWidget import Ui_WelcomePanelWidget
@@ -27,3 +28,8 @@ class WelcomePanelWidget(QWidget, Ui_WelcomePanelWidget):
             self.gui.save_vtk_models
         )
         self.welcomeSaveSceneButton.pressed.connect(self.gui.save_scene)
+
+        p = self.welcomeTextEdit.palette()
+        p.setColor(QPalette.Base, QColor(43, 43, 43))
+        p.setColor(QPalette.Text, QColor(200, 200, 200))
+        self.welcomeTextEdit.setPalette(p)

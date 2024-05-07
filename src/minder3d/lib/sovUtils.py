@@ -14,11 +14,9 @@ import functools
 import logging
 import os
 import time
-import uuid
 
 import itk
 import numpy as np
-from PySide6.QtCore import QSettings, QStandardPaths
 from PySide6.QtWidgets import QMainWindow, QTextEdit
 
 from .sovColorMapUtils import short_colormap, short_colormap_scale_factor
@@ -139,7 +137,6 @@ def time_and_log(func):
         Raises:
             Exception: If an exception occurs during the function execution.
         """
-
         logger = logging.getLogger('sov')
         spacing = '  ' * time_and_log.nesting_level
         filename = os.path.splitext(
@@ -165,146 +162,6 @@ def time_and_log(func):
             raise e
 
     return wrapper
-
-
-def get_settings():
-    """Get the application settings.
-
-    This function retrieves the application settings via QSettings.
-
-    The main application should set the CoreApplication variables, as shown
-    in the example below:
-        from PySide6.QtCore import QCoreApplication
-
-        QCoreApplication.setOrganizationName("aylward")
-        QCoreApplication.setApplicationName("Minder3D")
-
-    Returns:
-        QSettings: The application settings.
-    """
-    settings_file = os.path.join(
-        QStandardPaths.writableLocation(QStandardPaths.AppDataLocation),
-        'settings.ini',
-    )
-    os.makedirs(os.path.dirname(settings_file), exist_ok=True)
-    settings = QSettings(settings_file, QSettings.IniFormat)
-
-    return settings
-
-
-class SettingsFileRecord:
-    def __init__(
-        self,
-        filename,
-        file_type,
-        file_spacing=[],
-        file_size=[],
-        file_thumbnail='',
-    ):
-        """Initialize the object with the provided file details.
-
-        Args:
-            filename (str): The name of the file.
-            file_type (str): The type of the file.
-            file_spacing (list?): A list of spacing details. Defaults to [].
-            file_size (list?): A list of size details. Defaults to [].
-            file_thumbnail (str?): The thumbnail of the file. Defaults to ''.
-        """
-
-        self.filename = filename
-        self.file_type = file_type
-        self.file_spacing = file_spacing
-        self.file_size = file_size
-        self.file_thumbnail = file_thumbnail
-
-
-def get_file_reccords_from_settings():
-    """Get file records from the settings.
-
-    This function retrieves file records from the settings and returns a list of file records.
-
-    Returns:
-        list: A list of file records retrieved from the settings.
-    """
-
-    settings = get_settings()
-    files = []
-    size = settings.beginReadArray('files')
-    for i in range(size):
-        settings.setArrayIndex(i)
-        filename = settings.value('filename', '')
-        file_type = settings.value('file_type', '')
-        file_spacing = settings.value('file_spacing', [], float)
-        file_size = settings.value('file_size', [], int)
-        file_thumbnail = settings.value('file_thumbnail', '')
-        rec = SettingsFileRecord(
-            filename, file_type, file_spacing, file_size, file_thumbnail
-        )
-        files.append(rec)
-    settings.endArray()
-    return files
-
-
-def add_file_to_settings(obj, filename, file_type, qthumbnail=None):
-    """Add a file to the settings.
-
-    This function adds a file to the settings, including its filename, type,
-    spacing, size, and thumbnail.
-
-    Args:
-        obj: The object representing the file.
-        filename (str): The name of the file.
-        file_type (str): The type of the file.
-        qthumbnail (Optional[QImage]): The thumbnail of the file.
-
-
-    Raises:
-        IndexError: If the input list is empty.
-    """
-
-    settings = get_settings()
-    settings.beginWriteArray('files')
-    files = get_file_reccords_from_settings()
-    file_spacing = []
-    file_size = []
-    file_thumbnail = ''
-    if file_type == 'image':
-        file_spacing = [s for s in obj.GetSpacing()]
-        file_size = [s for s in obj.GetLargestPossibleRegion().GetSize()]
-        if qthumbnail is not None:
-            data_dir = QStandardPaths.writableLocation(
-                QStandardPaths.AppDataLocation
-            )
-            file_thumbnail = str(uuid.uuid4()) + '.png'
-            file_thumbnail = os.path.join(data_dir, file_thumbnail)
-            qthumbnail.save(file_thumbnail)
-    for i, file in enumerate(files):
-        if file.filename == filename:
-            settings.setArrayIndex(i)
-            settings.setValue('file_type', file_type)
-            settings.setValue('file_spacing', file_spacing)
-            settings.setValue('file_size', file_size)
-            os.remove(file.file_thumbnail)
-            settings.setValue('file_thumbnail', file_thumbnail)
-            settings.endArray()
-            return
-    if len(files) > 10:
-        os.remove(files[-1].file_thumbnail)
-        files.pop(-1)
-        for i, file in enumerate(files):
-            settings.setArrayIndex(i)
-            settings.setValue('filename', file.filename)
-            settings.setValue('file_type', file.file_type)
-            settings.setValue('file_spacing', file.file_spacing)
-            settings.setValue('file_size', file.file_size)
-            settings.setValue('file_thumbnail', file.file_thumbnail)
-    settings.setArrayIndex(len(files))
-    settings.setValue('filename', filename)
-    settings.setValue('file_type', file_type)
-    settings.setValue('file_spacing', file_spacing)
-    settings.setValue('file_size', file_size)
-    settings.setValue('file_thumbnail', file_thumbnail)
-    settings.endArray()
 
 
 @time_and_log
@@ -430,11 +287,12 @@ def read_group(filename: str, dims: int = 3) -> itk.GroupSpatialObject:
     Returns:
         itk.GroupSpatialObject: The group read from the file.
     """
-    GroupFileReaderType = itk.SpatialObjectReader[dims]
-
-    groupFileReader = GroupFileReaderType.New()
-    groupFileReader.SetFileName(filename)
-    groupFileReader.Update()
+    try:
+        groupFileReader = itk.SpatialObjectReader[dims].New()
+        groupFileReader.SetFileName(filename)
+        groupFileReader.Update()
+    except RuntimeError:
+        return None
 
     return groupFileReader.GetGroup()
 
