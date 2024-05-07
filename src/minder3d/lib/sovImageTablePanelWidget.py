@@ -15,6 +15,7 @@ from .ui_sovImageTablePanelWidget import Ui_ImageTablePanelWidget
 
 
 class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
+    @time_and_log
     def __init__(self, gui, state, parent=None):
         """Initialize the GUI and state for the application.
 
@@ -89,7 +90,9 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 row_num, 0, QTableWidgetItem(str('X'))
             )
         else:
-            self.imageTableWidget.setItem(row_num, 0, QTableWidgetItem(str('')))
+            self.imageTableWidget.setItem(
+                row_num, 0, QTableWidgetItem(str(''))
+            )
         self.imageTableWidget.setItem(
             row_num, 1, QTableWidgetItem(str('Image'))
         )
@@ -127,7 +130,9 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 row_num, 0, QTableWidgetItem(str('X'))
             )
         else:
-            self.imageTableWidget.setItem(row_num, 0, QTableWidgetItem(str('')))
+            self.imageTableWidget.setItem(
+                row_num, 0, QTableWidgetItem(str(''))
+            )
         self.imageTableWidget.setItem(
             row_num, 1, QTableWidgetItem(str('Scene'))
         )

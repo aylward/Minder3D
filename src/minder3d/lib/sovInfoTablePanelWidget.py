@@ -5,6 +5,7 @@ from .ui_sovInfoTablePanelWidget import Ui_InfoTablePanelWidget
 
 
 class InfoTablePanelWidget(QWidget, Ui_InfoTablePanelWidget):
+    @time_and_log
     def __init__(self, gui, state, parent=None):
         """Initialize the GUI and state for the parent widget.
 
@@ -13,7 +14,6 @@ class InfoTablePanelWidget(QWidget, Ui_InfoTablePanelWidget):
             state: The state object.
             parent: The parent widget (default is None).
         """
-
         super().__init__(parent)
         self.setupUi(self)
 

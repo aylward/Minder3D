@@ -9,6 +9,7 @@ from .ui_sovView3DPanelWidget import Ui_View3DPanelWidget
 
 
 class View3DPanelWidget(QWidget, Ui_View3DPanelWidget):
+    @time_and_log
     def __init__(self, gui, state, parent=None):
         super().__init__(parent)
         self.setupUi(self)

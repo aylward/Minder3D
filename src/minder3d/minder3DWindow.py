@@ -4,15 +4,21 @@ import itk
 import numpy as np
 import vtk
 from PySide6.QtCore import QCoreApplication
-from PySide6.QtWidgets import QFileDialog, QInputDialog, QMainWindow, QTabBar
+from PySide6.QtWidgets import (
+    QFileDialog,
+    QInputDialog,
+    QMainWindow,
+    QTabBar,
+    QSizePolicy
+)
 
-from .lib.sovColorMapUtils import get_nearest_color_index_and_name
 from .lib.sovImageTablePanelWidget import ImageTablePanelWidget
 from .lib.sovInfoTablePanelWidget import InfoTablePanelWidget
+from .lib.sovObjectPanelWidget import ObjectPanelWidget
 from .lib.sovNewTaskPanelWidget import NewTaskPanelWidget
 from .lib.sovUtils import (
-    LogWindow,
     get_children_as_list,
+    LogWindow,
     read_group,
     resample_overlay_to_match_image,
     time_and_log,
@@ -50,21 +56,11 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.saveVTKModelsMenuItem.triggered.connect(self.save_vtk_models)
         self.saveSceneMenuItem.triggered.connect(self.save_scene)
 
-        for color_name, _ in self.state.colormap.items():
-            self.objectColorComboBox.addItem(color_name)
+        self.bottomPanelLayout.minimumSize().setHeight(230)
+        self.bottomPanelLayout.maximumSize().setHeight(230)
 
-        self.connect_object_gui()
-
-        self.objectHighlightSelectedObjectsCheckBox.stateChanged.connect(
-            self.update_highlight_selected
-        )
-        self.objectDeleteButton.pressed.connect(self.delete_selected_objects)
-        self.objectPropertiesToAllButton.pressed.connect(
-            self.propogate_properties_to_all
-        )
-        self.objectPropertiesToChildrenButton.pressed.connect(
-            self.propogate_properties_to_children
-        )
+        self.bottomRightPanelLayout.minimumSize().setWidth(830)
+        self.bottomRightPanelLayout.maximumSize().setWidth(830)
 
         # View 2D Widget
         self.view2DPanel = View2DPanelWidget(self, self.state)
@@ -73,6 +69,14 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         # View 3D Widget
         self.view3DPanel = View3DPanelWidget(self, self.state)
         self.view3DLayout.addWidget(self.view3DPanel)
+
+        # Object Widget
+        self.objectPanel = ObjectPanelWidget(self, self.state)
+        self.objectLayout.addWidget(self.objectPanel)
+
+        # Info Table
+        self.infoTablePanel = InfoTablePanelWidget(self, self.state)
+        self.infoTableLayout.addWidget(self.infoTablePanel)
 
         # Welcome Tab
         self.welcomePanel = WelcomePanelWidget(self, self.state)
@@ -87,20 +91,24 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.newTaskTabLayout.addWidget(self.newTaskPanel)
 
         self.tabWidget.tabCloseRequested.connect(self.tab_close_event)
+        self.tabWidget.setFixedHeight(200)
+        self.tabWidget.setFixedWidth(700)
 
-        # Remove Close buttons from welcome, visualization, and pre-process and task tabs
+        # Remove Close buttons from welcome, visualization, and pre-process
+        # and task tabs
         tabBar = self.tabWidget.tabBar()
         for i in range(0, 3):
             tabBar.tabButton(i, QTabBar.RightSide).deleteLater()
             tabBar.setTabButton(i, QTabBar.RightSide, None)
 
-        # Info Table
-        self.infoTablePanel = InfoTablePanelWidget(self, self.state)
-        self.infoTableLayout.addWidget(self.infoTablePanel)
-
         # Image Table
         self.imageTablePanel = ImageTablePanelWidget(self, self.state)
         self.imageTableLayout.addWidget(self.imageTablePanel)
+        self.imageTablePanel.setMinimumWidth(300)
+        self.imageTablePanel.setSizePolicy(
+            QSizePolicy.Minimum,
+            QSizePolicy.Fixed
+        )
 
         self.statusText.setText('Ready')
 
@@ -117,49 +125,13 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.tabWidget.removeTab(index)
         tab.close()
 
-    @time_and_log
-    def connect_object_gui(self):
-        self.objectNameComboBox.currentIndexChanged.connect(
-            self.select_object_by_name_combobox
-        )
-
-        self.objectColorByComboBox.currentIndexChanged.connect(
-            self.modify_selected_objects
-        )
-
-        self.objectColorComboBox.currentIndexChanged.connect(
-            self.modify_selected_objects
-        )
-
-        self.objectOpacitySlider.valueChanged.connect(
-            self.modify_selected_objects
-        )
-
-    @time_and_log
-    def disconnect_object_gui(self):
-        self.objectNameComboBox.currentIndexChanged.disconnect(
-            self.select_object_by_name_combobox
-        )
-
-        self.objectColorByComboBox.currentIndexChanged.disconnect(
-            self.modify_selected_objects
-        )
-
-        self.objectColorComboBox.currentIndexChanged.disconnect(
-            self.modify_selected_objects
-        )
-
-        self.objectOpacitySlider.valueChanged.disconnect(
-            self.modify_selected_objects
-        )
-
     def closeEvent(self, QCloseEvent):
         super().closeEvent(QCloseEvent)
         self.view2DPanel.close()
         self.view3DPanel.close()
 
     def log(self, message, level='info'):
-        """Set the status text and color based on the log level, and update the log window.
+        """Set the status text, and color based on the log level
 
         Args:
             message (str): The message to be displayed in the status text.
@@ -242,10 +214,12 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
     def save_image(self, filename=None):
         """Save the current image to a file.
 
-        If no filename is provided, a file dialog will be opened to select the save location.
+        If no filename is provided, a file dialog will be opened to select the
+        save location.
 
         Args:
-            filename (str?): The name of the file to save the image to. If not provided, a file dialog will be opened.
+            filename (str): The name of the file to save the image to. If not
+                provided, a file dialog will be opened.
         """
 
         if not filename:
@@ -268,11 +242,13 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
     def save_overlay(self, filename=None):
         """Save the overlay of the current image to a file.
 
-        If no filename is provided, it prompts the user to select a file location.
-        If a filename is provided, it saves the overlay of the current image to that file location.
+        If no filename is provided, it prompts the user to select a file
+        location. If a filename is provided, it saves the overlay of the
+        current image to that file location.
 
         Args:
-            filename (str?): The name of the file to save the overlay to. If not provided, a file dialog will be shown.
+            filename (str): The name of the file to save the overlay to.
+                If not provided, a file dialog will be shown.
         """
 
         if not filename:
@@ -295,11 +271,12 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
     def save_vtk_models(self, filename=None):
         """Save VTK models to a VRML file.
 
-        If no filename is provided, a file dialog is opened to prompt the user for a filename.
-        The VTK models are exported to the specified VRML file.
+        If no filename is provided, a file dialog is opened to prompt the user
+        for a filename. The VTK models are exported to the specified VRML file.
 
         Args:
-            filename (str?): The name of the file to save the VTK models to. If not provided, a file dialog will be opened.
+            filename (str): The name of the file to save the VTK models to.
+                If not provided, a file dialog will be opened.
         """
 
         if not filename:
@@ -321,8 +298,8 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
     def save_scene(self, filename=None):
         """Save the current scene to a file.
 
-        If no filename is provided, a file dialog will be shown to select the file.
-        If a filename is provided, the scene will be saved to that file.
+        If no filename is provided, a file dialog will be shown to select the
+        file. If a filename is provided, the scene will be saved to that file.
 
         Args:
             filename (str?): The name of the file to save the scene to.
@@ -344,21 +321,25 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def create_new_image(self, img, filename=None, tag=None):
-        """Create a new image and update the state with the new image information.
+        """Create a new image and update the state with the new image info
 
         Args:
             img: The new image to be added.
-            filename (str?): The filename for the new image. If not provided, a default filename will be generated.
+            filename (str?): The filename for the new image. If not provided,
+                a default filename will be generated.
             tag (str?): A tag to be appended to the filename.
 
         Returns:
-            bool: True if the new image is successfully created and added to the state, False otherwise.
+            bool: True if the new image is successfully created and added to
+                the state, False otherwise.
         """
 
         if filename is None:
             filename, fileext = os.path.splitext(self.state.image_filename[-1])
             if tag is None:
-                filename = filename + '_' + str(len(self.state.image)) + fileext
+                filename = filename + '_' + str(
+                    len(self.state.image)
+                ) + fileext
                 dlg = QInputDialog(self)
                 dlg.setInputMode(QInputDialog.TextInput)
                 dlg.setLabelText("New image's filename:")
@@ -408,13 +389,18 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
 
     @time_and_log
     def replace_image(self, img, update_overlay=True):
-        """Replace the current image with a new image and update the overlay if specified.
+        """Replace the current image with a new image and update the overlay.
 
-        This function replaces the current image with the provided image and updates the corresponding image array, minimum and maximum values. If `update_overlay` is True, it also updates the overlay to match the new image. Additionally, it appends view2D_flip based on the file extension of the image.
+        This function replaces the current image with the provided image and
+        updates the corresponding image array, minimum and maximum values.
+        If `update_overlay` is True, it also updates the overlay to match the
+        new image. Additionally, it appends view2D_flip based on the file
+        extension of the image.
 
         Args:
             img: The new image to be set as the current image.
-            update_overlay (bool?): Flag to indicate whether to update the overlay. Defaults to True.
+                update_overlay (bool?): Flag to indicate whether to update the
+                overlay. Defaults to True.
 
 
         Raises:
@@ -458,9 +444,11 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
     def update_scene(self):
         """Update the scene with the latest changes.
 
-        This method updates the scene by updating the scene list, scene list ids, and scene list properties.
-        It also clears the object name combo box and adds items to it based on the scene list.
-        Additionally, it updates the 2D and 3D views if the corresponding auto-update flags are set.
+        This method updates the scene by updating the scene list, scene list
+        ids, and scene list properties.  It also clears the object name combo
+        box and adds items to it based on the scene list.  Additionally, it
+        updates the 2D and 3D views if the corresponding auto-update flags are
+        set.
 
         Args:
             self: The object instance.
@@ -470,209 +458,48 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.state.scene_list_ids = []
         self.state.scene_list_properties = []
 
-        self.disconnect_object_gui()
-        self.objectNameComboBox.clear()
-        self.objectNameComboBox.addItem('None')
+        self.update_gui = False
+
         for so in self.state.scene_list:
             self.state.scene_list_ids.append(so.GetId())
             self.state.scene_list_properties.append(
                 dict(ColorBy='Solid Color', Actor=None)
             )
-            self.objectNameComboBox.addItem(f'{so.GetTypeName()} {so.GetId()}')
+            if so.GetProperty().GetTagStringValue('Name') == '':
+                so.GetProperty().SetTagStringValue(
+                    'Name', f'{so.GetTypeName()} {so.GetId()}'
+                )
+
         if self.state.view2D_overlay_auto_update:
             self.view2DPanel.update_scene()
         if self.state.view3D_scene_auto_update:
             self.view3DPanel.update_scene()
         self.imageTablePanel.update_scene()
-        self.connect_object_gui()
+        self.objectPanel.update_scene()
 
     @time_and_log
-    def update_highlight_selected(self, value):
-        """Update the highlight selected state and redraw the selected objects.
-
-        Args:
-            value (bool): The new value for the highlight selected state.
-        """
-
-        self.state.highlight_selected = value
-        for selected_id in self.state.selected_ids:
-            self.log(f'update_highlight_selected: Id={selected_id}')
-            so = self.state.scene_list[
-                self.state.scene_list_ids.index(selected_id)
-            ]
-            self.redraw_object(so)
-
-    @time_and_log
-    def select_object_by_name_combobox(self, idx):
-        so = None
-        so_id = -2
-        if idx > 0:
-            idx -= 1
-            so = self.state.scene_list[idx]
-            so_id = so.GetId()
-        # Unselect currently selected objects
-        for selected_idx, selected_so_id in enumerate(self.state.selected_ids):
-            if selected_so_id != -1 and selected_so_id != so_id:
-                scene_idx = self.state.scene_list_ids.index(selected_so_id)
-                selected_so = self.state.scene_list[scene_idx]
-                self.state.selected_ids[selected_idx] = -1
-                self.redraw_object(selected_so)
-        if so_id != -2:
-            self.state.selected_ids = [so_id]
-            self.state.selected_point_ids = [0]
-            self.redraw_object(so)
-
-    @time_and_log
-    def redraw_object(self, so, update_2D=True, update_3D=True):
+    def redraw_object(
+        self, so, update_2D=True, update_3D=True, update_object=True
+    ):
         """Redraws the specified object in the scene.
 
-        This method updates the visual representation of the specified object in the 2D and 3D views if the corresponding
-        update flags are set to True. It also updates the object's properties in the GUI.
+        This method updates the visual representation of the specified object
+        in the 2D and 3D views if the corresponding update flags are set to
+        True. It also updates the object's properties in the GUI.
 
         Args:
             self: The object instance.
             so: The object to be redrawn.
-            update_2D (bool): Flag indicating whether to update the 2D view (default is True).
-            update_3D (bool): Flag indicating whether to update the 3D view (default is True).
+            update_2D (bool): Flag indicating whether to update the 2D view
+                (default is True).
+            update_3D (bool): Flag indicating whether to update the 3D view
+                (default is True).
         """
-
-        so_id = so.GetId()
-        if so_id not in self.state.scene_list_ids:
-            self.log('ERROR: so_id not in scene_list_ids', 'error')
-            return
-        scene_idx = self.state.scene_list_ids.index(so_id)
-
-        self.disconnect_object_gui()
-
-        self.objectNameComboBox.setCurrentIndex(scene_idx + 1)
-
-        c = so.GetProperty().GetColor()
-        color = [c.GetRed(), c.GetGreen(), c.GetBlue(), c.GetAlpha()]
-        color[0:3] = np.array(color)[0:3] * self.state.colormap_scale_factor
-        color[3] = color[3] * 100.0
-        self.objectOpacitySlider.setValue(color[3])
-        _, color_name = get_nearest_color_index_and_name(
-            color[0:3], self.state.colormap
-        )
-        self.objectColorComboBox.setCurrentText(color_name)
-
         if update_2D and self.state.view2D_overlay_auto_update:
             self.view2DPanel.redraw_object(so)
         if update_3D and self.state.view3D_scene_auto_update:
             self.view3DPanel.redraw_object(so)
-
-        # Must call after view3DPanel.redraw_object() so that actors defined.
-        self.objectColorByComboBox.clear()
-        self.objectColorByComboBox.addItem('Solid Color')
-        actor = self.state.scene_list_properties[scene_idx].get('Actor')
-        if actor is not None:
-            pdata = actor.GetMapper().GetInput()
-            for i in range(pdata.GetPointData().GetNumberOfArrays()):
-                pname = pdata.GetPointData().GetArrayName(i)
-                self.objectColorByComboBox.addItem(pname)
-
-            self.objectColorByComboBox.setCurrentText(
-                self.state.scene_list_properties[scene_idx]['ColorBy']
-            )
-
-        self.connect_object_gui()
-
-    @time_and_log
-    def modify_selected_objects(self, _):
-        """Modify the selected objects in the scene with new color and properties.
-
-        This function modifies the color and properties of the selected objects in the scene based on the current state
-        of the application. It updates the color, opacity, and color-by property of the selected objects.
-
-        Args:
-            self: The instance of the class.
-        """
-
-        for so_id in self.state.selected_ids:
-            scene_idx = self.state.scene_list_ids.index(so_id)
-            so = self.state.scene_list[scene_idx]
-            color = np.empty(4)
-            color[0:3] = self.state.colormap[
-                self.objectColorComboBox.currentText()
-            ]
-            color[0:3] /= self.state.colormap_scale_factor
-            color[3] = self.objectOpacitySlider.value() / 100.0
-            so.GetProperty().SetColor(color)
-            self.state.scene_list_properties[scene_idx][
-                'ColorBy'
-            ] = self.objectColorByComboBox.currentText()
-
-            if self.state.view2D_overlay_auto_update:
-                self.view2DPanel.redraw_object(so)
-            if self.state.view3D_scene_auto_update:
-                self.view3DPanel.redraw_object(so)
-
-    @time_and_log
-    def delete_selected_objects(self):
-        """Delete the selected objects from the scene.
-
-        This function deletes the selected objects from the scene by removing them from the scene list and updating the GUI accordingly.
-        """
-
-        for so_id in self.state.selected_ids:
-            print('deleting so_id:', so_id)
-            scene_idx = self.state.scene_list_ids.index(so_id)
-            so = self.state.scene_list[scene_idx]
-            so_parent = so.GetParent()
-            so_parent.RemoveChild(so)
-            self.state.scene_list.pop(scene_idx)
-            self.state.scene_list_properties.pop(scene_idx)
-        self.state.selected_ids = []
-        self.state.selected_point_ids = []
-
-        self.disconnect_object_gui()
-        self.objectNameComboBox.clear()
-        self.objectNameComboBox.addItem('None')
-        for so in self.state.scene_list:
-            self.objectNameComboBox.addItem(f'{so.GetTypeName()} {so.GetId()}')
-        self.connect_object_gui()
-        self.update_scene()
-
-    @time_and_log
-    def propogate_properties_to_all(self):
-        """Propagate properties to all objects in the scene.
-
-        This function updates the properties of all objects in the scene based on the current settings.
-
-        Args:
-            self: The current instance of the class.
-        """
-
-        color_by = self.objectColorByComboBox.currentText()
-        color = np.empty(4)
-        color[0:3] = self.state.colormap[self.objectColorComboBox.currentText()]
-        color[0:3] /= self.state.colormap_scale_factor
-        color[3] = self.objectOpacitySlider.value() / 100.0
-        for idx in range(len(self.state.scene_list)):
-            self.state.scene_list_properties[idx]['ColorBy'] = color_by
-            self.state.scene_list[idx].GetProperty().SetColor(color)
-            self.redraw_object(self.state.scene_list[idx])
-
-    @time_and_log
-    def propogate_properties_to_children(self):
-        """Propagate properties to the children objects.
-
-        This function propagates the selected properties to the children objects in the scene.
-        """
-
-        for so_id in self.state.selected_ids:
-            scene_idx = self.state.scene_list_ids.index(so_id)
-            so = self.state.scene_list[scene_idx]
-            color_by = self.objectColorByComboBox.currentText()
-            color = np.empty(4)
-            color[0:3] = self.state.colormap[
-                self.objectColorComboBox.currentText()
-            ]
-            color[0:3] /= self.state.colormap_scale_factor
-            color[3] = self.objectOpacitySlider.value() / 100.0
-            children = get_children_as_list(so)
-            for child_so in children:
-                idx = self.state.scene_list.index(child_so)
-                self.state.scene_list_properties[idx]['ColorBy'] = color_by
-                self.state.scene_list[idx].GetProperty().SetColor(color)
-                self.redraw_object(child_so)
+        if update_object:
+            # Must call after view3DPanel.redraw_object() so that actors are
+            # defined and color-by options are known. 
+            self.objectPanel.redraw_object(so)

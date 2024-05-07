@@ -1,10 +1,12 @@
 from PySide6.QtGui import QColor, QPalette
 from PySide6.QtWidgets import QWidget
 
+from .sovUtils import time_and_log
 from .ui_sovWelcomePanelWidget import Ui_WelcomePanelWidget
 
 
 class WelcomePanelWidget(QWidget, Ui_WelcomePanelWidget):
+    @time_and_log
     def __init__(self, gui, state, parent=None):
         """Initialize the GUI and state for the application.
 
