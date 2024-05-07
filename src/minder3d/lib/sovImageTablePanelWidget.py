@@ -90,9 +90,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 row_num, 0, QTableWidgetItem(str('X'))
             )
         else:
-            self.imageTableWidget.setItem(
-                row_num, 0, QTableWidgetItem(str(''))
-            )
+            self.imageTableWidget.setItem(row_num, 0, QTableWidgetItem(str('')))
         self.imageTableWidget.setItem(
             row_num, 1, QTableWidgetItem(str('Image'))
         )
@@ -130,9 +128,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 row_num, 0, QTableWidgetItem(str('X'))
             )
         else:
-            self.imageTableWidget.setItem(
-                row_num, 0, QTableWidgetItem(str(''))
-            )
+            self.imageTableWidget.setItem(row_num, 0, QTableWidgetItem(str('')))
         self.imageTableWidget.setItem(
             row_num, 1, QTableWidgetItem(str('Scene'))
         )

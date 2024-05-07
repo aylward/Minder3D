@@ -8,17 +8,17 @@ from PySide6.QtWidgets import (
     QFileDialog,
     QInputDialog,
     QMainWindow,
+    QSizePolicy,
     QTabBar,
-    QSizePolicy
 )
 
 from .lib.sovImageTablePanelWidget import ImageTablePanelWidget
 from .lib.sovInfoTablePanelWidget import InfoTablePanelWidget
-from .lib.sovObjectPanelWidget import ObjectPanelWidget
 from .lib.sovNewTaskPanelWidget import NewTaskPanelWidget
+from .lib.sovObjectPanelWidget import ObjectPanelWidget
 from .lib.sovUtils import (
-    get_children_as_list,
     LogWindow,
+    get_children_as_list,
     read_group,
     resample_overlay_to_match_image,
     time_and_log,
@@ -106,8 +106,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.imageTableLayout.addWidget(self.imageTablePanel)
         self.imageTablePanel.setMinimumWidth(300)
         self.imageTablePanel.setSizePolicy(
-            QSizePolicy.Minimum,
-            QSizePolicy.Fixed
+            QSizePolicy.Minimum, QSizePolicy.Fixed
         )
 
         self.statusText.setText('Ready')
@@ -337,9 +336,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         if filename is None:
             filename, fileext = os.path.splitext(self.state.image_filename[-1])
             if tag is None:
-                filename = filename + '_' + str(
-                    len(self.state.image)
-                ) + fileext
+                filename = filename + '_' + str(len(self.state.image)) + fileext
                 dlg = QInputDialog(self)
                 dlg.setInputMode(QInputDialog.TextInput)
                 dlg.setLabelText("New image's filename:")
@@ -501,5 +498,5 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             self.view3DPanel.redraw_object(so)
         if update_object:
             # Must call after view3DPanel.redraw_object() so that actors are
-            # defined and color-by options are known. 
+            # defined and color-by options are known.
             self.objectPanel.redraw_object(so)

@@ -1,13 +1,11 @@
 """
 """
+
 import numpy as np
-from PySide6.QtWidgets import (
-    QWidget,
-    QInputDialog
-)
+from PySide6.QtWidgets import QInputDialog, QWidget
 
 from .sovColorMapUtils import get_nearest_color_index_and_name
-from .sovUtils import time_and_log, get_children_as_list
+from .sovUtils import get_children_as_list, time_and_log
 from .ui_sovObjectPanelWidget import Ui_ObjectPanelWidget
 
 
@@ -98,7 +96,7 @@ class ObjectPanelWidget(QWidget, Ui_ObjectPanelWidget):
     @time_and_log
     def unselect_all_objects(self):
         """Unselect all objects in the scene.
-        
+
         This function unselects all objects in the scene by removing them
         from selected_ids and selected_point_ids.
         """
@@ -110,7 +108,7 @@ class ObjectPanelWidget(QWidget, Ui_ObjectPanelWidget):
                 self.redraw_object(selected_so)
         self.state.selected_ids = []
         self.state.selected_point_ids = []
-        
+
         self.update_gui = False
 
         self.objectNameComboBox.setCurrentIndex(0)
@@ -139,7 +137,6 @@ class ObjectPanelWidget(QWidget, Ui_ObjectPanelWidget):
             self.state.selected_ids = [so_id]
             self.state.selected_point_ids = [0]
             self.gui.redraw_object(so)
-
 
     @time_and_log
     def redraw_object(self, so):
@@ -231,10 +228,12 @@ class ObjectPanelWidget(QWidget, Ui_ObjectPanelWidget):
         if len(self.state.selected_ids) == 0:
             return
         so_id = self.state.selected_ids[-1]
-        so_name = self.state.scene_list[so_id].GetProperty().GetTagStringValue('Name')
+        so_name = (
+            self.state.scene_list[so_id].GetProperty().GetTagStringValue('Name')
+        )
         dlg = QInputDialog(self)
         dlg.setInputMode(QInputDialog.TextInput)
-        dlg.setLabelText("New name:")
+        dlg.setLabelText('New name:')
         dlg.resize(500, 100)
         dlg.setTextValue(so_name)
         valid = dlg.exec_()
@@ -266,7 +265,7 @@ class ObjectPanelWidget(QWidget, Ui_ObjectPanelWidget):
         self.objectNameComboBox.addItem('None')
         for so in self.state.scene_list:
             self.objectNameComboBox.addItem(f'{so.GetTypeName()} {so.GetId()}')
-        
+
         self.update_gui = True
 
         self.update_scene()
