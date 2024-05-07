@@ -15,6 +15,7 @@ from .ui_sovImageTablePanelWidget import Ui_ImageTablePanelWidget
 
 
 class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
+    @time_and_log
     def __init__(self, gui, state, parent=None):
         """Initialize the GUI and state for the application.
 
