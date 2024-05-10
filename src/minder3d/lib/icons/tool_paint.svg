@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Creator: CorelDRAW -->
+
+<svg
+   xml:space="preserve"
+   width="6.82666in"
+   height="6.82666in"
+   style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+   viewBox="0 0 6.82666 6.82666"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="tool_paint.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+   id="namedview1"
+   pagecolor="#474747"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:document-units="in"
+   inkscape:zoom="1.7898577"
+   inkscape:cx="328.23838"
+   inkscape:cy="328.23838"
+   inkscape:window-width="2560"
+   inkscape:window-height="1369"
+   inkscape:window-x="2552"
+   inkscape:window-y="-8"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Layer_x0020_1" />
+ <defs
+   id="defs1">
+  <style
+   type="text/css"
+   id="style1">
+   <![CDATA[
+    .fil4 {fill:none}
+    .fil2 {fill:#474747}
+    .fil3 {fill:#797979}
+    .fil0 {fill:#888888;fill-rule:nonzero}
+    .fil1 {fill:#AEAEAF;fill-rule:nonzero}
+   ]]>
+  </style>
+ 
+   
+   
+   
+   
+  </defs>
+ <g
+   id="Layer_x0020_1"
+   inkscape:label="Layer 1">
+  <metadata
+   id="CorelCorpID_0Corel-Layer" />
+  <path
+   id="_374327672"
+   class="fil0"
+   d="M 0.997689,5.40458 C 1.0789725,5.129974 1.154685,4.874198 1.373118,4.624269 1.47526,4.507399 1.676764,4.389147 1.807917,4.378899 L 2.460275,5.031257 C 2.4424797,5.167879 2.298889,5.375056 2.155165,5.518781 1.950929,5.723017 1.596196,5.812639 1.209763,5.910261 1.1360622,5.9288752 1.061137,5.9478122 0.984928,5.9681783 0.9612784,5.97582 0.9348729,5.9752807 0.9102311,5.9647413 0.8560697,5.9415759 0.8309358,5.878883 0.8541012,5.8247213 c 0.0585551,-0.136957 0.10139,-0.277591 0.143587,-0.420142 z"
+   style="fill:#212121;fill-opacity:1" /><path
+   id="_374328104"
+   class="fil1"
+   d="M 5.95033,1.18033 3.0291,4.59291 C 3.02564,4.58802 3.02173,4.58335 3.017348,4.578973 l -6.063e-4,-5.906e-4 -0.761248,-0.761248 7.9e-6,-7.8e-6 c -0.00438,-0.00438 -0.00905,-0.0083 -0.013937,-0.011752 l 3.41839,-2.92620003 c 0.300437,-0.242606 0.605972,-0.124217 0.290378,0.30115703 z"
+   style="fill:#ffffff;fill-opacity:1" /><path
+   id="_374328056"
+   class="fil2"
+   d="m 2.66871,4.95565 0.360394,-0.36274 -1.063e-4,-1.024e-4 -0.770732,-0.800319 -1.063e-4,1.063e-4 -0.407205,0.409858 c -0.072555,0.083382 -0.071961,0.142307 -0.040669,0.178291 l 0.640492,0.665063 c 0.02439,0.025721 0.134697,0.015591 0.2179326,-0.090157 z"
+   style="fill:#c8c8c8;fill-opacity:1" /><path
+   id="_374327120"
+   class="fil3"
+   d="M 2.15517,5.51878 C 2.292264,5.381686 2.429233,5.186863 2.457024,5.050607 2.454564,5.049187 2.452464,5.047587 2.450784,5.045807 L 2.068882,4.649256 C 2.010626,4.635898 1.76752,4.601906 1.645662,4.925701 1.514697,5.273697 1.251611,5.804709 0.87801604,5.943371 c 0.009087,0.00879 0.0199055,0.016102 0.0322205,0.02137 0.0246417,0.010539 0.0510472,0.011079 0.0746969,0.00344 C 1.0611421,5.947815 1.1360674,5.928878 1.2097684,5.910264 1.5962014,5.812642 1.9509334,5.72302 2.1551704,5.518784 Z"
+   style="fill:#050505;fill-opacity:1" />
+ </g>
+ <rect
+   class="fil4"
+   width="6.82666"
+   height="6.82666"
+   id="rect1" />
+</svg>

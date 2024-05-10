@@ -22,6 +22,7 @@ dependencies = [
   'PySide6',
   'numpy',
   'vtk',
+  'thedicomsort',
   #'itk',  # Do not install until ITK pypi is updated
 ]
 

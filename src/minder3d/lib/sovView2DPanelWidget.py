@@ -1,11 +1,13 @@
 import itk
 import numpy as np
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QWidget
 from vtk import vtkRenderLargeImage
 from vtk.util.numpy_support import vtk_to_numpy
 
 from .sovUtils import time_and_log
 from .sovView2DRenderWindowInteractor import View2DRenderWindowInteractor
+from .sovView2DResources import *
 from .sovView2DUtils import (
     render_object_in_overlay_array,
     render_scene_in_overlay_array,
@@ -20,6 +22,73 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
         self.gui = gui
         self.state = state
+
+        self.mouse_mode_buttons = {
+            0: self.view2DPointModeButton,
+            1: self.view2DSelectModeButton,
+            2: self.view2DWindowLevelModeButton,
+            3: self.view2DPaintModeButton,
+            4: self.view2DContourModeButton,
+            5: self.view2DRulerModeButton,
+            6: self.view2DAngleModeButton,
+            7: self.view2DCropModeButton,
+        }
+
+        self.view2DPointModeButton.clicked.connect(
+            lambda: self.update_mouse_mode(0)
+        )
+        self.view2DPointModeButton.setIcon(
+            QIcon(":view2D/icons/tool_point.svg")
+        )
+        self.view2DPointModeButton.setToolTip("Point")
+        self.view2DSelectModeButton.clicked.connect(
+            lambda: self.update_mouse_mode(1)
+        )
+        self.view2DSelectModeButton.setIcon(
+            QIcon(":view2D/icons/tool_select.svg")
+        )
+        self.view2DPointModeButton.setToolTip("Select")
+        self.view2DWindowLevelModeButton.clicked.connect(
+            lambda: self.update_mouse_mode(2)
+        )
+        self.view2DWindowLevelModeButton.setIcon(
+            QIcon(":view2D/icons/tool_windowlevel.svg")
+        )
+        self.view2DPointModeButton.setToolTip("Window/Level")
+        self.view2DPaintModeButton.clicked.connect(
+            lambda: self.update_mouse_mode(3)
+        )
+        self.view2DPaintModeButton.setIcon(
+            QIcon(":view2D/icons/tool_paint.svg")
+        )
+        self.view2DPointModeButton.setToolTip("Paint")
+        self.view2DContourModeButton.clicked.connect(
+            lambda: self.update_mouse_mode(4)
+        )
+        self.view2DContourModeButton.setIcon(
+            QIcon(":view2D/icons/tool_contour.svg")
+        )
+        self.view2DPointModeButton.setToolTip("Contour")
+        self.view2DRulerModeButton.clicked.connect(
+            lambda: self.update_mouse_mode(5)
+        )
+        self.view2DRulerModeButton.setIcon(
+            QIcon(":view2D/icons/tool_ruler.svg"))
+        self.view2DPointModeButton.setToolTip("Ruler")
+        self.view2DAngleModeButton.clicked.connect(
+            lambda: self.update_mouse_mode(6)
+        )
+        self.view2DAngleModeButton.setIcon(
+            QIcon(":view2D/icons/tool_angle.svg")
+        )
+        self.view2DPointModeButton.setToolTip("Angle")
+        self.view2DCropModeButton.clicked.connect(
+            lambda: self.update_mouse_mode(7)
+        )
+        self.view2DCropModeButton.setIcon(
+            QIcon(":view2D/icons/tool_crop.svg")
+        )
+        self.view2DPointModeButton.setToolTip("Crop")
 
         self.vtk2DViewWidget = View2DRenderWindowInteractor(gui, state, self)
         self.view2DLayout.addWidget(self.vtk2DViewWidget)
@@ -40,6 +109,8 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
         self.update_gui = True
 
+        self.update_mouse_mode(0)
+
     def closeEvent(self, QCloseEvent):
         super().closeEvent(QCloseEvent)
         self.vtk2DViewWidget.close()
@@ -48,6 +119,7 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
     def initialize(self):
         self.vtk2DViewWidget.Initialize()
 
+    @time_and_log
     def get_screenshot(self):
         render = vtkRenderLargeImage()
         render.SetMagnification(1)
@@ -63,6 +135,21 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         numpy_data = numpy_data.transpose(0, 1, 2)
         numpy_data = np.flipud(numpy_data)
         return numpy_data
+
+    @time_and_log
+    def update_mouse_mode(self, mode):
+        if self.update_gui is False:
+            print("skipping")
+            return
+
+        self.update_gui = False
+        for button in self.mouse_mode_buttons.values():
+            button.setChecked(False)
+        self.mouse_mode_buttons[mode].setChecked(True)
+        self.vtk2DViewWidget.current_mouse_mode = mode
+        self.update_gui = True
+
+        print(f"Mouse mode: {mode}")
 
     @time_and_log
     def update_overlay_opacity(self, value):
@@ -229,7 +316,7 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
     @time_and_log
     def create_new_image(self):
-        auto_range = np.quantile(self.state.image_array[-1], [0.1, 0.9])
+        auto_range = np.quantile(self.state.image_array[-1], [0.05, 0.95])
         self.state.view2D_intensity_window_min.append(auto_range[0])
         self.state.view2D_intensity_window_max.append(auto_range[1])
 
@@ -240,13 +327,11 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
     @time_and_log
     def update_image(self):
-        auto_range = np.quantile(self.state.image_array[-1], [0.1, 0.9])
-        self.state.view2D_intensity_window_min[self.state.current_image_num] = (
-            auto_range[0]
-        )
-        self.state.view2D_intensity_window_max[self.state.current_image_num] = (
-            auto_range[1]
-        )
+        auto_range = np.quantile(self.state.image_array[-1], [0.05, 0.95])
+        self.state.view2D_intensity_window_min[
+            self.state.current_image_num] = (auto_range[0])
+        self.state.view2D_intensity_window_max[
+            self.state.current_image_num] = (auto_range[1])
 
         self.update_gui = False
 

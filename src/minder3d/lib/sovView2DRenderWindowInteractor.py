@@ -1,5 +1,12 @@
 import numpy as np
-import vtk
+from vtk import (
+    vtkImageBlend,
+    vtkImageData,
+    vtkImageViewer2,
+    vtkTextActor,
+    VTK_UNSIGNED_CHAR,
+    vtkWorldPointPicker,
+)
 from PySide6.QtCore import Qt
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from vtk.util.numpy_support import numpy_to_vtk
@@ -16,6 +23,19 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
         self.view2D = None
 
+        self.mouse_modes = {
+            0: 'Point',
+            1: 'Select',
+            2: 'WindowLevel',
+            3: 'Paint',
+            4: 'Contour',
+            5: 'Ruler',
+            6: 'Angle',
+            7: 'Crop',
+        }
+
+        self.current_mouse_mode = 0
+
         self.mouse_pressed = False
         self.mouse_start = []
         self.win_start = 0
@@ -23,13 +43,28 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
     @time_and_log
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            x, y = self.GetEventPosition()
+        if event.button() != Qt.LeftButton:
+            super().mousePressEvent(event)
+            return
+
+        ctrl, shift = self._GetCtrlShift(event)
+        if ctrl is False and shift is True:
+            super().mousePressEvent(event)
+            return
+
+        if self.current_mouse_mode == 0:
+            print("pressed: mode = 0")
             self.mouse_pressed = True
-            self.mouse_start = [x, y]
-            ctrl, shift = self._GetCtrlShift(event)
-            if ctrl is False and shift is True:
-                return super().mousePressEvent(event)
+            x, y = self.GetEventPosition()
+            picker = vtkWorldPointPicker()
+            picker.Pick(x, y, 0, self.view2D.GetRenderer())
+            worldPoint = picker.GetPickPosition()
+            self.state.current_pixel = worldPoint
+            self.gui.update_pixel()
+        elif self.current_mouse_mode == 2:
+            print("pressed: mode = 2")
+            self.mouse_pressed = True
+            self.mouse_start = [event.x(), event.y()]
             self.win_start = (
                 self.state.view2D_intensity_window_max[
                     self.state.current_image_num
@@ -44,34 +79,51 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
                     self.state.current_image_num
                 ]
             )
-            picker = vtk.vtkWorldPointPicker()
-            x, y = self.GetEventPosition()
-            picker.Pick(x, y, 0, self.view2D.GetRenderer())
-            worldPoint = picker.GetPickPosition()
-            self.state.current_pixel = worldPoint
-            self.gui.update_pixel()
-            return
-        return super().mousePressEvent(event)
 
+    @time_and_log
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.mouse_pressed = False
         super().mouseReleaseEvent(event)
 
     def mouseMoveEvent(self, event):
-        if self.mouse_pressed is False:
-            return super().mouseMoveEvent(event)
+        if not self.mouse_pressed:
+            super().mouseMoveEvent(event)
+            return
+
         ctrl, shift = self._GetCtrlShift(event)
         if ctrl is False and shift is True:
-            return super().mouseMoveEvent(event)
+            super().mouseMoveEvent(event)
+            return
+
+        if self.current_mouse_mode == 0:
+            picker = vtkWorldPointPicker()
+            x, y = self.GetEventPosition()
+            picker.Pick(x, y, 0, self.view2D.GetRenderer())
+            worldPoint = picker.GetPickPosition()
+            self.state.current_pixel = worldPoint
+            self.gui.update_pixel()
+            super().mouseMoveEvent(event)
+        elif self.current_mouse_mode == 1:
+            picker = vtkWorldPointPicker()
+            x, y = self.GetEventPosition()
+            picker.Pick(x, y, 0, self.view2D.GetRenderer())
+            worldPoint = picker.GetPickPosition()
+            self.state.current_pixel = worldPoint
+            self.gui.update_pixel()
+        elif self.current_mouse_mode == 2:
             winsize = self.GetRenderWindow().GetSize()
             irange = (
                 self.state.image_max[self.state.current_image_num]
                 - self.state.image_min[self.state.current_image_num]
             )
-            x, y = self.GetEventPosition()
-            winDelta = float(x - self.mouse_start[0]) / winsize[0] * irange
-            lvlDelta = float(y - self.mouse_start[1]) / winsize[1] * irange
+            x, y = event.x(), event.y()
+            winDelta = (
+                float(x - self.mouse_start[0]) / (2 * winsize[0]) * irange
+            )
+            lvlDelta = (
+                float(y - self.mouse_start[1]) / (2 * winsize[1]) * irange
+            )
             new_win = self.win_start + winDelta
             new_lvl = self.lvl_start + lvlDelta
             new_min = new_lvl - new_win / 2.0
@@ -100,17 +152,7 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             self.state.view2D_intensity_window_max[
                 self.state.current_image_num
             ] = new_max
-            self.gui.update_pixel()
             self.update_view()
-            return
-        picker = vtk.vtkWorldPointPicker()
-        x, y = self.GetEventPosition()
-        picker.Pick(x, y, 0, self.view2D.GetRenderer())
-        worldPoint = picker.GetPickPosition()
-        self.state.current_pixel = worldPoint
-        print(worldPoint)
-        self.gui.update_pixel()
-        return super().mouseMoveEvent(event)
 
     @time_and_log
     def reset_camera(self):
@@ -120,14 +162,8 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
     @time_and_log
     def update_image(self):
-        self.state.view2D_intensity_window_min[self.state.current_image_num] = (
-            self.state.image_min[self.state.current_image_num]
-        )
-        self.state.view2D_intensity_window_max[self.state.current_image_num] = (
-            self.state.image_max[self.state.current_image_num]
-        )
         if self.view2D is None:
-            self.view2D = vtk.vtkImageViewer2()
+            self.view2D = vtkImageViewer2()
             self.view2D.SetupInteractor(self)
             self.view2D.SetRenderWindow(self.GetRenderWindow())
             self.update_view()
@@ -221,7 +257,7 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             view_slice_rgba[:, :, 3] = np.ones(view_slice.shape) * 255
 
             # Import image directly to gray RGBA
-            view_slice_vtk = vtk.vtkImageData()
+            view_slice_vtk = vtkImageData()
             view_slice_vtk.SetSpacing(
                 spacing[slice_axis_order[0]],
                 spacing[slice_axis_order[1]],
@@ -235,7 +271,7 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
                     -1, view_slice_rgba.shape[-1]
                 ),
                 deep=False,
-                array_type=vtk.VTK_UNSIGNED_CHAR,
+                array_type=VTK_UNSIGNED_CHAR,
             )
             view_slice_vtk.GetPointData().SetScalars(vtk_data)
 
@@ -251,7 +287,7 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
                 overlay_slice_rgba = np.flip(overlay_slice_rgba, axis=0)
 
             # Import overlay to RGBA
-            overlay_slice_vtk = vtk.vtkImageData()
+            overlay_slice_vtk = vtkImageData()
             overlay_slice_vtk.SetSpacing(
                 spacing[slice_axis_order[0]],
                 spacing[slice_axis_order[1]],
@@ -265,11 +301,11 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
                     -1, overlay_slice_rgba.shape[-1]
                 ),
                 deep=False,
-                array_type=vtk.VTK_UNSIGNED_CHAR,
+                array_type=VTK_UNSIGNED_CHAR,
             )
             overlay_slice_vtk.GetPointData().SetScalars(vtk_data)
 
-            imgBlender = vtk.vtkImageBlend()
+            imgBlender = vtkImageBlend()
             imgBlender.AddInputData(view_slice_vtk)
             imgBlender.AddInputData(overlay_slice_vtk)
             imgBlender.SetOpacity(1, self.state.view2D_overlay_opacity)
@@ -278,6 +314,23 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             blended_slice_vtk = imgBlender.GetOutput()
 
             self.view2D.SetInputData(blended_slice_vtk)
+
+            win_min = self.state.view2D_intensity_window_min[
+                self.state.current_image_num
+            ]
+            win_max = self.state.view2D_intensity_window_max[
+                self.state.current_image_num
+            ]
+            lvl = (win_max + win_min) / 2.0
+            win = (win_max - win_min)
+            textActor = vtkTextActor()
+            inputStr = f"W:{win:.1f} L:{lvl:.1f}"
+            textActor.SetInput(inputStr)
+            winsize = self.GetRenderWindow().GetSize()
+            textActor.SetPosition2(winsize[0]-12*len(inputStr), 40)
+            textActor.GetTextProperty().SetFontSize(10)
+            #textActor.GetTextProperty().SetColor(colors->GetColor3d("Gold").GetData());
+            self.view2D.GetRenderer().AddActor2D(textActor);
 
             self.view2D.Render()
             self.view2D.GetRenderWindow().Render()

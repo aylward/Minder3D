@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="view2D">
+    <file>icons/scene.png</file>
+    <file>icons/tool_angle.svg</file>
+    <file>icons/tool_contour.svg</file>
+    <file>icons/tool_crop.svg</file>
+    <file>icons/tool_paint.svg</file>
+    <file>icons/tool_point.svg</file>
+    <file>icons/tool_ruler.svg</file>
+    <file>icons/tool_select.svg</file>
+    <file>icons/tool_windowlevel.svg</file>
+  </qresource>
+</RCC>

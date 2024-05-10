@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Creator: CorelDRAW -->
+
+<svg
+   xml:space="preserve"
+   width="6.82666in"
+   height="6.82666in"
+   style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+   viewBox="0 0 6.82666 6.82666"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="tool_crop.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+   id="namedview1"
+   pagecolor="#3a3a3a"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:document-units="in"
+   inkscape:zoom="1.7898577"
+   inkscape:cx="328.23838"
+   inkscape:cy="328.23838"
+   inkscape:window-width="2560"
+   inkscape:window-height="1369"
+   inkscape:window-x="2552"
+   inkscape:window-y="-8"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Layer_x0020_1" />
+ <defs
+   id="defs1">
+  <style
+   type="text/css"
+   id="style1">
+   <![CDATA[
+    .fil3 {fill:none}
+    .fil1 {fill:#959595}
+    .fil2 {fill:#BCBCBC}
+    .fil0 {fill:#202020;fill-rule:nonzero}
+   ]]>
+  </style>
+ 
+   
+   
+   
+  </defs>
+ <g
+   id="Layer_x0020_1"
+   inkscape:label="Layer 1">
+  <metadata
+   id="CorelCorpID_0Corel-Layer" />
+  <path
+   id="_315714112"
+   class="fil0"
+   d="m 1.98857,4.68726 c -0.04165,0.04165 -0.04165,0.109185 0,0.150835 0.04165,0.04165 0.109185,0.04165 0.150835,0 l 3.80268,-3.80268 c 0.04165,-0.0416496 0.04165,-0.109185 0,-0.150835 -0.04165,-0.0416496 -0.109185,-0.0416496 -0.150835,0 z"
+   style="fill:#ffffff;fill-opacity:1" /><path
+   id="_315714160"
+   class="fil1"
+   d="m 1.61557,0.853331 h 0.689232 v 3.66852 h 3.66852 v 0.689232 h -4.01314 c -0.19024,0 -0.344614,-0.154374 -0.344614,-0.344614 v -4.01314 z"
+   style="fill:#ffffff;fill-opacity:1" /><path
+   id="_315714304"
+   class="fil2"
+   d="M 5.21109,5.97333 H 4.521858 V 2.30481 H 0.853338 V 1.615578 h 4.01314 c 0.19024,0 0.344614,0.154374 0.344614,0.344614 v 4.01314 z"
+   style="fill:#000000;fill-opacity:1" />
+ </g>
+ <rect
+   class="fil3"
+   width="6.82666"
+   height="6.82666"
+   id="rect1" />
+</svg>
