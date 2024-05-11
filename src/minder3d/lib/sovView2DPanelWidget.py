@@ -7,6 +7,15 @@ from vtk.util.numpy_support import vtk_to_numpy
 
 from .sovUtils import time_and_log
 from .sovView2DRenderWindowInteractor import View2DRenderWindowInteractor
+# fmt: off
+from .sovView2DResources import (
+    qCleanupResources,
+    qInitResources,
+    qt_resource_data,
+    qt_resource_name,
+    qt_resource_struct,
+)
+# fmt: on
 from .sovView2DUtils import (
     render_object_in_overlay_array,
     render_scene_in_overlay_array,
