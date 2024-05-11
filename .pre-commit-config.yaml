@@ -31,4 +31,4 @@ repos:
     hooks:
       - id: prettier
         stages: [commit]
-exclude: "ui_.*|.*md|.*ui"
+exclude: "ui_.*|.*md|.*ui|.*svg|.*Resources.py|.*qrc"
