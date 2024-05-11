@@ -38,57 +38,56 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
             lambda: self.update_mouse_mode(0)
         )
         self.view2DPointModeButton.setIcon(
-            QIcon(":view2D/icons/tool_point.svg")
+            QIcon(':view2D/icons/tool_point.svg')
         )
-        self.view2DPointModeButton.setToolTip("Point")
+        self.view2DPointModeButton.setToolTip('Point')
         self.view2DSelectModeButton.clicked.connect(
             lambda: self.update_mouse_mode(1)
         )
         self.view2DSelectModeButton.setIcon(
-            QIcon(":view2D/icons/tool_select.svg")
+            QIcon(':view2D/icons/tool_select.svg')
         )
-        self.view2DPointModeButton.setToolTip("Select")
+        self.view2DPointModeButton.setToolTip('Select')
         self.view2DWindowLevelModeButton.clicked.connect(
             lambda: self.update_mouse_mode(2)
         )
         self.view2DWindowLevelModeButton.setIcon(
-            QIcon(":view2D/icons/tool_windowlevel.svg")
+            QIcon(':view2D/icons/tool_windowlevel.svg')
         )
-        self.view2DPointModeButton.setToolTip("Window/Level")
+        self.view2DPointModeButton.setToolTip('Window/Level')
         self.view2DPaintModeButton.clicked.connect(
             lambda: self.update_mouse_mode(3)
         )
         self.view2DPaintModeButton.setIcon(
-            QIcon(":view2D/icons/tool_paint.svg")
+            QIcon(':view2D/icons/tool_paint.svg')
         )
-        self.view2DPointModeButton.setToolTip("Paint")
+        self.view2DPointModeButton.setToolTip('Paint')
         self.view2DContourModeButton.clicked.connect(
             lambda: self.update_mouse_mode(4)
         )
         self.view2DContourModeButton.setIcon(
-            QIcon(":view2D/icons/tool_contour.svg")
+            QIcon(':view2D/icons/tool_contour.svg')
         )
-        self.view2DPointModeButton.setToolTip("Contour")
+        self.view2DPointModeButton.setToolTip('Contour')
         self.view2DRulerModeButton.clicked.connect(
             lambda: self.update_mouse_mode(5)
         )
         self.view2DRulerModeButton.setIcon(
-            QIcon(":view2D/icons/tool_ruler.svg"))
-        self.view2DPointModeButton.setToolTip("Ruler")
+            QIcon(':view2D/icons/tool_ruler.svg')
+        )
+        self.view2DPointModeButton.setToolTip('Ruler')
         self.view2DAngleModeButton.clicked.connect(
             lambda: self.update_mouse_mode(6)
         )
         self.view2DAngleModeButton.setIcon(
-            QIcon(":view2D/icons/tool_angle.svg")
+            QIcon(':view2D/icons/tool_angle.svg')
         )
-        self.view2DPointModeButton.setToolTip("Angle")
+        self.view2DPointModeButton.setToolTip('Angle')
         self.view2DCropModeButton.clicked.connect(
             lambda: self.update_mouse_mode(7)
         )
-        self.view2DCropModeButton.setIcon(
-            QIcon(":view2D/icons/tool_crop.svg")
-        )
-        self.view2DPointModeButton.setToolTip("Crop")
+        self.view2DCropModeButton.setIcon(QIcon(':view2D/icons/tool_crop.svg'))
+        self.view2DPointModeButton.setToolTip('Crop')
 
         self.vtk2DViewWidget = View2DRenderWindowInteractor(gui, state, self)
         self.view2DLayout.addWidget(self.vtk2DViewWidget)
@@ -139,7 +138,7 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
     @time_and_log
     def update_mouse_mode(self, mode):
         if self.update_gui is False:
-            print("skipping")
+            print('skipping')
             return
 
         self.update_gui = False
@@ -149,7 +148,7 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.vtk2DViewWidget.current_mouse_mode = mode
         self.update_gui = True
 
-        print(f"Mouse mode: {mode}")
+        print(f'Mouse mode: {mode}')
 
     @time_and_log
     def update_overlay_opacity(self, value):
@@ -328,10 +327,12 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
     @time_and_log
     def update_image(self):
         auto_range = np.quantile(self.state.image_array[-1], [0.05, 0.95])
-        self.state.view2D_intensity_window_min[
-            self.state.current_image_num] = (auto_range[0])
-        self.state.view2D_intensity_window_max[
-            self.state.current_image_num] = (auto_range[1])
+        self.state.view2D_intensity_window_min[self.state.current_image_num] = (
+            auto_range[0]
+        )
+        self.state.view2D_intensity_window_max[self.state.current_image_num] = (
+            auto_range[1]
+        )
 
         self.update_gui = False
 

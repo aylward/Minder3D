@@ -1,13 +1,13 @@
 import numpy as np
+from PySide6.QtCore import Qt
 from vtk import (
+    VTK_UNSIGNED_CHAR,
     vtkImageBlend,
     vtkImageData,
     vtkImageViewer2,
     vtkTextActor,
-    VTK_UNSIGNED_CHAR,
     vtkWorldPointPicker,
 )
-from PySide6.QtCore import Qt
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from vtk.util.numpy_support import numpy_to_vtk
 
@@ -53,7 +53,7 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             return
 
         if self.current_mouse_mode == 0:
-            print("pressed: mode = 0")
+            print('pressed: mode = 0')
             self.mouse_pressed = True
             x, y = self.GetEventPosition()
             picker = vtkWorldPointPicker()
@@ -62,7 +62,7 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             self.state.current_pixel = worldPoint
             self.gui.update_pixel()
         elif self.current_mouse_mode == 2:
-            print("pressed: mode = 2")
+            print('pressed: mode = 2')
             self.mouse_pressed = True
             self.mouse_start = [event.x(), event.y()]
             self.win_start = (
@@ -322,15 +322,15 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
                 self.state.current_image_num
             ]
             lvl = (win_max + win_min) / 2.0
-            win = (win_max - win_min)
+            win = win_max - win_min
             textActor = vtkTextActor()
-            inputStr = f"W:{win:.1f} L:{lvl:.1f}"
+            inputStr = f'W:{win:.1f} L:{lvl:.1f}'
             textActor.SetInput(inputStr)
             winsize = self.GetRenderWindow().GetSize()
-            textActor.SetPosition2(winsize[0]-12*len(inputStr), 40)
+            textActor.SetPosition2(winsize[0] - 12 * len(inputStr), 40)
             textActor.GetTextProperty().SetFontSize(10)
-            #textActor.GetTextProperty().SetColor(colors->GetColor3d("Gold").GetData());
-            self.view2D.GetRenderer().AddActor2D(textActor);
+            # textActor.GetTextProperty().SetColor(colors->GetColor3d("Gold").GetData());
+            self.view2D.GetRenderer().AddActor2D(textActor)
 
             self.view2D.Render()
             self.view2D.GetRenderWindow().Render()
