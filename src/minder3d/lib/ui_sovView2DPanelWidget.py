@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovView2DPanelWidgetkRoxrK.ui'
+## Form generated from reading UI file 'sovView2DPanelWidgetOdmKcs.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -33,18 +33,21 @@ class Ui_View2DPanelWidget(object):
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.view2DPointModeButton = QToolButton(View2DPanelWidget)
         self.view2DPointModeButton.setObjectName(u"view2DPointModeButton")
+        self.view2DPointModeButton.setIconSize(QSize(20, 20))
         self.view2DPointModeButton.setCheckable(True)
 
         self.verticalLayout_3.addWidget(self.view2DPointModeButton)
 
         self.view2DSelectModeButton = QToolButton(View2DPanelWidget)
         self.view2DSelectModeButton.setObjectName(u"view2DSelectModeButton")
+        self.view2DSelectModeButton.setIconSize(QSize(20, 20))
         self.view2DSelectModeButton.setCheckable(True)
 
         self.verticalLayout_3.addWidget(self.view2DSelectModeButton)
 
         self.view2DWindowLevelModeButton = QToolButton(View2DPanelWidget)
         self.view2DWindowLevelModeButton.setObjectName(u"view2DWindowLevelModeButton")
+        self.view2DWindowLevelModeButton.setIconSize(QSize(20, 20))
         self.view2DWindowLevelModeButton.setCheckable(True)
 
         self.verticalLayout_3.addWidget(self.view2DWindowLevelModeButton)
@@ -55,12 +58,14 @@ class Ui_View2DPanelWidget(object):
 
         self.view2DPaintModeButton = QToolButton(View2DPanelWidget)
         self.view2DPaintModeButton.setObjectName(u"view2DPaintModeButton")
+        self.view2DPaintModeButton.setIconSize(QSize(20, 20))
         self.view2DPaintModeButton.setCheckable(True)
 
         self.verticalLayout_3.addWidget(self.view2DPaintModeButton)
 
         self.view2DContourModeButton = QToolButton(View2DPanelWidget)
         self.view2DContourModeButton.setObjectName(u"view2DContourModeButton")
+        self.view2DContourModeButton.setIconSize(QSize(20, 20))
         self.view2DContourModeButton.setCheckable(True)
 
         self.verticalLayout_3.addWidget(self.view2DContourModeButton)
@@ -71,12 +76,14 @@ class Ui_View2DPanelWidget(object):
 
         self.view2DRulerModeButton = QToolButton(View2DPanelWidget)
         self.view2DRulerModeButton.setObjectName(u"view2DRulerModeButton")
+        self.view2DRulerModeButton.setIconSize(QSize(20, 20))
         self.view2DRulerModeButton.setCheckable(True)
 
         self.verticalLayout_3.addWidget(self.view2DRulerModeButton)
 
         self.view2DAngleModeButton = QToolButton(View2DPanelWidget)
         self.view2DAngleModeButton.setObjectName(u"view2DAngleModeButton")
+        self.view2DAngleModeButton.setIconSize(QSize(20, 20))
         self.view2DAngleModeButton.setCheckable(True)
 
         self.verticalLayout_3.addWidget(self.view2DAngleModeButton)
@@ -87,6 +94,7 @@ class Ui_View2DPanelWidget(object):
 
         self.view2DCropModeButton = QToolButton(View2DPanelWidget)
         self.view2DCropModeButton.setObjectName(u"view2DCropModeButton")
+        self.view2DCropModeButton.setIconSize(QSize(20, 20))
         self.view2DCropModeButton.setCheckable(True)
 
         self.verticalLayout_3.addWidget(self.view2DCropModeButton)
@@ -235,6 +243,9 @@ class Ui_View2DPanelWidget(object):
         self.view2DRulerModeButton.setText("")
         self.view2DAngleModeButton.setText("")
         self.view2DCropModeButton.setText("")
+#if QT_CONFIG(shortcut)
+        self.view2DCropModeButton.setShortcut(QCoreApplication.translate("View2DPanelWidget", u"Ctrl+S", None))
+#endif // QT_CONFIG(shortcut)
         self.view2DXYButton.setText(QCoreApplication.translate("View2DPanelWidget", u"XY", None))
         self.view2DXZButton.setText(QCoreApplication.translate("View2DPanelWidget", u"XZ", None))
         self.view2DYZButton.setText(QCoreApplication.translate("View2DPanelWidget", u"YZ", None))
