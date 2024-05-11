@@ -32,6 +32,7 @@ class InfoTablePanelWidget(QWidget, Ui_InfoTablePanelWidget):
         self.infoTableWidget.setStyleSheet(
             'QTableView{ selection-background-color: rgba(0, 50, 0, 50);  }'
         )
+        self.infoTableWidget.setUpdatesEnabled(True)
 
     @time_and_log
     def update_image(self):

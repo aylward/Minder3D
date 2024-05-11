@@ -39,7 +39,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         Args:
             parent: The parent widget (default is None).
         """
-
         super().__init__(parent)
         self.setupUi(self)
 
@@ -136,7 +135,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             message (str): The message to be displayed in the status text.
             level (str?): The log level. Defaults to 'info'.
         """
-
         self.statusText.setText(message)
         if level.lower() == 'error' or level.lower() == 'critical':
             self.statusText.setStyleSheet('background-color: red')
@@ -160,7 +158,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         Args:
             filename (str?): The path of the image file to be loaded.
         """
-
         if filename is None:
             if len(self.state.image_filename) > 0:
                 filename = self.state.image_filename[-1]
@@ -188,11 +185,9 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         Args:
             filename (str?): The name of the file to load the scene from.
 
-
         Raises:
             IOError: If the file cannot be read or does not exist.
         """
-
         if not filename:
             filename, _ = QFileDialog.getOpenFileName(
                 self, 'Open File', self.state.scene_filename, 'All Files (*)'
@@ -220,7 +215,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             filename (str): The name of the file to save the image to. If not
                 provided, a file dialog will be opened.
         """
-
         if not filename:
             filename, _ = QFileDialog.getSaveFileName(
                 self,
@@ -249,7 +243,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             filename (str): The name of the file to save the overlay to.
                 If not provided, a file dialog will be shown.
         """
-
         if not filename:
             guess_filename, guess_extension = os.path.splitext(
                 self.state.image_filename[self.state.current_image_num]
@@ -277,7 +270,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             filename (str): The name of the file to save the VTK models to.
                 If not provided, a file dialog will be opened.
         """
-
         if not filename:
             guess_filename, _ = os.path.splitext(self.state.scene_filename)
             filename, _ = QFileDialog.getSaveFileName(
@@ -307,7 +299,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         Raises:
             IOError: If there is an issue writing the scene to the file.
         """
-
         if not filename:
             filename, _ = QFileDialog.getSaveFileName(
                 self, 'Save File', self.state.scene_filename, 'All Files (*)'
@@ -332,7 +323,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             bool: True if the new image is successfully created and added to
                 the state, False otherwise.
         """
-
         if filename is None:
             filename, fileext = os.path.splitext(self.state.image_filename[-1])
             if tag is None:

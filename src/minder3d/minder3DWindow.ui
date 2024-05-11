@@ -344,6 +344,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="minder3DResources.qrc"/>
+ </resources>
  <connections/>
 </ui>
