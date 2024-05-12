@@ -1,2 +1,3 @@
 # Images, icons, and data to be included with minder3d
 include src/minder3d/icons/*.png
+include src/minder3d/icons/*.svg
