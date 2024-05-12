@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 import numpy as np
 from PySide6.QtWidgets import QInputDialog, QWidget
@@ -209,9 +208,9 @@ class ObjectPanelWidget(QWidget, Ui_ObjectPanelWidget):
             color[0:3] /= self.state.colormap_scale_factor
             color[3] = self.objectOpacitySlider.value() / 100.0
             so.GetProperty().SetColor(color)
-            self.state.scene_list_properties[scene_idx][
-                'ColorBy'
-            ] = self.objectColorByComboBox.currentText()
+            self.state.scene_list_properties[scene_idx]['ColorBy'] = (
+                self.objectColorByComboBox.currentText()
+            )  # fmt: skip
 
             self.gui.redraw_object(so)
 

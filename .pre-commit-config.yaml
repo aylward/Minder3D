@@ -22,6 +22,15 @@ repos:
           - flake8-docstrings
           - Flake8-pyproject
         language_version: python3
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.4.4
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [--fix]
+      # Run the formatter.
+      - id: ruff-format
   - repo: https://github.com/PyCQA/isort
     rev: 5.12.0
     hooks:

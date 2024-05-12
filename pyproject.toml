@@ -90,3 +90,6 @@ max-line-length = 80
 include = ["*.py"]
 exclude = ["ui_*"]
 line-length = 80
+
+[tool.ruff.format]
+quote-style = 'single'
