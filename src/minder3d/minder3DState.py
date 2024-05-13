@@ -35,7 +35,8 @@ class Minder3DState:
 
         # Current image
         self.current_image_num = 0
-        self.current_pixel = []
+        self.current_pixel_position = []
+        self.current_pixel_index = []
 
         # 2D View settings
         self.view2D_intensity_window_min = []

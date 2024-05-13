@@ -138,7 +138,6 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
     @time_and_log
     def update_mouse_mode(self, mode):
         if self.update_gui is False:
-            print('skipping')
             return
 
         self.update_gui = False
@@ -147,8 +146,6 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.mouse_mode_buttons[mode].setChecked(True)
         self.vtk2DViewWidget.current_mouse_mode = mode
         self.update_gui = True
-
-        print(f'Mouse mode: {mode}')
 
     @time_and_log
     def update_overlay_opacity(self, value):
