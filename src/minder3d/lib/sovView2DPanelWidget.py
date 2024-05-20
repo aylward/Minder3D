@@ -100,9 +100,9 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
             self.update_overlay_opacity
         )
 
-        self.view2DXYButton.clicked.connect(self.update_axis_xy)
-        self.view2DXZButton.clicked.connect(self.update_axis_xz)
-        self.view2DYZButton.clicked.connect(self.update_axis_yz)
+        self.view2DAxButton.clicked.connect(self.update_view_plane_axial)
+        self.view2DCoButton.clicked.connect(self.update_view_plane_coronal)
+        self.view2DSaButton.clicked.connect(self.update_view_plane_sagittal)
 
         self.view2DResetButton.pressed.connect(self.update_reset)
 
@@ -156,121 +156,82 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.update()
 
     @time_and_log
-    def update_axis_xy(self):
-        if not self.update_gui:
-            return
+    def update_slice_max_value(self):
 
-        self.state.view2D_axis[self.state.current_image_num] = 2
+        img_num = self.state.current_image_num
+        view_image_axis = self.state.view2D_image_axis_order[img_num][2]
+        slice_max = (
+            self.state.image_array[img_num].shape[2-view_image_axis] - 1
+        )
+        slice_current = self.state.view2D_slice[img_num][view_image_axis]
 
         self.update_gui = False
 
-        self.view2DSliceSlider.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_axis[self.state.current_image_num]
-            ]
-            - 1
-        )
-        self.view2DSliceSlider.setValue(
-            self.state.view2D_slice[self.state.current_image_num][
-                self.state.view2D_axis[self.state.current_image_num]
-            ]
-        )
-        self.view2DSliceText.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_axis[self.state.current_image_num]
-            ]
-            - 1
-        )
-        self.view2DSliceText.setValue(
-            self.state.view2D_slice[self.state.current_image_num][
-                self.state.view2D_axis[self.state.current_image_num]
-            ]
-        )
+        self.view2DSliceSlider.setMaximum(slice_max)
+        self.view2DSliceSlider.setValue(slice_current)
+        self.view2DSliceText.setMaximum(slice_max)
+        self.view2DSliceText.setValue(slice_current)
 
         self.gui.visualizationPanel.update_view2D()
 
         self.update_gui = True
-
-        self.update()
-        self.vtk2DViewWidget.reset_camera()
 
     @time_and_log
-    def update_axis_xz(self):
+    def update_view_plane_coronal(self, redraw=True):
         if not self.update_gui:
             return
 
-        self.state.view2D_axis[self.state.current_image_num] = 1
+        img_num = self.state.current_image_num
 
-        self.update_gui = False
+        # coronal plane -> x = axial, y = coronal
+        self.state.view2D_csa_axis_order[img_num] = [2, 0, 1]
+        self.state.view2D_image_axis_order[img_num] = [
+            self.state.csa_to_image_axis[img_num][i] for i in self.state.view2D_csa_axis_order[img_num]
+        ]
 
-        self.view2DSliceSlider.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_axis[self.state.current_image_num]
-            ]
-            - 1
-        )
-        self.view2DSliceSlider.setValue(
-            self.state.view2D_slice[self.state.current_image_num][
-                self.state.view2D_axis[self.state.current_image_num]
-            ]
-        )
-        self.view2DSliceText.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_axis[self.state.current_image_num]
-            ]
-            - 1
-        )
-        self.view2DSliceText.setValue(
-            self.state.view2D_slice[self.state.current_image_num][
-                self.state.view2D_axis[self.state.current_image_num]
-            ]
-        )
+        self.update_slice_max_value()
 
-        self.gui.visualizationPanel.update_view2D()
-
-        self.update_gui = True
-
-        self.update()
-        self.vtk2DViewWidget.reset_camera()
+        if redraw:
+            self.update()
+            self.vtk2DViewWidget.reset_camera()
 
     @time_and_log
-    def update_axis_yz(self):
+    def update_view_plane_sagittal(self, redraw=True):
         if not self.update_gui:
             return
 
-        self.state.view2D_axis[self.state.current_image_num] = 0
+        img_num = self.state.current_image_num
 
-        self.update_gui = False
+        # sagittal plane -> x = sagittal, y = coronal
+        self.state.view2D_csa_axis_order[img_num] = [1, 0, 2]
+        self.state.view2D_image_axis_order[img_num] = [
+            self.state.csa_to_image_axis[img_num][i] for i in self.state.view2D_csa_axis_order[img_num]
+        ]
 
-        self.view2DSliceSlider.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_axis[self.state.current_image_num]
-            ]
-            - 1
-        )
-        self.view2DSliceSlider.setValue(
-            self.state.view2D_slice[self.state.current_image_num][
-                self.state.view2D_axis[self.state.current_image_num]
-            ]
-        )
-        self.view2DSliceText.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_axis[self.state.current_image_num]
-            ]
-            - 1
-        )
-        self.view2DSliceText.setValue(
-            self.state.view2D_slice[self.state.current_image_num][
-                self.state.view2D_axis[self.state.current_image_num]
-            ]
-        )
+        self.update_slice_max_value()
 
-        self.gui.visualizationPanel.update_view2D()
+        if redraw:
+            self.update()
+            self.vtk2DViewWidget.reset_camera()
 
-        self.update_gui = True
+    @time_and_log
+    def update_view_plane_axial(self, redraw=True):
+        if not self.update_gui:
+            return
 
-        self.update()
-        self.vtk2DViewWidget.reset_camera()
+        img_num = self.state.current_image_num
+
+        # axial plane -> x = axial, y = sagittal
+        self.state.view2D_csa_axis_order[img_num] = [2, 1, 0]
+        self.state.view2D_image_axis_order[img_num] = [
+            self.state.csa_to_image_axis[img_num][i] for i in self.state.view2D_csa_axis_order[img_num]
+        ]
+
+        self.update_slice_max_value()
+
+        if redraw:
+            self.update()
+            self.vtk2DViewWidget.reset_camera()
 
     @time_and_log
     def update_view_image_num(self, index):
@@ -279,30 +240,23 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
         self.state.current_image_num = index
 
+        slice_max = (
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_image_axis_order[
+                    self.state.current_image_num
+                ][2]
+            ] - 1
+        )
+        slice_current = self.state.view2D_slice[self.state.current_image_num][
+            self.state.view2D_image_axis_order[self.state.current_image_num][2]
+        ]
+
         self.update_gui = False
 
-        self.view2DSliceSlider.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_axis[self.state.current_image_num]
-            ]
-            - 1
-        )
-        self.view2DSliceSlider.setValue(
-            self.state.view2D_slice[self.state.current_image_num][
-                self.state.view2D_axis[self.state.current_image_num]
-            ]
-        )
-        self.view2DSliceText.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_axis[self.state.current_image_num]
-            ]
-            - 1
-        )
-        self.view2DSliceSlider.setValue(
-            self.state.view2D_slice[self.state.current_image_num][
-                self.state.view2D_axis[self.state.current_image_num]
-            ]
-        )
+        self.view2DSliceSlider.setMaximum(slice_max)
+        self.view2DSliceSlider.setValue(slice_current)
+        self.view2DSliceText.setMaximum(slice_max)
+        self.view2DSliceSlider.setValue(slice_current)
 
         self.update_gui = True
 
@@ -312,14 +266,36 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
     @time_and_log
     def create_new_image(self):
-        auto_range = np.quantile(self.state.image_array[-1], [0.05, 0.95])
+        auto_range = np.quantile(self.state.image_array[-1], [0.05, 0.99])
         self.state.view2D_intensity_window_min.append(auto_range[0])
         self.state.view2D_intensity_window_max.append(auto_range[1])
 
         self.state.view2D_slice.append([0, 0, 0])
-        self.state.view2D_axis.append(2)
 
-        self.state.view2D_flip.append([False, False, False])
+        # Default flip is based on the direction of the image
+        dir = np.array(self.state.image[-1].GetDirection())
+        sign = np.sum(dir, axis=1)
+        flip = sign < 0
+        self.state.view2D_flip.append(flip)
+
+        # Hueristic to find view plane based on z-axis of the image
+        view_plane = (self.state.csa_to_image_axis[-1].index(2)+2) % 3
+
+        # Allocate space for axis order vars, and then update them
+        self.state.view2D_csa_axis_order.append([0, 0, 0])
+        self.state.view2D_image_axis_order.append([0, 0, 0])
+        if view_plane == 0:
+            self.update_view_plane_coronal(redraw=False)
+        elif view_plane == 1:
+            self.update_view_plane_sagittal(redraw=False)
+        elif view_plane == 2:
+            self.update_view_plane_axial(redraw=False)
+
+        # Sagittal axis is viewed in the negative direction
+        flip[self.state.view2D_csa_axis_order[-1][1]] = not flip[
+            self.state.view2D_csa_axis_order[-1][1]
+        ]
+        self.state.view2D_flip.append(flip)
 
     @time_and_log
     def update_image(self):
@@ -331,24 +307,22 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
             auto_range[1]
         )
 
+        slice_max = (
+            self.state.image_array[self.state.current_image_num].shape[
+                2 - self.state.view2D_image_axis_order[
+                    self.state.current_image_num
+                ][2]
+            ] - 1
+        )
+
         self.update_gui = False
 
         self.view2DSliceSlider.setMinimum(0)
-        self.view2DSliceSlider.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_axis[self.state.current_image_num]
-            ]
-            - 1
-        )
+        self.view2DSliceSlider.setMaximum(slice_max)
         self.view2DSliceSlider.setValue(0)
 
         self.view2DSliceText.setMinimum(0)
-        self.view2DSliceText.setMaximum(
-            self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_axis[self.state.current_image_num]
-            ]
-            - 1
-        )
+        self.view2DSliceText.setMaximum(slice_max)
         self.view2DSliceText.setValue(0)
 
         self.update_gui = True
@@ -393,18 +367,18 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         current_slice = value
         if current_slice < 0:
             current_slice = 0
-        max_slice = (
+
+        view_image_axis = self.state.view2D_image_axis_order[
+            self.state.current_image_num][2]
+        slice_max = (
             self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_axis[self.state.current_image_num]
-            ]
-            - 1
+                2-view_image_axis] - 1
         )
-        if current_slice > max_slice:
-            current_slice = max_slice
+        if current_slice > slice_max:
+            current_slice = slice_max
 
         self.state.view2D_slice[self.state.current_image_num][
-            self.state.view2D_axis[self.state.current_image_num]
-        ] = current_slice
+            view_image_axis] = current_slice
 
         self.update_gui = False
         self.view2DSliceSlider.setValue(current_slice)
@@ -421,18 +395,18 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         current_slice = value
         if current_slice < 0:
             current_slice = 0
-        max_slice = (
+
+        view_image_axis = self.state.view2D_image_axis_order[
+            self.state.current_image_num][2]
+        slice_max = (
             self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_axis[self.state.current_image_num]
-            ]
-            - 1
+                2-view_image_axis] - 1
         )
-        if current_slice > max_slice:
-            current_slice = max_slice
+        if current_slice > slice_max:
+            current_slice = slice_max
 
         self.state.view2D_slice[self.state.current_image_num][
-            self.state.view2D_axis[self.state.current_image_num]
-        ] = current_slice
+            view_image_axis] = current_slice
 
         self.update_gui = False
         self.view2DSliceSlider.setValue(current_slice)

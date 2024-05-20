@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovView2DPanelWidgetOdmKcs.ui'
+## Form generated from reading UI file 'sovView2DPanelWidgetYgHBrs.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -24,7 +24,7 @@ class Ui_View2DPanelWidget(object):
     def setupUi(self, View2DPanelWidget):
         if not View2DPanelWidget.objectName():
             View2DPanelWidget.setObjectName(u"View2DPanelWidget")
-        View2DPanelWidget.resize(495, 491)
+        View2DPanelWidget.resize(499, 491)
         self.gridLayout = QGridLayout(View2DPanelWidget)
         self.gridLayout.setSpacing(3)
         self.gridLayout.setObjectName(u"gridLayout")
@@ -148,34 +148,34 @@ class Ui_View2DPanelWidget(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.view2DXYButton = QPushButton(View2DPanelWidget)
-        self.view2DXYButton.setObjectName(u"view2DXYButton")
-        sizePolicy1.setHeightForWidth(self.view2DXYButton.sizePolicy().hasHeightForWidth())
-        self.view2DXYButton.setSizePolicy(sizePolicy1)
-        self.view2DXYButton.setMinimumSize(QSize(30, 0))
+        self.view2DAxButton = QPushButton(View2DPanelWidget)
+        self.view2DAxButton.setObjectName(u"view2DAxButton")
+        sizePolicy1.setHeightForWidth(self.view2DAxButton.sizePolicy().hasHeightForWidth())
+        self.view2DAxButton.setSizePolicy(sizePolicy1)
+        self.view2DAxButton.setMinimumSize(QSize(30, 0))
         font = QFont()
         font.setPointSize(7)
-        self.view2DXYButton.setFont(font)
+        self.view2DAxButton.setFont(font)
 
-        self.horizontalLayout.addWidget(self.view2DXYButton)
+        self.horizontalLayout.addWidget(self.view2DAxButton)
 
-        self.view2DXZButton = QPushButton(View2DPanelWidget)
-        self.view2DXZButton.setObjectName(u"view2DXZButton")
-        sizePolicy1.setHeightForWidth(self.view2DXZButton.sizePolicy().hasHeightForWidth())
-        self.view2DXZButton.setSizePolicy(sizePolicy1)
-        self.view2DXZButton.setMinimumSize(QSize(30, 0))
-        self.view2DXZButton.setFont(font)
+        self.view2DCoButton = QPushButton(View2DPanelWidget)
+        self.view2DCoButton.setObjectName(u"view2DCoButton")
+        sizePolicy1.setHeightForWidth(self.view2DCoButton.sizePolicy().hasHeightForWidth())
+        self.view2DCoButton.setSizePolicy(sizePolicy1)
+        self.view2DCoButton.setMinimumSize(QSize(30, 0))
+        self.view2DCoButton.setFont(font)
 
-        self.horizontalLayout.addWidget(self.view2DXZButton)
+        self.horizontalLayout.addWidget(self.view2DCoButton)
 
-        self.view2DYZButton = QPushButton(View2DPanelWidget)
-        self.view2DYZButton.setObjectName(u"view2DYZButton")
-        sizePolicy1.setHeightForWidth(self.view2DYZButton.sizePolicy().hasHeightForWidth())
-        self.view2DYZButton.setSizePolicy(sizePolicy1)
-        self.view2DYZButton.setMinimumSize(QSize(30, 0))
-        self.view2DYZButton.setFont(font)
+        self.view2DSaButton = QPushButton(View2DPanelWidget)
+        self.view2DSaButton.setObjectName(u"view2DSaButton")
+        sizePolicy1.setHeightForWidth(self.view2DSaButton.sizePolicy().hasHeightForWidth())
+        self.view2DSaButton.setSizePolicy(sizePolicy1)
+        self.view2DSaButton.setMinimumSize(QSize(30, 0))
+        self.view2DSaButton.setFont(font)
 
-        self.horizontalLayout.addWidget(self.view2DYZButton)
+        self.horizontalLayout.addWidget(self.view2DSaButton)
 
         self.horizontalSpacer = QSpacerItem(50, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
@@ -246,9 +246,9 @@ class Ui_View2DPanelWidget(object):
 #if QT_CONFIG(shortcut)
         self.view2DCropModeButton.setShortcut(QCoreApplication.translate("View2DPanelWidget", u"Ctrl+S", None))
 #endif // QT_CONFIG(shortcut)
-        self.view2DXYButton.setText(QCoreApplication.translate("View2DPanelWidget", u"XY", None))
-        self.view2DXZButton.setText(QCoreApplication.translate("View2DPanelWidget", u"XZ", None))
-        self.view2DYZButton.setText(QCoreApplication.translate("View2DPanelWidget", u"YZ", None))
+        self.view2DAxButton.setText(QCoreApplication.translate("View2DPanelWidget", u"Ax", None))
+        self.view2DCoButton.setText(QCoreApplication.translate("View2DPanelWidget", u"Co", None))
+        self.view2DSaButton.setText(QCoreApplication.translate("View2DPanelWidget", u"Sa", None))
         self.view2DOverlayOpacityLabel.setText(QCoreApplication.translate("View2DPanelWidget", u"Overlay Opacity: ", None))
         self.view2DResetButton.setText(QCoreApplication.translate("View2DPanelWidget", u"Reset", None))
     # retranslateUi

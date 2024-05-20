@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>495</width>
+    <width>499</width>
     <height>491</height>
    </rect>
   </property>
@@ -288,7 +288,7 @@
      <item row="1" column="0" colspan="2">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QPushButton" name="view2DXYButton">
+        <widget class="QPushButton" name="view2DAxButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -307,12 +307,12 @@
           </font>
          </property>
          <property name="text">
-          <string>XY</string>
+          <string>Ax</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="view2DXZButton">
+        <widget class="QPushButton" name="view2DCoButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -331,12 +331,12 @@
           </font>
          </property>
          <property name="text">
-          <string>XZ</string>
+          <string>Co</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="view2DYZButton">
+        <widget class="QPushButton" name="view2DSaButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -355,7 +355,7 @@
           </font>
          </property>
          <property name="text">
-          <string>YZ</string>
+          <string>Sa</string>
          </property>
         </widget>
        </item>
