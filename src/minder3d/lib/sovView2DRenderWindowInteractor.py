@@ -35,9 +35,10 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             7: 'Crop',
         }
 
-        self.current_mouse_mode = 0
+        self.state.view2D_image_axis_order = [0, 1, 2]
+        self.state.view2D_csa_axis_order = [2, 0, 1]
 
-        self.current_axis_order = [0, 1, 2]
+        self.current_mouse_mode = 0
 
         self.mouse_pressed = False
         self.mouse_start = []
@@ -51,12 +52,12 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
         vtk_world_xy = picker.GetPickPosition()
         vtk_world = [vtk_world_xy[0], vtk_world_xy[1], 0]
         z = self.state.view2D_slice[self.state.current_image_num][
-            self.current_axis_order[2]
+            self.view_image_axis_order[2]
         ]
         vtk_world[2] = (
             z
             * self.state.image[self.state.current_image_num].GetSpacing()[
-                self.current_axis_order[2]
+                self.state.view2D_image_axis_order[2]
             ]
         )
 
@@ -66,16 +67,25 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             .GetLargestPossibleRegion()
             .GetSize()
         )
-        indx = [int(vtk_world[i] / spacing[i] + 0.5) for i in range(3)]
+        indx = [
+            int(
+                vtk_world[i] / spacing[self.state.view2D_image_axis_order[i]]
+                + 0.5
+            )
+            for i in range(3)
+        ]
         for i in range(3):
-            if self.state.view2D_flip[self.state.current_image_num][i]:
+            if self.state.view2D_flip[self.state.current_image_num][
+                self.state.view2D_image_axis_order[i]
+            ]:
                 indx[i] = size[i] - indx[i] - 1
-        # i = self.current_axis_order[1]  # displayed y-axis is shown flipped
-        # indx[i] = size[i] - indx[i] - 1
+        img_indx = [
+            indx[self.state.view2D_image_axis_order[i]] for i in range(3)
+        ]
         pos = self.state.image[
             self.state.current_image_num
-        ].TransformIndexToPhysicalPoint(indx)
-        return indx, pos
+        ].TransformIndexToPhysicalPoint(img_indx)
+        return img_indx, pos
 
     @time_and_log
     def mousePressEvent(self, event):
@@ -211,9 +221,6 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
     @time_and_log
     def update_view(self):
         if self.view2D is not None and self.state.image is not None:
-            spacing = self.state.image[
-                self.state.current_image_num
-            ].GetSpacing()
             current_image_array = self.state.image_array[
                 self.state.current_image_num
             ]
@@ -223,41 +230,33 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
             view_slice = []
             overlay_slice_rgba = []
-            self.current_axis_order = []
-            if current_image_array.shape[2] == 1:
+
+            img_num = self.state.current_image_num
+            view_image_axis = self.state.view2D_image_axis_order[img_num][2]
+
+            slice_num = self.state.view2D_slice[img_num][view_image_axis]
+
+            if current_image_array.shape[2 - view_image_axis] == 1:
                 view_slice = current_image_array[0, ::-1, :]
                 overlay_slice_rgba = current_overlay_array[0, ::-1, :]
-                self.current_axis_order = [0, 1, 2]
-            elif self.state.view2D_axis[self.state.current_image_num] == 2:
-                slice_num = self.state.view2D_slice[
-                    self.state.current_image_num
-                ][self.state.view2D_axis[self.state.current_image_num]]
-                view_slice = current_image_array[slice_num, ::-1, :]
-                overlay_slice_rgba = current_overlay_array[slice_num, ::-1, :]
-                self.current_axis_order = [0, 1, 2]
-            elif self.state.view2D_axis[self.state.current_image_num] == 1:
-                slice_num = self.state.view2D_slice[
-                    self.state.current_image_num
-                ][self.state.view2D_axis[self.state.current_image_num]]
-                view_slice = current_image_array[::-1, slice_num, :]
-                overlay_slice_rgba = current_overlay_array[::-1, slice_num, :]
-                self.current_axis_order = [0, 2, 1]
-            else:  # self.state.view2D_axis[self.state.current_image_num] == 0:
-                slice_num = self.state.view2D_slice[
-                    self.state.current_image_num
-                ][self.state.view2D_axis[self.state.current_image_num]]
-                view_slice = current_image_array[::-1, ::-1, slice_num]
-                overlay_slice_rgba = current_overlay_array[
-                    ::-1, ::-1, slice_num
-                ]
-                self.current_axis_order = [1, 2, 0]
+            else:
+                view_slice = np.take(
+                    current_image_array, slice_num, axis=2 - view_image_axis
+                )
+                overlay_slice_rgba = np.take(
+                    current_overlay_array, slice_num, axis=2 - view_image_axis
+                )
+                if (
+                    self.state.view2D_image_axis_order[img_num][0]
+                    > self.state.view2D_image_axis_order[img_num][1]
+                ):
+                    view_slice = np.transpose(view_slice)
+                    overlay_slice_rgba = np.transpose(
+                        overlay_slice_rgba, axes=(1, 0, 2)
+                    )
 
-            view_intensity_min = self.state.view2D_intensity_window_min[
-                self.state.current_image_num
-            ]
-            view_intensity_max = self.state.view2D_intensity_window_max[
-                self.state.current_image_num
-            ]
+            view_intensity_min = self.state.view2D_intensity_window_min[img_num]
+            view_intensity_max = self.state.view2D_intensity_window_max[img_num]
             if view_intensity_min != view_intensity_max:
                 view_slice = (
                     (view_slice - view_intensity_min)
@@ -268,14 +267,14 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             else:
                 view_slice = np.ones(view_slice.shape) * 128
 
-            if self.state.view2D_flip[self.state.current_image_num][
-                self.current_axis_order[0]
+            if self.state.view2D_flip[img_num][
+                self.state.view2D_image_axis_order[img_num][0]
             ]:
                 view_slice = np.flip(view_slice, axis=1)
 
-            # vtk displays flipped, so flip back
-            if not self.state.view2D_flip[self.state.current_image_num][
-                self.current_axis_order[1]
+            # vtk y-axis is flipped, so flip the flip
+            if not self.state.view2D_flip[img_num][
+                self.state.view2D_image_axis_order[img_num][1]
             ]:
                 view_slice = np.flip(view_slice, axis=0)
 
@@ -288,11 +287,12 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             view_slice_rgba[:, :, 3] = np.ones(view_slice.shape) * 255
 
             # Import image directly to gray RGBA
+            spacing = np.array(self.state.image[img_num].GetSpacing())
             view_slice_vtk = vtkImageData()
             view_slice_vtk.SetSpacing(
-                spacing[self.current_axis_order[0]],
-                spacing[self.current_axis_order[1]],
-                spacing[self.current_axis_order[2]],
+                spacing[self.state.view2D_image_axis_order[img_num][0]],
+                spacing[self.state.view2D_image_axis_order[img_num][1]],
+                spacing[self.state.view2D_image_axis_order[img_num][2]],
             )
             view_slice_vtk.SetDimensions(
                 view_slice.shape[1], view_slice.shape[0], 1
@@ -306,23 +306,23 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             )
             view_slice_vtk.GetPointData().SetScalars(vtk_data)
 
-            if self.state.view2D_flip[self.state.current_image_num][
-                self.current_axis_order[0]
+            if self.state.view2D_flip[img_num][
+                self.state.view2D_image_axis_order[img_num][0]
             ]:
                 overlay_slice_rgba = np.flip(overlay_slice_rgba, axis=1)
 
-            # Flip by default along y axis
-            if not self.state.view2D_flip[self.state.current_image_num][
-                self.current_axis_order[1]
+            # vtk y-axis is flipped, so flip the flip
+            if not self.state.view2D_flip[img_num][
+                self.state.view2D_image_axis_order[img_num][1]
             ]:
                 overlay_slice_rgba = np.flip(overlay_slice_rgba, axis=0)
 
             # Import overlay to RGBA
             overlay_slice_vtk = vtkImageData()
             overlay_slice_vtk.SetSpacing(
-                spacing[self.current_axis_order[0]],
-                spacing[self.current_axis_order[1]],
-                spacing[self.current_axis_order[2]],
+                spacing[self.state.view2D_image_axis_order[img_num][0]],
+                spacing[self.state.view2D_image_axis_order[img_num][1]],
+                spacing[self.state.view2D_image_axis_order[img_num][2]],
             )
             overlay_slice_vtk.SetDimensions(
                 view_slice.shape[1], view_slice.shape[0], 1
@@ -336,22 +336,22 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             )
             overlay_slice_vtk.GetPointData().SetScalars(vtk_data)
 
-            imgBlender = vtkImageBlend()
-            imgBlender.AddInputData(view_slice_vtk)
-            imgBlender.AddInputData(overlay_slice_vtk)
-            imgBlender.SetOpacity(1, self.state.view2D_overlay_opacity)
-            imgBlender.SetOpacity(0, 1.0)
-            imgBlender.Update()
-            blended_slice_vtk = imgBlender.GetOutput()
+            try:
+                imgBlender = vtkImageBlend()
+                imgBlender.AddInputData(view_slice_vtk)
+                imgBlender.AddInputData(overlay_slice_vtk)
+                imgBlender.SetOpacity(1, self.state.view2D_overlay_opacity)
+                imgBlender.SetOpacity(0, 1.0)
+                imgBlender.Update()
+                blended_slice_vtk = imgBlender.GetOutput()
+            except Exception as e:
+                print(e)
+                assert e
 
             self.view2D.SetInputData(blended_slice_vtk)
 
-            win_min = self.state.view2D_intensity_window_min[
-                self.state.current_image_num
-            ]
-            win_max = self.state.view2D_intensity_window_max[
-                self.state.current_image_num
-            ]
+            win_min = self.state.view2D_intensity_window_min[img_num]
+            win_max = self.state.view2D_intensity_window_max[img_num]
             lvl = (win_max + win_min) / 2.0
             win = win_max - win_min
             inputStr = f'W:{win:.1f} L:{lvl:.1f}'

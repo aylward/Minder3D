@@ -160,7 +160,7 @@
             </property>
             <widget class="QWidget" name="welcomeTab">
              <attribute name="title">
-              <string>Welcome: Load and Save</string>
+              <string>Welcome</string>
              </attribute>
              <layout class="QHBoxLayout" name="welcomeTabLayout"/>
             </widget>
@@ -344,8 +344,6 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="minder3DResources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

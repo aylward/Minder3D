@@ -55,7 +55,6 @@ class InfoTablePanelWidget(QWidget, Ui_InfoTablePanelWidget):
             [f'{x:0.1f}' for x in self.state.current_pixel_position]
         )
         self.infoTableWidget.setItem(0, 1, QTableWidgetItem(pos_str))
-        print(self.state.current_pixel_index)
         if (
             self.state.image[self.state.current_image_num]
             .GetLargestPossibleRegion()

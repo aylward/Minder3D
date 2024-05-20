@@ -1,5 +1,8 @@
 """This module provides the ImageTablePanelWidget class."""
 
+import os
+
+from itk import imread
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import (
@@ -277,3 +280,45 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 self.gui.load_image(self.imageTableWidget.item(row, 3).text())
             elif self.imageTableWidget.item(row, 1).text() == 'Scene':
                 self.gui.load_scene(self.imageTableWidget.item(row, 3).text())
+
+    @time_and_log
+    def register_images(self, dir, first=True):
+        files = [
+            os.path.join(dir, f)
+            for f in os.listdir(dir)
+            if os.path.isfile(os.path.join(dir, f))
+        ]
+        dicom_dir = False
+        for filename in files:
+            if filename.lower().endswith('.dcm') or filename.endswith(''):
+                if dicom_dir:
+                    continue
+                else:
+                    print(f"Adding DICOM object '{filename}' to settings")
+                    filename = dir
+                    dicom_dir = True
+            else:
+                print(f"Adding NON-DICOM image '{filename}' to settings")
+            try:
+                img = imread(filename)
+            except Exception:
+                continue
+            thumbnail = self.settings.get_thumbnail(img, filename, 'image')
+            print(f'Adding {filename} to settings')
+            self.settings.add_data(
+                img,
+                filename,
+                'image',
+                thumbnail,
+            )
+
+        dirs = [
+            os.path.join(dir, d)
+            for d in os.listdir(dir)
+            if os.path.isdir(os.path.join(dir, d))
+        ]
+        for dirname in dirs:
+            self.register_images(dirname, False)
+
+        if first:
+            self.fill_table()

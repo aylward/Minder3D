@@ -3,7 +3,7 @@ import os
 import itk
 import numpy as np
 import vtk
-from PySide6.QtCore import QCoreApplication
+from PySide6.QtCore import QCoreApplication, QFileInfo
 from PySide6.QtWidgets import (
     QFileDialog,
     QInputDialog,
@@ -46,6 +46,12 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         QCoreApplication.setApplicationName('Minder3D')
 
         self.state = Minder3DState()
+
+        self.log_window = LogWindow(self.state.logger)
+        self.statusViewLogButton.pressed.connect(self.log_window.show)
+        self.log_window.logger.setLevel('WARNING')
+
+        self.file_dir_dialog = None
 
         # File Menu
         self.loadImageMenuItem.triggered.connect(self.load_image)
@@ -93,6 +99,11 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.tabWidget.setFixedHeight(200)
         self.tabWidget.setFixedWidth(700)
 
+        self.importDICOMPanel = None
+        self.lungCTAPanel = None
+        self.otsuPanel = None
+        self.imageProcessPanel = None
+
         # Remove Close buttons from welcome, visualization, and pre-process
         # and task tabs
         tabBar = self.tabWidget.tabBar()
@@ -109,9 +120,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         )
 
         self.statusText.setText('Ready')
-
-        self.log_window = LogWindow(self.state.logger)
-        self.statusViewLogButton.pressed.connect(self.log_window.show)
 
         self.show()
         self.view2DPanel.initialize()
@@ -147,8 +155,20 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.statusText.update()
         self.log_window.log(message, level)
 
+    def file_dir_dialog_switcher(self, str):
+        """Open a file dialog to select a directory or a file.
+
+        Returns:
+            str: The path of the selected directory.
+        """
+        info = QFileInfo(str)
+        if info.isFile():
+            self.file_dir_dialog.setFileMode(QFileDialog.ExistingFile)
+        elif info.isDir():
+            self.file_dir_dialog.setFileMode(QFileDialog.Directory)
+
     @time_and_log
-    def load_image(self, filename=None, thumbnail=None):
+    def load_image(self, filename=None):
         """Load an image from a file.
 
         If filename is not provided, it opens a file dialog to select an image
@@ -161,6 +181,8 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         if filename is None:
             if len(self.state.image_filename) > 0:
                 filename = self.state.image_filename[-1]
+            file_dialog = QFileDialog(self)
+            file_dialog.connect.currentChanged(self.file_dir_dialog)
             filename, _ = QFileDialog.getOpenFileName(
                 self, 'Open File', filename, 'All Files (*)'
             )
@@ -347,6 +369,12 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.state.image_min.append(float(np.min(self.state.image_array[-1])))
         self.state.image_max.append(float(np.max(self.state.image_array[-1])))
 
+        dir = np.array(self.state.image[-1].GetDirection())
+        axis_c = np.argmax(np.abs(dir), axis=1)[2]
+        axis_s = np.argmax(np.abs(dir), axis=1)[1]
+        axis_a = np.argmax(np.abs(dir), axis=1)[0]
+        self.state.csa_to_image_axis.append([axis_c, axis_s, axis_a])
+
         if len(self.state.overlay) > 1:
             self.state.overlay.append(
                 resample_overlay_to_match_image(
@@ -381,8 +409,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         This function replaces the current image with the provided image and
         updates the corresponding image array, minimum and maximum values.
         If `update_overlay` is True, it also updates the overlay to match the
-        new image. Additionally, it appends view2D_flip based on the file
-        extension of the image.
+        new image.
 
         Args:
             img: The new image to be set as the current image.

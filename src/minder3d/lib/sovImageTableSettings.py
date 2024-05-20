@@ -1,8 +1,9 @@
 import os
 import uuid
 
+import itk
 import numpy as np
-from PySide6.QtCore import QSettings, QStandardPaths
+from PySide6.QtCore import QSettings, QStandardPaths, Qt
 from PySide6.QtGui import QImage, QPixmap
 
 from .sovUtils import time_and_log
@@ -160,14 +161,17 @@ class ImageTableSettings(QSettings):
             if file.filename == filename:
                 return QPixmap(file.file_thumbnail)
         if file_type == 'image':
-            return self.get_thumbnail_pixmap_from_array(
-                obj[obj.shape[0] // 2, ::-1, :]
-            )
+            return self.get_thumbnail_pixmap_from_image(obj)
         elif file_type == 'scene':
             return QPixmap(':/icons/scene.png')
 
     @time_and_log
-    def get_thumbnail_pixmap_from_array(self, thumb_array):
+    def get_thumbnail_pixmap_from_image(self, img):
+        """Get a thumbnail pixmap from an image."""
+        arr = itk.GetArrayFromImage(img)
+        flipX = int(np.sign(np.sum(img.GetDirection(), axis=1)[0]))
+        flipY = int(np.sign(np.sum(img.GetDirection(), axis=1)[1]))
+        thumb_array = arr[arr.shape[0] // 2, ::flipY, ::flipX]
         if len(thumb_array.shape) == 3:
             thumb_array = thumb_array.mean(axis=2).astype(np.uint8)
         auto_range = np.quantile(thumb_array, [0.05, 0.95])
@@ -184,5 +188,9 @@ class ImageTableSettings(QSettings):
             thumb_array.strides[0],
             QImage.Format_Grayscale8,
         )
-        thumb_pixmap = QPixmap.fromImage(thumb_image).scaled(100, 100)
+        thumb_image.setDotsPerMeterX(10 / img.GetSpacing()[0])
+        thumb_image.setDotsPerMeterY(10 / img.GetSpacing()[1])
+        thumb_pixmap = QPixmap.fromImage(thumb_image).scaled(
+            100, 100, Qt.KeepAspectRatio
+        )
         return thumb_pixmap

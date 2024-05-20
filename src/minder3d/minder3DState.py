@@ -28,6 +28,7 @@ class Minder3DState:
         self.image_max = []
         self.image_filename = []
         self.image_thumbnail = []
+        self.csa_to_image_axis = []
 
         # Overlay
         self.overlay = []
@@ -42,8 +43,9 @@ class Minder3DState:
         self.view2D_intensity_window_min = []
         self.view2D_intensity_window_max = []
         self.view2D_slice = []
-        self.view2D_axis = []
         self.view2D_flip = []
+        self.view2D_csa_axis_order = []
+        self.view2D_image_axis_order = []
         self.view2D_overlay_opacity = 0.5
         self.view2D_overlay_auto_update = False
 

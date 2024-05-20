@@ -23,13 +23,8 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
         self.gui = gui
         self.state = state
 
-        self.gui.lungCTAPanel = None
         self.newTaskLungCTAButton.clicked.connect(self.add_lung_cta_panel)
-
-        self.gui.otsuPanel = None
         self.newTaskOtsuButton.clicked.connect(self.add_otsu_panel)
-
-        self.gui.imageProcessPanel = None
         self.newTaskImageProcessButton.clicked.connect(
             self.add_image_process_panel
         )

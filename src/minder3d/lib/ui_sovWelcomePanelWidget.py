@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovWelcomePanelWidgetZbVbUJ.ui'
+## Form generated from reading UI file 'sovWelcomePanelWidgetuZvoNP.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -30,9 +30,9 @@ class Ui_WelcomePanelWidget(object):
         self.welcomeLoadImageButton = QPushButton(WelcomePanelWidget)
         self.welcomeLoadImageButton.setObjectName(u"welcomeLoadImageButton")
         self.welcomeLoadImageButton.setGeometry(QRect(360, 20, 121, 24))
-        self.welcomeLoadDICOMButton = QPushButton(WelcomePanelWidget)
-        self.welcomeLoadDICOMButton.setObjectName(u"welcomeLoadDICOMButton")
-        self.welcomeLoadDICOMButton.setGeometry(QRect(360, 110, 121, 24))
+        self.welcomeImportDICOMButton = QPushButton(WelcomePanelWidget)
+        self.welcomeImportDICOMButton.setObjectName(u"welcomeImportDICOMButton")
+        self.welcomeImportDICOMButton.setGeometry(QRect(360, 110, 121, 24))
         self.welcomeSaveImageButton = QPushButton(WelcomePanelWidget)
         self.welcomeSaveImageButton.setObjectName(u"welcomeSaveImageButton")
         self.welcomeSaveImageButton.setGeometry(QRect(520, 20, 121, 24))
@@ -66,15 +66,17 @@ class Ui_WelcomePanelWidget(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:700;\">Welcome to Minder3D!</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">To get started, load data using the buttons to the r"
-                        "ight, the list of previously loaded data on the left, or the &quot;File&quot; menu at the top.</p>\n"
+                        "ight, the list of registered data on the left, or the &quot;File&quot; menu at the top.</p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">You can also import DICOM data, which will open a new tab to gather the necessary information.</p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">To process your data, select a method from the &quot;New Task&quot; tab.</p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">If you have questions or suggestions, please visit</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">   <a href=\"https://github.com/aylward/Minder3D\"><span style=\" text-decoration: underline; col"
-                        "or:#0000ff;\">https://github.com/aylward/Minder3D</span></a></p></body></html>", None))
+"<p style=\" margin-t"
+                        "op:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">If you have questions or suggestions, please visit</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">   <a href=\"https://github.com/aylward/Minder3D\"><span style=\" text-decoration: underline; color:#0000ff;\">https://github.com/aylward/Minder3D</span></a></p></body></html>", None))
         self.welcomeLoadImageButton.setText(QCoreApplication.translate("WelcomePanelWidget", u"Load Image", None))
-        self.welcomeLoadDICOMButton.setText(QCoreApplication.translate("WelcomePanelWidget", u"Import DICOM Data", None))
+        self.welcomeImportDICOMButton.setText(QCoreApplication.translate("WelcomePanelWidget", u"Import DICOM Data", None))
         self.welcomeSaveImageButton.setText(QCoreApplication.translate("WelcomePanelWidget", u"Save Image", None))
         self.welcomeSaveSceneButton.setText(QCoreApplication.translate("WelcomePanelWidget", u"Save Scene", None))
         self.welcomeLoadSceneButton.setText(QCoreApplication.translate("WelcomePanelWidget", u"Load Scene", None))
