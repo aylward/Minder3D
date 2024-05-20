@@ -3,10 +3,7 @@ import os
 import itk
 import numpy as np
 import vtk
-from PySide6.QtCore import (
-    QCoreApplication,
-    QFileInfo,
-)
+from PySide6.QtCore import QCoreApplication, QFileInfo
 from PySide6.QtWidgets import (
     QFileDialog,
     QInputDialog,
@@ -14,6 +11,7 @@ from PySide6.QtWidgets import (
     QSizePolicy,
     QTabBar,
 )
+
 from .lib.sovImageTablePanelWidget import ImageTablePanelWidget
 from .lib.sovInfoTablePanelWidget import InfoTablePanelWidget
 from .lib.sovNewTaskPanelWidget import NewTaskPanelWidget
@@ -411,7 +409,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         This function replaces the current image with the provided image and
         updates the corresponding image array, minimum and maximum values.
         If `update_overlay` is True, it also updates the overlay to match the
-        new image. 
+        new image.
 
         Args:
             img: The new image to be set as the current image.

@@ -67,11 +67,21 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             .GetLargestPossibleRegion()
             .GetSize()
         )
-        indx = [int(vtk_world[i] / spacing[self.state.view2D_image_axis_order[i]] + 0.5) for i in range(3)]
+        indx = [
+            int(
+                vtk_world[i] / spacing[self.state.view2D_image_axis_order[i]]
+                + 0.5
+            )
+            for i in range(3)
+        ]
         for i in range(3):
-            if self.state.view2D_flip[self.state.current_image_num][self.state.view2D_image_axis_order[i]]:
+            if self.state.view2D_flip[self.state.current_image_num][
+                self.state.view2D_image_axis_order[i]
+            ]:
                 indx[i] = size[i] - indx[i] - 1
-        img_indx = [indx[self.state.view2D_image_axis_order[i]] for i in range(3)]
+        img_indx = [
+            indx[self.state.view2D_image_axis_order[i]] for i in range(3)
+        ]
         pos = self.state.image[
             self.state.current_image_num
         ].TransformIndexToPhysicalPoint(img_indx)
@@ -226,31 +236,27 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
             slice_num = self.state.view2D_slice[img_num][view_image_axis]
 
-            if current_image_array.shape[2-view_image_axis] == 1:
+            if current_image_array.shape[2 - view_image_axis] == 1:
                 view_slice = current_image_array[0, ::-1, :]
                 overlay_slice_rgba = current_overlay_array[0, ::-1, :]
             else:
                 view_slice = np.take(
-                    current_image_array,
-                    slice_num,
-                    axis=2-view_image_axis)
+                    current_image_array, slice_num, axis=2 - view_image_axis
+                )
                 overlay_slice_rgba = np.take(
-                    current_overlay_array,
-                    slice_num,
-                    axis=2-view_image_axis)
+                    current_overlay_array, slice_num, axis=2 - view_image_axis
+                )
                 if (
-                    self.state.view2D_image_axis_order[img_num][0] >
-                    self.state.view2D_image_axis_order[img_num][1]
+                    self.state.view2D_image_axis_order[img_num][0]
+                    > self.state.view2D_image_axis_order[img_num][1]
                 ):
                     view_slice = np.transpose(view_slice)
-                    overlay_slice_rgba = np.transpose(overlay_slice_rgba, axes=(1, 0, 2))
+                    overlay_slice_rgba = np.transpose(
+                        overlay_slice_rgba, axes=(1, 0, 2)
+                    )
 
-            view_intensity_min = self.state.view2D_intensity_window_min[
-                img_num
-            ]
-            view_intensity_max = self.state.view2D_intensity_window_max[
-                img_num
-            ]
+            view_intensity_min = self.state.view2D_intensity_window_min[img_num]
+            view_intensity_max = self.state.view2D_intensity_window_max[img_num]
             if view_intensity_min != view_intensity_max:
                 view_slice = (
                     (view_slice - view_intensity_min)
@@ -357,9 +363,7 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             self.cornerAnnotationTextActor.GetTextProperty().SetFontSize(10)
             # self.cornerAnnotationTextActor.GetTextProperty().SetColor(
             #     colors.GetColor3d("Gold").GetData())
-            self.view2D.GetRenderer().AddActor2D(
-                self.cornerAnnotationTextActor
-            )
+            self.view2D.GetRenderer().AddActor2D(self.cornerAnnotationTextActor)
 
             self.view2D.Render()
             self.view2D.GetRenderWindow().Render()

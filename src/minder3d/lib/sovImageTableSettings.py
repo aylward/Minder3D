@@ -1,10 +1,9 @@
-import itk
 import os
 import uuid
 
+import itk
 import numpy as np
-from PySide6.QtCore import Qt
-from PySide6.QtCore import QSettings, QStandardPaths
+from PySide6.QtCore import QSettings, QStandardPaths, Qt
 from PySide6.QtGui import QImage, QPixmap
 
 from .sovUtils import time_and_log
@@ -168,7 +167,7 @@ class ImageTableSettings(QSettings):
 
     @time_and_log
     def get_thumbnail_pixmap_from_image(self, img):
-        '''Get a thumbnail pixmap from an image.'''
+        """Get a thumbnail pixmap from an image."""
         arr = itk.GetArrayFromImage(img)
         flipX = int(np.sign(np.sum(img.GetDirection(), axis=1)[0]))
         flipY = int(np.sign(np.sum(img.GetDirection(), axis=1)[1]))
@@ -189,8 +188,9 @@ class ImageTableSettings(QSettings):
             thumb_array.strides[0],
             QImage.Format_Grayscale8,
         )
-        thumb_image.setDotsPerMeterX(10/img.GetSpacing()[0])
-        thumb_image.setDotsPerMeterY(10/img.GetSpacing()[1])
+        thumb_image.setDotsPerMeterX(10 / img.GetSpacing()[0])
+        thumb_image.setDotsPerMeterY(10 / img.GetSpacing()[1])
         thumb_pixmap = QPixmap.fromImage(thumb_image).scaled(
-            100, 100, Qt.KeepAspectRatio)
+            100, 100, Qt.KeepAspectRatio
+        )
         return thumb_pixmap

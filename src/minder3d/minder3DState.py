@@ -42,10 +42,10 @@ class Minder3DState:
         # 2D View settings
         self.view2D_intensity_window_min = []
         self.view2D_intensity_window_max = []
-        self.view2D_slice = []  # for view2D_image_axis_order[2]
-        self.view2D_flip = []   # for each image axis
-        self.view2D_csa_axis_order = []  # X, Y, Z -> 0:Coronal, 1:Sagittal, 2:Axial
-        self.view2D_image_axis_order = [] # X, Y, Z -> 0:I(fastest), 1:J, 2:K
+        self.view2D_slice = []
+        self.view2D_flip = []
+        self.view2D_csa_axis_order = []
+        self.view2D_image_axis_order = []
         self.view2D_overlay_opacity = 0.5
         self.view2D_overlay_auto_update = False
 

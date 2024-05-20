@@ -157,11 +157,10 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
     @time_and_log
     def update_slice_max_value(self):
-
         img_num = self.state.current_image_num
         view_image_axis = self.state.view2D_image_axis_order[img_num][2]
         slice_max = (
-            self.state.image_array[img_num].shape[2-view_image_axis] - 1
+            self.state.image_array[img_num].shape[2 - view_image_axis] - 1
         )
         slice_current = self.state.view2D_slice[img_num][view_image_axis]
 
@@ -186,7 +185,8 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         # coronal plane -> x = axial, y = coronal
         self.state.view2D_csa_axis_order[img_num] = [2, 0, 1]
         self.state.view2D_image_axis_order[img_num] = [
-            self.state.csa_to_image_axis[img_num][i] for i in self.state.view2D_csa_axis_order[img_num]
+            self.state.csa_to_image_axis[img_num][i]
+            for i in self.state.view2D_csa_axis_order[img_num]
         ]
 
         self.update_slice_max_value()
@@ -205,7 +205,8 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         # sagittal plane -> x = sagittal, y = coronal
         self.state.view2D_csa_axis_order[img_num] = [1, 0, 2]
         self.state.view2D_image_axis_order[img_num] = [
-            self.state.csa_to_image_axis[img_num][i] for i in self.state.view2D_csa_axis_order[img_num]
+            self.state.csa_to_image_axis[img_num][i]
+            for i in self.state.view2D_csa_axis_order[img_num]
         ]
 
         self.update_slice_max_value()
@@ -224,7 +225,8 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         # axial plane -> x = axial, y = sagittal
         self.state.view2D_csa_axis_order[img_num] = [2, 1, 0]
         self.state.view2D_image_axis_order[img_num] = [
-            self.state.csa_to_image_axis[img_num][i] for i in self.state.view2D_csa_axis_order[img_num]
+            self.state.csa_to_image_axis[img_num][i]
+            for i in self.state.view2D_csa_axis_order[img_num]
         ]
 
         self.update_slice_max_value()
@@ -242,10 +244,12 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
         slice_max = (
             self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_image_axis_order[
+                2
+                - self.state.view2D_image_axis_order[
                     self.state.current_image_num
                 ][2]
-            ] - 1
+            ]
+            - 1
         )
         slice_current = self.state.view2D_slice[self.state.current_image_num][
             self.state.view2D_image_axis_order[self.state.current_image_num][2]
@@ -279,7 +283,7 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         self.state.view2D_flip.append(flip)
 
         # Hueristic to find view plane based on z-axis of the image
-        view_plane = (self.state.csa_to_image_axis[-1].index(2)+2) % 3
+        view_plane = (self.state.csa_to_image_axis[-1].index(2) + 2) % 3
 
         # Allocate space for axis order vars, and then update them
         self.state.view2D_csa_axis_order.append([0, 0, 0])
@@ -309,10 +313,12 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
         slice_max = (
             self.state.image_array[self.state.current_image_num].shape[
-                2 - self.state.view2D_image_axis_order[
+                2
+                - self.state.view2D_image_axis_order[
                     self.state.current_image_num
                 ][2]
-            ] - 1
+            ]
+            - 1
         )
 
         self.update_gui = False
@@ -369,16 +375,20 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
             current_slice = 0
 
         view_image_axis = self.state.view2D_image_axis_order[
-            self.state.current_image_num][2]
+            self.state.current_image_num
+        ][2]
         slice_max = (
             self.state.image_array[self.state.current_image_num].shape[
-                2-view_image_axis] - 1
+                2 - view_image_axis
+            ]
+            - 1
         )
         if current_slice > slice_max:
             current_slice = slice_max
 
         self.state.view2D_slice[self.state.current_image_num][
-            view_image_axis] = current_slice
+            view_image_axis
+        ] = current_slice
 
         self.update_gui = False
         self.view2DSliceSlider.setValue(current_slice)
@@ -397,16 +407,20 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
             current_slice = 0
 
         view_image_axis = self.state.view2D_image_axis_order[
-            self.state.current_image_num][2]
+            self.state.current_image_num
+        ][2]
         slice_max = (
             self.state.image_array[self.state.current_image_num].shape[
-                2-view_image_axis] - 1
+                2 - view_image_axis
+            ]
+            - 1
         )
         if current_slice > slice_max:
             current_slice = slice_max
 
         self.state.view2D_slice[self.state.current_image_num][
-            view_image_axis] = current_slice
+            view_image_axis
+        ] = current_slice
 
         self.update_gui = False
         self.view2DSliceSlider.setValue(current_slice)

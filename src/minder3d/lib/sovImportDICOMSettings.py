@@ -55,7 +55,7 @@ class ImportDICOMSettings(QSettings):
             The value of the attribute if it exists, otherwise the default value.
         """
         if not self.contains('input_directory'):
-            return ".", ".", False
+            return '.', '.', False
         input_directory = self.value('input_directory')
         output_directory = self.value('output_directory')
         auto_register_str = self.value('auto_register')

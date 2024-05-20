@@ -1,11 +1,8 @@
 import os
-from dicomsort import DICOMSorter
 
+from dicomsort import DICOMSorter
 from PySide6.QtGui import QColor, QPalette
-from PySide6.QtWidgets import (
-    QWidget,
-    QFileDialog
-)
+from PySide6.QtWidgets import QFileDialog, QWidget
 
 from .sovImportDICOMSettings import ImportDICOMSettings
 from .sovUtils import time_and_log
@@ -29,18 +26,23 @@ class ImportDICOMPanelWidget(QWidget, Ui_ImportDICOMPanelWidget):
         self.state = state
         self.settings = ImportDICOMSettings()
 
-        input_directory, output_directory, auto_register = self.settings.get_data()
+        input_directory, output_directory, auto_register = (
+            self.settings.get_data()
+        )
 
-        self.importDICOMInputDirectorySelectButton.pressed.connect(self.selectInputDirectory)
+        self.importDICOMInputDirectorySelectButton.pressed.connect(
+            self.selectInputDirectory
+        )
         self.importDICOMInputDirectoryLineEdit.setText(input_directory)
 
-        self.importDICOMOutputDirectorySelectButton.pressed.connect(self.selectOutputDirectory)
+        self.importDICOMOutputDirectorySelectButton.pressed.connect(
+            self.selectOutputDirectory
+        )
         self.importDICOMOutputDirectoryLineEdit.setText(output_directory)
 
         self.importDICOMAutoRegisterCheckBox.setChecked(auto_register)
 
         self.importDICOMRunButton.pressed.connect(self.run)
-
 
         p = self.importDICOMInstructionsTextEdit.palette()
         p.setColor(QPalette.Base, QColor(43, 43, 43))
@@ -56,16 +58,14 @@ class ImportDICOMPanelWidget(QWidget, Ui_ImportDICOMPanelWidget):
         if self.importDICOMInputDirectoryLineEdit.text() != '':
             dir = self.importDICOMInputDirectoryLineEdit.text()
         dir = QFileDialog.getExistingDirectory(
-            self,
-            'Select Input Directory',
-            dir
+            self, 'Select Input Directory', dir
         )
         if dir is not None and dir != '':
             self.importDICOMInputDirectoryLineEdit.setText(dir)
             self.settings.add_data(
                 dir,
                 self.importDICOMOutputDirectoryLineEdit.text(),
-                self.importDICOMAutoRegisterCheckBox.isChecked()
+                self.importDICOMAutoRegisterCheckBox.isChecked(),
             )
 
     def selectOutputDirectory(self):
@@ -78,16 +78,14 @@ class ImportDICOMPanelWidget(QWidget, Ui_ImportDICOMPanelWidget):
         if self.importDICOMOutputDirectoryLineEdit.text() != '':
             dir = self.importDICOMOutputDirectoryLineEdit.text()
         dir = QFileDialog.getExistingDirectory(
-            self,
-            'Select Output Directory',
-            dir
+            self, 'Select Output Directory', dir
         )
         if dir is not None and dir != '':
             self.importDICOMOutputDirectoryLineEdit.setText(dir)
             self.settings.add_data(
                 self.importDICOMInputDirectoryLineEdit.text(),
                 dir,
-                self.importDICOMAutoRegisterCheckBox.isChecked()
+                self.importDICOMAutoRegisterCheckBox.isChecked(),
             )
 
     def run(self):
@@ -101,11 +99,11 @@ class ImportDICOMPanelWidget(QWidget, Ui_ImportDICOMPanelWidget):
         self.settings.add_data(
             input_dir,
             output_dir,
-            self.importDICOMAutoRegisterCheckBox.isChecked()
+            self.importDICOMAutoRegisterCheckBox.isChecked(),
         )
         pattern = (
-            "%PatientName/%StudyID-%StudyDescription-%StudyDate/" +
-            "%Modality/%SeriesNumber-%SeriesDescription/%InstanceNumber.dcm"
+            '%PatientName/%StudyID-%StudyDescription-%StudyDate/'
+            + '%Modality/%SeriesNumber-%SeriesDescription/%InstanceNumber.dcm'
         )
         target_pattern = os.path.join(output_dir, pattern)
         args = {

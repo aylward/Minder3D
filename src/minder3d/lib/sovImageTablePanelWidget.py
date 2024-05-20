@@ -1,7 +1,8 @@
 """This module provides the ImageTablePanelWidget class."""
-import os
-from itk import imread
 
+import os
+
+from itk import imread
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import (
@@ -282,7 +283,11 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
 
     @time_and_log
     def register_images(self, dir, first=True):
-        files = [os.path.join(dir, f) for f in os.listdir(dir) if os.path.isfile(os.path.join(dir, f))]
+        files = [
+            os.path.join(dir, f)
+            for f in os.listdir(dir)
+            if os.path.isfile(os.path.join(dir, f))
+        ]
         dicom_dir = False
         for filename in files:
             if filename.lower().endswith('.dcm') or filename.endswith(''):
@@ -298,10 +303,8 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 img = imread(filename)
             except Exception:
                 continue
-            thumbnail = self.settings.get_thumbnail(
-                img, filename, 'image'
-            )
-            print(f"Adding {filename} to settings")
+            thumbnail = self.settings.get_thumbnail(img, filename, 'image')
+            print(f'Adding {filename} to settings')
             self.settings.add_data(
                 img,
                 filename,
@@ -309,7 +312,11 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 thumbnail,
             )
 
-        dirs = [os.path.join(dir, d) for d in os.listdir(dir) if os.path.isdir(os.path.join(dir, d))]
+        dirs = [
+            os.path.join(dir, d)
+            for d in os.listdir(dir)
+            if os.path.isdir(os.path.join(dir, d))
+        ]
         for dirname in dirs:
             self.register_images(dirname, False)
 

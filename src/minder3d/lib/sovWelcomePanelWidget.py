@@ -22,11 +22,12 @@ class WelcomePanelWidget(QWidget, Ui_WelcomePanelWidget):
         self.gui = gui
         self.state = state
 
-
         self.welcomeLoadImageButton.pressed.connect(self.gui.load_image)
         self.welcomeLoadImageButton.setStyleSheet('background-color: #00aa00')
         self.welcomeLoadSceneButton.pressed.connect(self.gui.load_scene)
-        self.welcomeImportDICOMButton.pressed.connect(self.add_import_DICOM_panel)
+        self.welcomeImportDICOMButton.pressed.connect(
+            self.add_import_DICOM_panel
+        )
         self.welcomeSaveImageButton.pressed.connect(self.gui.save_image)
         self.welcomeSaveOverlayButton.pressed.connect(self.gui.save_overlay)
         self.welcomeSaveVTKModelsButton.pressed.connect(
@@ -53,7 +54,9 @@ class WelcomePanelWidget(QWidget, Ui_WelcomePanelWidget):
         """
 
         if self.gui.importDICOMPanel is None:
-            self.gui.importDICOMPanel = ImportDICOMPanelWidget(self.gui, self.state)
+            self.gui.importDICOMPanel = ImportDICOMPanelWidget(
+                self.gui, self.state
+            )
         if self.gui.tabWidget.indexOf(self.gui.importDICOMPanel) == -1:
             indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
             self.gui.tabWidget.insertTab(
