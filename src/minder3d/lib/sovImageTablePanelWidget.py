@@ -72,17 +72,17 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
     def unload_image(self):
         self.gui.unload_image(self.state.current_image_num, False)
         self.fill_table()
-    
+
     def remove_image(self):
-        self.settings.remove_data(self.state.image_filename[
-            self.state.current_image_num]
+        self.settings.remove_data(
+            self.state.image_filename[self.state.current_image_num]
         )
         self.gui.unload_image(self.state.current_image_num, False)
         self.fill_table()
-    
+
     def remove_all(self):
         num_images = len(self.state.image_filename)
-        for i in range(num_images-1, 0, -1):
+        for i in range(num_images - 1, 0, -1):
             self.settings.remove_data(self.state.image_filename[i])
         self.gui.unload_image(self.state.current_image_num, False)
         self.settings.clear_data()
@@ -308,10 +308,10 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             if self.state.view2D_overlay_auto_update:
                 self.gui.update_overlay()
         elif (
-            row > 0 and
-            row == len(self.state.image_filename) and
-            self.state.scene_filename == self.imageTableWidget.item(
-                row, 3).text()
+            row > 0
+            and row == len(self.state.image_filename)
+            and self.state.scene_filename
+            == self.imageTableWidget.item(row, 3).text()
         ):
             # current scene
             return

@@ -228,7 +228,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             if img is None:
                 self.log('Image could not be loaded.', 'error')
                 return
-            
+
         add_objects_in_mask_image_to_scene(img, self.state.scene)
         self.update_scene()
         self.imageTablePanel.load_scene()

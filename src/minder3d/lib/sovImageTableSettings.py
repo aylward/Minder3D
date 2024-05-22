@@ -168,24 +168,20 @@ class ImageTableSettings(QSettings):
             IndexError: If the input list is empty.
         """
         file_records = self.get_file_records()
-        if (
-            len(file_records) == 1 and
-            file_records[0].filename == filename
-        ):
+        if len(file_records) == 1 and file_records[0].filename == filename:
             self.clear()
             self.sync()
             return
         self.beginWriteArray('files')
         for i, file in enumerate(file_records):
             if file.filename == filename:
-                if (
-                    file.file_thumbnail != '' and
-                    os.path.exists(file.file_thumbnail)
+                if file.file_thumbnail != '' and os.path.exists(
+                    file.file_thumbnail
                 ):
                     os.remove(file.file_thumbnail)
-                for j in range(i+1, len(file_records)):
+                for j in range(i + 1, len(file_records)):
                     next_file = file_records[j]
-                    self.setArrayIndex(j-1)
+                    self.setArrayIndex(j - 1)
                     self.setValue('file_filename', next_file.file_filename)
                     self.setValue('file_type', next_file.file_type)
                     self.setValue('file_spacing', next_file.file_spacing)

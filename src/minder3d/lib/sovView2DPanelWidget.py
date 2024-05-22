@@ -254,8 +254,12 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
                 ]
                 - 1
             )
-            slice_current = self.state.view2D_slice[self.state.current_image_num][
-                self.state.view2D_image_axis_order[self.state.current_image_num][2]
+            slice_current = self.state.view2D_slice[
+                self.state.current_image_num
+            ][
+                self.state.view2D_image_axis_order[
+                    self.state.current_image_num
+                ][2]
             ]
 
         self.update_gui = False
@@ -308,8 +312,8 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
     def update_image(self):
         slice_max = 0
         if (
-            self.state.current_image_num >= 0 and
-            self.state.current_image_num < len(self.state.image_array)
+            self.state.current_image_num >= 0
+            and self.state.current_image_num < len(self.state.image_array)
         ):
             slice_max = (
                 self.state.image_array[self.state.current_image_num].shape[
@@ -322,12 +326,12 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
             )
 
             auto_range = np.quantile(self.state.image_array[-1], [0.05, 0.99])
-            self.state.view2D_intensity_window_min[self.state.current_image_num] = (
-                auto_range[0]
-            )
-            self.state.view2D_intensity_window_max[self.state.current_image_num] = (
-                auto_range[1]
-            )
+            self.state.view2D_intensity_window_min[
+                self.state.current_image_num
+            ] = auto_range[0]
+            self.state.view2D_intensity_window_max[
+                self.state.current_image_num
+            ] = auto_range[1]
 
         self.update_gui = False
 
@@ -349,7 +353,7 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
     def update_overlay(self):
         if self.state.scene is None:
             return
-        
+
         if self.state.current_image_num < 0:
             return
 

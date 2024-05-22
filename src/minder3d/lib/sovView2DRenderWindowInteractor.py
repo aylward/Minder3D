@@ -50,8 +50,9 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
         img_num = self.state.current_image_num
         axis = self.state.view2D_image_axis_order[img_num]
         spacing = np.array(self.state.image[img_num].GetSpacing())
-        size = np.array(self.state.image[img_num].GetLargestPossibleRegion(
-            ).GetSize())
+        size = np.array(
+            self.state.image[img_num].GetLargestPossibleRegion().GetSize()
+        )
 
         picker = vtkWorldPointPicker()
         picker.Pick(x, y, 0, self.view2D.GetRenderer())
@@ -60,7 +61,7 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
         z = self.state.view2D_slice[img_num][axis[2]]
         if self.state.view2D_flip[img_num][axis[2]]:
             z = int(size[axis[2]] - z - 1)
-        vtk_world[2] = (z * spacing[axis[2]])
+        vtk_world[2] = z * spacing[axis[2]]
         vtk_indx = [int(vtk_world[axis.index(i)]) for i in range(3)]
 
         indx = [int(vtk_indx[i] / spacing[i] + 0.5) for i in range(3)]
@@ -257,10 +258,8 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
                         overlay_slice_rgba, axes=(1, 0, 2)
                     )
 
-            view_intensity_min = self.state.view2D_intensity_window_min[
-                img_num]
-            view_intensity_max = self.state.view2D_intensity_window_max[
-                img_num]
+            view_intensity_min = self.state.view2D_intensity_window_min[img_num]
+            view_intensity_max = self.state.view2D_intensity_window_max[img_num]
             if view_intensity_min != view_intensity_max:
                 view_slice = (
                     (view_slice - view_intensity_min)
