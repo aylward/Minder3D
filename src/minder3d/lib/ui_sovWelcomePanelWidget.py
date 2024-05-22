@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovWelcomePanelWidgetuZvoNP.ui'
+## Form generated from reading UI file 'sovWelcomePanelWidgetZDuWhr.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -41,13 +41,16 @@ class Ui_WelcomePanelWidget(object):
         self.welcomeSaveSceneButton.setGeometry(QRect(520, 80, 121, 24))
         self.welcomeLoadSceneButton = QPushButton(WelcomePanelWidget)
         self.welcomeLoadSceneButton.setObjectName(u"welcomeLoadSceneButton")
-        self.welcomeLoadSceneButton.setGeometry(QRect(360, 50, 121, 24))
+        self.welcomeLoadSceneButton.setGeometry(QRect(360, 80, 121, 24))
         self.welcomeSaveOverlayButton = QPushButton(WelcomePanelWidget)
         self.welcomeSaveOverlayButton.setObjectName(u"welcomeSaveOverlayButton")
         self.welcomeSaveOverlayButton.setGeometry(QRect(520, 50, 121, 24))
         self.welcomeSaveVTKModelsButton = QPushButton(WelcomePanelWidget)
         self.welcomeSaveVTKModelsButton.setObjectName(u"welcomeSaveVTKModelsButton")
         self.welcomeSaveVTKModelsButton.setGeometry(QRect(520, 110, 121, 24))
+        self.welcomeLoadOverlayButton = QPushButton(WelcomePanelWidget)
+        self.welcomeLoadOverlayButton.setObjectName(u"welcomeLoadOverlayButton")
+        self.welcomeLoadOverlayButton.setGeometry(QRect(360, 50, 121, 24))
 
         self.retranslateUi(WelcomePanelWidget)
 
@@ -82,5 +85,6 @@ class Ui_WelcomePanelWidget(object):
         self.welcomeLoadSceneButton.setText(QCoreApplication.translate("WelcomePanelWidget", u"Load Scene", None))
         self.welcomeSaveOverlayButton.setText(QCoreApplication.translate("WelcomePanelWidget", u"Save Overlay", None))
         self.welcomeSaveVTKModelsButton.setText(QCoreApplication.translate("WelcomePanelWidget", u"Save VTK Models", None))
+        self.welcomeLoadOverlayButton.setText(QCoreApplication.translate("WelcomePanelWidget", u"Load Overlay", None))
     # retranslateUi
 

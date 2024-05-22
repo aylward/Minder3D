@@ -86,7 +86,7 @@ class ObjectPanelWidget(QWidget, Ui_ObjectPanelWidget):
         """
         self.state.highlight_selected = value
         for selected_id in self.state.selected_ids:
-            self.log(f'update_highlight_selected: Id={selected_id}')
+            self.gui.log(f'update_highlight_selected: Id={selected_id}')
             so = self.state.scene_list[
                 self.state.scene_list_ids.index(selected_id)
             ]
@@ -101,10 +101,10 @@ class ObjectPanelWidget(QWidget, Ui_ObjectPanelWidget):
         """
         for selected_idx, selected_so_id in enumerate(self.state.selected_ids):
             if selected_so_id != -1:
-                scene_idx = self.state.scene_list_ids.index(selected_so_id)
                 self.state.selected_ids[selected_idx] = -1
+                scene_idx = self.state.scene_list_ids.index(selected_so_id)
                 selected_so = self.state.scene_list[scene_idx]
-                self.redraw_object(selected_so)
+                self.gui.redraw_object(selected_so)
         self.state.selected_ids = []
         self.state.selected_point_ids = []
 
@@ -248,7 +248,6 @@ class ObjectPanelWidget(QWidget, Ui_ObjectPanelWidget):
         This function deletes the selected objects from the scene by removing them from the scene list and updating the GUI accordingly.
         """
         for so_id in self.state.selected_ids:
-            print('deleting so_id:', so_id)
             scene_idx = self.state.scene_list_ids.index(so_id)
             so = self.state.scene_list[scene_idx]
             so_parent = so.GetParent()

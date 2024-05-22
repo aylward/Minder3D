@@ -18,6 +18,7 @@ from .lib.sovNewTaskPanelWidget import NewTaskPanelWidget
 from .lib.sovObjectPanelWidget import ObjectPanelWidget
 from .lib.sovUtils import (
     LogWindow,
+    add_objects_in_mask_image_to_scene,
     get_children_as_list,
     read_group,
     resample_overlay_to_match_image,
@@ -49,7 +50,9 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
 
         self.log_window = LogWindow(self.state.logger)
         self.statusViewLogButton.pressed.connect(self.log_window.show)
-        self.log_window.logger.setLevel('WARNING')
+        self.log_window.logger.setLevel('INFO')
+
+        self.state.scene.SetId(self.state.scene.GetNextAvailableId())
 
         self.file_dir_dialog = None
 
@@ -121,6 +124,8 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
 
         self.statusText.setText('Ready')
 
+        self.file_dialog = None
+
         self.show()
         self.view2DPanel.initialize()
         self.view3DPanel.initialize()
@@ -163,9 +168,11 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         """
         info = QFileInfo(str)
         if info.isFile():
-            self.file_dir_dialog.setFileMode(QFileDialog.ExistingFile)
+            self.file_dialog.setFileMode(QFileDialog.ExistingFile)
+            self.file_dialog.selectFile(str)
         elif info.isDir():
-            self.file_dir_dialog.setFileMode(QFileDialog.Directory)
+            self.file_dialog.setFileMode(QFileDialog.Directory)
+            self.file_dialog.selectFile(str)
 
     @time_and_log
     def load_image(self, filename=None):
@@ -181,11 +188,14 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         if filename is None:
             if len(self.state.image_filename) > 0:
                 filename = self.state.image_filename[-1]
-            file_dialog = QFileDialog(self)
-            file_dialog.connect.currentChanged(self.file_dir_dialog)
-            filename, _ = QFileDialog.getOpenFileName(
-                self, 'Open File', filename, 'All Files (*)'
+            self.file_dialog = QFileDialog(self)
+            self.file_dialog.setOptions(QFileDialog.DontUseNativeDialog)
+            self.file_dialog.currentChanged.connect(
+                self.file_dir_dialog_switcher
             )
+            self.file_dialog.setLabelText(QFileDialog.Accept, 'Select')
+            if self.file_dialog.exec() == QFileDialog.Accepted:
+                filename = self.file_dialog.selectedFiles()[0]
         if filename is not None:
             img = itk.imread(filename, self.state.image_pixel_type)
             if img is None:
@@ -195,6 +205,33 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
 
             self.update_image()
             self.update_overlay()
+
+    @time_and_log
+    def load_overlay(self, filename=None):
+        """Load an overlay from a file.
+
+        If filename is not provided, it opens a file dialog to select an image
+        file.  It then creates a new overlay from the selected file and updates
+        the image and overlay.
+
+        Args:
+            filename (str?): The path of the image file to be loaded.
+        """
+        if filename is None:
+            if len(self.state.image_filename) > 0:
+                filename = self.state.image_filename[-1]
+            filename, _ = QFileDialog.getOpenFileName(
+                self, 'Open File', filename, 'All Files (*)'
+            )
+        if filename is not None:
+            img = itk.imread(filename, itk.UC)
+            if img is None:
+                self.log('Image could not be loaded.', 'error')
+                return
+
+        add_objects_in_mask_image_to_scene(img, self.state.scene)
+        self.update_scene()
+        self.imageTablePanel.load_scene()
 
     @time_and_log
     def load_scene(self, filename=None):
@@ -329,7 +366,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             self.state.scene_filename = os.path.abspath(filename)
             self.log(f'Saving scene to {filename}')
             write_group(self.state.scene, filename)
-            self.state.imageTablePanel.save_scene(filename)
+            self.imageTablePanel.save_scene(filename)
 
     @time_and_log
     def create_new_image(self, img, filename=None, tag=None):
@@ -483,6 +520,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
                 so.GetProperty().SetTagStringValue(
                     'Name', f'{so.GetTypeName()} {so.GetId()}'
                 )
+            print(so.GetProperty().GetTagStringValue('Name'))
 
         if self.state.view2D_overlay_auto_update:
             self.view2DPanel.update_scene()
@@ -517,3 +555,44 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             # Must call after view3DPanel.redraw_object() so that actors are
             # defined and color-by options are known.
             self.objectPanel.redraw_object(so)
+
+    @time_and_log
+    def unload_image(self, img_num, update_image_table=True):
+        """Unload the image with the specified number.
+
+        This method unloads the image with the specified number and updates the
+        image and overlay lists.  It also updates the 2D and 3D views.
+
+        Args:
+            img_num (int): The number of the image to be unloaded.
+        """
+        if img_num < 0 or img_num >= len(self.state.image):
+            return
+
+        self.state.image.pop(img_num)
+        self.state.image_array.pop(img_num)
+        self.state.image_min.pop(img_num)
+        self.state.image_max.pop(img_num)
+        self.state.image_filename.pop(img_num)
+        self.state.image_thumbnail.pop(img_num)
+        self.state.csa_to_image_axis.pop(img_num)
+
+        self.state.overlay.pop(img_num)
+        self.state.overlay_array.pop(img_num)
+
+        self.state.view2D_intensity_window_min.pop(img_num)
+        self.state.view2D_intensity_window_max.pop(img_num)
+        self.state.view2D_slice.pop(img_num)
+        self.state.view2D_flip.pop(img_num)
+        self.state.view2D_csa_axis_order.pop(img_num)
+        self.state.view2D_image_axis_order.pop(img_num)
+
+        if len(self.state.image) > 0:
+            self.state.current_image_num = 0
+        else:
+            self.state.current_image_num = -1
+
+        if update_image_table:
+            self.imageTablePanel.unload_image()
+
+        self.view2DPanel.update_view_image_num(self.state.current_image_num)

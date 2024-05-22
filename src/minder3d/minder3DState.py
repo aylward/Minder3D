@@ -35,7 +35,7 @@ class Minder3DState:
         self.overlay_array = []
 
         # Current image
-        self.current_image_num = 0
+        self.current_image_num = -1
         self.current_pixel_position = []
         self.current_pixel_index = []
 
@@ -47,7 +47,7 @@ class Minder3DState:
         self.view2D_csa_axis_order = []
         self.view2D_image_axis_order = []
         self.view2D_overlay_opacity = 0.5
-        self.view2D_overlay_auto_update = False
+        self.view2D_overlay_auto_update = True
 
         # 3D View settings
         self.view3D_scene_auto_update = True

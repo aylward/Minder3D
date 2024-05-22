@@ -47,45 +47,32 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
     @time_and_log
     def getWorldPosition(self, x, y):
+        img_num = self.state.current_image_num
+        axis = self.state.view2D_image_axis_order[img_num]
+        spacing = np.array(self.state.image[img_num].GetSpacing())
+        size = np.array(
+            self.state.image[img_num].GetLargestPossibleRegion().GetSize()
+        )
+
         picker = vtkWorldPointPicker()
         picker.Pick(x, y, 0, self.view2D.GetRenderer())
         vtk_world_xy = picker.GetPickPosition()
         vtk_world = [vtk_world_xy[0], vtk_world_xy[1], 0]
-        z = self.state.view2D_slice[self.state.current_image_num][
-            self.view_image_axis_order[2]
-        ]
-        vtk_world[2] = (
-            z
-            * self.state.image[self.state.current_image_num].GetSpacing()[
-                self.state.view2D_image_axis_order[2]
-            ]
-        )
+        z = self.state.view2D_slice[img_num][axis[2]]
+        if self.state.view2D_flip[img_num][axis[2]]:
+            z = int(size[axis[2]] - z - 1)
+        vtk_world[2] = z * spacing[axis[2]]
+        vtk_indx = [int(vtk_world[axis.index(i)]) for i in range(3)]
 
-        spacing = self.state.image[self.state.current_image_num].GetSpacing()
-        size = (
-            self.state.image[self.state.current_image_num]
-            .GetLargestPossibleRegion()
-            .GetSize()
-        )
-        indx = [
-            int(
-                vtk_world[i] / spacing[self.state.view2D_image_axis_order[i]]
-                + 0.5
-            )
-            for i in range(3)
-        ]
-        for i in range(3):
-            if self.state.view2D_flip[self.state.current_image_num][
-                self.state.view2D_image_axis_order[i]
-            ]:
-                indx[i] = size[i] - indx[i] - 1
-        img_indx = [
-            indx[self.state.view2D_image_axis_order[i]] for i in range(3)
-        ]
-        pos = self.state.image[
-            self.state.current_image_num
-        ].TransformIndexToPhysicalPoint(img_indx)
-        return img_indx, pos
+        indx = [int(vtk_indx[i] / spacing[i] + 0.5) for i in range(3)]
+        # y-axis is flipped
+        if not self.state.view2D_flip[img_num][axis[1]]:
+            indx[1] = int(size[1] - indx[1] - 1)
+        for i in [0, 2]:
+            if self.state.view2D_flip[img_num][axis[i]]:
+                indx[axis[i]] = int(size[axis[i]] - indx[axis[i]] - 1)
+        pos = self.state.image[img_num].TransformIndexToPhysicalPoint(indx)
+        return indx, pos
 
     @time_and_log
     def mousePressEvent(self, event):
@@ -96,6 +83,9 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
         ctrl, shift = self._GetCtrlShift(event)
         if ctrl is False and shift is True:
             super().mousePressEvent(event)
+            return
+
+        if len(self.state.image) == 0:
             return
 
         if self.current_mouse_mode == 0:
@@ -137,6 +127,9 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
         ctrl, shift = self._GetCtrlShift(event)
         if ctrl is False and shift is True:
             super().mouseMoveEvent(event)
+            return
+
+        if len(self.state.image) == 0:
             return
 
         if self.current_mouse_mode == 0:
@@ -203,6 +196,9 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
     @time_and_log
     def update_image(self):
+        if len(self.state.image) == 0:
+            return
+
         if self.view2D is None:
             self.cornerAnnotationTextActor = vtkTextActor()
             prop = self.cornerAnnotationTextActor.GetTextProperty()
@@ -217,10 +213,17 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             self.view2D.GetRenderer().ResetCamera()
             self.view2D.Render()
             self.view2D.GetRenderWindow().Render()
+        else:
+            self.update_view()
 
     @time_and_log
     def update_view(self):
-        if self.view2D is not None and self.state.image is not None:
+        if (
+            self.view2D is not None
+            and self.state.image is not None
+            and self.state.current_image_num >= 0
+            and self.state.current_image_num < len(self.state.image)
+        ):
             current_image_array = self.state.image_array[
                 self.state.current_image_num
             ]
@@ -345,7 +348,7 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
                 imgBlender.Update()
                 blended_slice_vtk = imgBlender.GetOutput()
             except Exception as e:
-                print(e)
+                self.gui.log(str(e), 'ERROR')
                 assert e
 
             self.view2D.SetInputData(blended_slice_vtk)
@@ -364,6 +367,10 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             # self.cornerAnnotationTextActor.GetTextProperty().SetColor(
             #     colors.GetColor3d("Gold").GetData())
             self.view2D.GetRenderer().AddActor2D(self.cornerAnnotationTextActor)
-
             self.view2D.Render()
             self.view2D.GetRenderWindow().Render()
+        else:
+            if self.view2D is not None:
+                self.view2D.GetRenderer().RemoveAllViewProps()
+                self.view2D.GetRenderWindow().Render()
+                self.view2D = None

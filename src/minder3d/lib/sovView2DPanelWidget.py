@@ -242,18 +242,25 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
         self.state.current_image_num = index
 
-        slice_max = (
-            self.state.image_array[self.state.current_image_num].shape[
-                2
-                - self.state.view2D_image_axis_order[
+        slice_max = 0
+        slice_current = 0
+        if index > 0:
+            slice_max = (
+                self.state.image_array[self.state.current_image_num].shape[
+                    2
+                    - self.state.view2D_image_axis_order[
+                        self.state.current_image_num
+                    ][2]
+                ]
+                - 1
+            )
+            slice_current = self.state.view2D_slice[
+                self.state.current_image_num
+            ][
+                self.state.view2D_image_axis_order[
                     self.state.current_image_num
                 ][2]
             ]
-            - 1
-        )
-        slice_current = self.state.view2D_slice[self.state.current_image_num][
-            self.state.view2D_image_axis_order[self.state.current_image_num][2]
-        ]
 
         self.update_gui = False
 
@@ -303,23 +310,28 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
     @time_and_log
     def update_image(self):
-        auto_range = np.quantile(self.state.image_array[-1], [0.05, 0.95])
-        self.state.view2D_intensity_window_min[self.state.current_image_num] = (
-            auto_range[0]
-        )
-        self.state.view2D_intensity_window_max[self.state.current_image_num] = (
-            auto_range[1]
-        )
+        slice_max = 0
+        if (
+            self.state.current_image_num >= 0
+            and self.state.current_image_num < len(self.state.image_array)
+        ):
+            slice_max = (
+                self.state.image_array[self.state.current_image_num].shape[
+                    2
+                    - self.state.view2D_image_axis_order[
+                        self.state.current_image_num
+                    ][2]
+                ]
+                - 1
+            )
 
-        slice_max = (
-            self.state.image_array[self.state.current_image_num].shape[
-                2
-                - self.state.view2D_image_axis_order[
-                    self.state.current_image_num
-                ][2]
-            ]
-            - 1
-        )
+            auto_range = np.quantile(self.state.image_array[-1], [0.05, 0.99])
+            self.state.view2D_intensity_window_min[
+                self.state.current_image_num
+            ] = auto_range[0]
+            self.state.view2D_intensity_window_max[
+                self.state.current_image_num
+            ] = auto_range[1]
 
         self.update_gui = False
 
@@ -340,6 +352,9 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
     @time_and_log
     def update_overlay(self):
         if self.state.scene is None:
+            return
+
+        if self.state.current_image_num < 0:
             return
 
         self.state.overlay_array[self.state.current_image_num].fill(0)
@@ -368,6 +383,9 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
     @time_and_log
     def update_slice_from_slider(self, value):
         if not self.update_gui:
+            return
+
+        if self.state.current_image_num < 0:
             return
 
         current_slice = value
@@ -402,7 +420,10 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
         if not self.update_gui:
             return
 
-        current_slice = value
+        if self.state.current_image_num < 0:
+            return
+
+        current_slice = int(value)
         if current_slice < 0:
             current_slice = 0
 
@@ -431,6 +452,7 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
     @time_and_log
     def update_reset(self):
+        self.vtk2DViewWidget.reset_camera()
         self.update_image()
 
     @time_and_log

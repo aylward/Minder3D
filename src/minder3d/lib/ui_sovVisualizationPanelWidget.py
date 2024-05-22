@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovVisualizationPanelWidgetNqZAHr.ui'
+## Form generated from reading UI file 'sovVisualizationPanelWidgetRPuXNj.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -53,6 +53,7 @@ class Ui_VisualizationPanelWidget(object):
         self.vizAutoUpdate2DOverlayCheckBox = QCheckBox(self.viz2DFrame)
         self.vizAutoUpdate2DOverlayCheckBox.setObjectName(u"vizAutoUpdate2DOverlayCheckBox")
         self.vizAutoUpdate2DOverlayCheckBox.setGeometry(QRect(130, 40, 91, 20))
+        self.vizAutoUpdate2DOverlayCheckBox.setChecked(True)
         self.vizView2DFlipZCheckBox = QCheckBox(self.viz2DFrame)
         self.vizView2DFlipZCheckBox.setObjectName(u"vizView2DFlipZCheckBox")
         self.vizView2DFlipZCheckBox.setGeometry(QRect(10, 50, 61, 16))
@@ -70,13 +71,13 @@ class Ui_VisualizationPanelWidget(object):
         self.vizIntensityMaxSpinBox.setObjectName(u"vizIntensityMaxSpinBox")
         self.vizIntensityMaxSpinBox.setGeometry(QRect(170, 70, 51, 22))
         self.vizIntensityMaxSpinBox.setFont(font1)
-        self.label = QLabel(self.viz2DFrame)
-        self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(10, 73, 81, 16))
-        self.label_2 = QLabel(self.viz2DFrame)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(143, 71, 31, 20))
-        self.label_2.setFont(font)
+        self.vizIntensityMinLabel = QLabel(self.viz2DFrame)
+        self.vizIntensityMinLabel.setObjectName(u"vizIntensityMinLabel")
+        self.vizIntensityMinLabel.setGeometry(QRect(10, 73, 81, 16))
+        self.vizIntensityMaxLabel = QLabel(self.viz2DFrame)
+        self.vizIntensityMaxLabel.setObjectName(u"vizIntensityMaxLabel")
+        self.vizIntensityMaxLabel.setGeometry(QRect(143, 71, 31, 20))
+        self.vizIntensityMaxLabel.setFont(font)
         self.viz3DFrame = QFrame(VisualizationPanelWidget)
         self.viz3DFrame.setObjectName(u"viz3DFrame")
         self.viz3DFrame.setGeometry(QRect(240, 0, 151, 71))
@@ -102,8 +103,8 @@ class Ui_VisualizationPanelWidget(object):
         self.vizView2DFlipYCheckBox.setText(QCoreApplication.translate("VisualizationPanelWidget", u"Flip Y", None))
         self.vizAutoUpdate2DOverlayCheckBox.setText(QCoreApplication.translate("VisualizationPanelWidget", u"Auto Update", None))
         self.vizView2DFlipZCheckBox.setText(QCoreApplication.translate("VisualizationPanelWidget", u"Flip Z", None))
-        self.label.setText(QCoreApplication.translate("VisualizationPanelWidget", u"Intensity Min:", None))
-        self.label_2.setText(QCoreApplication.translate("VisualizationPanelWidget", u"Max:", None))
+        self.vizIntensityMinLabel.setText(QCoreApplication.translate("VisualizationPanelWidget", u"Intensity Min:", None))
+        self.vizIntensityMaxLabel.setText(QCoreApplication.translate("VisualizationPanelWidget", u"Max:", None))
         self.vizAutoUpdate3DSceneCheckBox.setText(QCoreApplication.translate("VisualizationPanelWidget", u"Auto Update", None))
         self.vizUpdate3DSceneButton.setText(QCoreApplication.translate("VisualizationPanelWidget", u"Update 3D Scene", None))
     # retranslateUi

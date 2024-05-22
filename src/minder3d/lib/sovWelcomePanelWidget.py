@@ -24,6 +24,7 @@ class WelcomePanelWidget(QWidget, Ui_WelcomePanelWidget):
 
         self.welcomeLoadImageButton.pressed.connect(self.gui.load_image)
         self.welcomeLoadImageButton.setStyleSheet('background-color: #00aa00')
+        self.welcomeLoadOverlayButton.pressed.connect(self.gui.load_overlay)
         self.welcomeLoadSceneButton.pressed.connect(self.gui.load_scene)
         self.welcomeImportDICOMButton.pressed.connect(
             self.add_import_DICOM_panel

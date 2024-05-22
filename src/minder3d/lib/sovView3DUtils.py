@@ -171,7 +171,6 @@ def convert_masks_to_surfaces(mask_list):
             SN = vtkSurfaceNets3D()
             SN.SetInputData(vtkmask)
             mask_id = mask.GetMaskValue()
-            print(f'Mask_num: {mask_num}, Mask_id: {mask_id}')
             SN.SetLabel(0, mask_id)
             SN.Update()
             SN.DeleteSelectedLabel(0)
