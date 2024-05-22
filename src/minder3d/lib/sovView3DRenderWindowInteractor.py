@@ -114,7 +114,7 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
         """
 
         if actor is None or so is None:
-            print('ERROR: redraw_actor: actor or so is None')
+            self.gui.log('ERROR: redraw_actor: actor or so is None', 'ERROR')
             return
         so_id = so.GetId()
         scene_idx = self.state.scene_list_ids.index(so_id)
@@ -200,13 +200,11 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
             so_id = so_poly_data.GetPointData().GetScalars('Id').GetTuple(0)[0]
             scene_idx = self.state.scene_list_ids.index(so_id)
             so = self.state.scene_list[scene_idx]
-            print('picked so_id:', so_id, 'scene_idx:', scene_idx)
             point = get_closest_point_in_world_space(so, pos)
             point_id = point.GetId()
             if so_id not in self.state.selected_ids:
                 self.state.selected_ids.append(so_id)
                 self.state.selected_point_ids.append(point_id)
-                print('   adding so_id:', so_id, 'point_id:', point_id)
                 self.redraw_actor(actor, so)
                 self.gui.redraw_object(so, update_2D=True, update_3D=False)
         self.GetRenderWindow().Render()
@@ -226,6 +224,5 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
         so_id = so.GetId()
         scene_idx = self.state.scene_list_ids.index(so_id)
         actor = self.state.scene_list_properties[scene_idx].get('Actor')
-        print('redraw so_id:', so_id, 'scene_idx:', scene_idx)
         self.redraw_actor(actor, so)
         self.GetRenderWindow().Render()

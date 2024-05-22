@@ -113,6 +113,9 @@
     <property name="text">
      <string>Auto Update</string>
     </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QCheckBox" name="vizView2DFlipZCheckBox">
     <property name="geometry">

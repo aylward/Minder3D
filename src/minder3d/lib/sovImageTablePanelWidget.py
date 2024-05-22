@@ -59,7 +59,40 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
 
         self.imageTableWidget.cellClicked.connect(self.select_data_by_table)
 
+        self.imageTableUnloadButton.clicked.connect(self.unload_image)
+        self.imageTableRemoveButton.clicked.connect(self.remove_image)
+        self.imageTableRemoveAllButton.clicked.connect(self.remove_all)
+        self.imageTableExpandButton.clicked.connect(self.expand_table)
+
+        self.enlarged_table = None
+
         self.fill_table()
+
+    @time_and_log
+    def unload_image(self):
+        self.gui.unload_image(self.state.current_image_num, False)
+        self.fill_table()
+    
+    def remove_image(self):
+        self.settings.remove_data(self.state.image_filename[
+            self.state.current_image_num]
+        )
+        self.gui.unload_image(self.state.current_image_num, False)
+        self.fill_table()
+    
+    def remove_all(self):
+        num_images = len(self.state.image_filename)
+        for i in range(num_images-1, 0, -1):
+            self.settings.remove_data(self.state.image_filename[i])
+        self.gui.unload_image(self.state.current_image_num, False)
+        self.settings.clear_data()
+        self.fill_table()
+
+    def expand_table(self):
+        if self.enlarged_table is None:
+            self.enlarged_table = ImageTablePanelWidget(self.gui, self.state)
+            self.enlarged_table.setWindowTitle('Image Table')
+            self.enlarged_table.show()
 
     @time_and_log
     def update_image(self):
@@ -272,9 +305,16 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         if row < len(self.state.image_filename):
             self.state.current_image_num = row
             self.gui.update_image()
-
             if self.state.view2D_overlay_auto_update:
                 self.gui.update_overlay()
+        elif (
+            row > 0 and
+            row == len(self.state.image_filename) and
+            self.state.scene_filename == self.imageTableWidget.item(
+                row, 3).text()
+        ):
+            # current scene
+            return
         else:
             if self.imageTableWidget.item(row, 1).text() == 'Image':
                 self.gui.load_image(self.imageTableWidget.item(row, 3).text())
