@@ -12,4 +12,5 @@ class OtsuLogic:
             filter = itk.OtsuMultipleThresholdsImageFilter.New(Input=inputImage)
             filter.SetNumberOfThresholds(numberOfThresholds)
             filter.Update()
-            return filter.GetOutput().astype(np.uint8)
+            img = filter.GetOutput().astype(np.uint8)
+            return img

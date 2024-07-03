@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'minder3DWindowZcklJE.ui'
+## Form generated from reading UI file 'minder3DWindownkNdyQ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1024, 675)
+        MainWindow.resize(1274, 675)
         MainWindow.setMinimumSize(QSize(1024, 0))
         self.loadImageMenuItem = QAction(MainWindow)
         self.loadImageMenuItem.setObjectName(u"loadImageMenuItem")
@@ -198,7 +198,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1024, 22))
+        self.menubar.setGeometry(QRect(0, 0, 1274, 22))
         self.fileMenu = QMenu(self.menubar)
         self.fileMenu.setObjectName(u"fileMenu")
         MainWindow.setMenuBar(self.menubar)
@@ -214,7 +214,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -229,8 +229,8 @@ class Ui_MainWindow(object):
         self.loadSceneMenuItem.setText(QCoreApplication.translate("MainWindow", u"Load Spatial Objects", None))
         self.saveSceneMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Spatial Objects", None))
         self.savePreProcessedOverlayMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Pre-Processed Overlay", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.welcomeTab), QCoreApplication.translate("MainWindow", u"Welcome", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.visualizationTab), QCoreApplication.translate("MainWindow", u"Visualization", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.welcomeTab), QCoreApplication.translate("MainWindow", u"Load / Save Data", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.visualizationTab), QCoreApplication.translate("MainWindow", u"Advanced Visualization", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.newTaskTab), QCoreApplication.translate("MainWindow", u"New Task", None))
         self.statusLabel.setText(QCoreApplication.translate("MainWindow", u"Status:", None))
         self.statusViewLogButton.setText(QCoreApplication.translate("MainWindow", u"View Log", None))

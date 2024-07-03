@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovView2DPanelWidgetYgHBrs.ui'
+## Form generated from reading UI file 'sovView2DPanelWidgetbqcKAo.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -216,7 +216,8 @@ class Ui_View2DPanelWidget(object):
         self.view2DResetButton.setObjectName(u"view2DResetButton")
         sizePolicy1.setHeightForWidth(self.view2DResetButton.sizePolicy().hasHeightForWidth())
         self.view2DResetButton.setSizePolicy(sizePolicy1)
-        self.view2DResetButton.setMinimumSize(QSize(35, 0))
+        self.view2DResetButton.setMinimumSize(QSize(30, 0))
+        self.view2DResetButton.setMaximumSize(QSize(30, 16777215))
         self.view2DResetButton.setFont(font)
 
         self.horizontalLayout.addWidget(self.view2DResetButton)

@@ -79,6 +79,7 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
 
         point_data = convert_scene_to_surfaces(self.state.scene)
         self.scene_renderer.RemoveAllViewProps()
+        self.scene_renderer.Render()
         for scene_idx, so in enumerate(self.state.scene_list):
             actor = vtkActor()
             color_by = self.state.scene_list_properties[scene_idx]['ColorBy']
@@ -98,6 +99,7 @@ class View3DRenderWindowInteractor(QVTKRenderWindowInteractor):
                 mapper.ScalarVisibilityOn()
             actor.SetMapper(mapper)
             self.scene_renderer.AddActor(actor)
+            self.scene_renderer.Render()
         self.reset_camera()
 
     @time_and_log

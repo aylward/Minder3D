@@ -223,6 +223,56 @@ def add_objects_in_mask_image_to_scene(mask_image, scene):
 
 
 @time_and_log
+def compress_scene_for_saving(scene):
+    """Compresses a scene for saving.
+
+    It compresses the input scene by removing unnecessary objects and compressing the scene.
+
+    Args:
+        scene: The scene to be compressed.
+    Returns:
+        new_scene: A compressed copy of the scene.
+    """
+    # HERE HERE HERE
+    mask_objects = get_children_as_list(scene, 'ImageMask')
+    print('Num mask objects = ', len(mask_objects))
+    mask_image_pointers = list(
+        np.unique([id(mask.GetImage()) for mask in mask_objects])
+    )
+    print('Num mask object pointers = ', len(mask_image_pointers))
+    print('Mask image pointers = ', mask_image_pointers)
+    for mask_object in mask_objects:
+        imgPntr = id(mask_object.GetImage())
+        print('Mask object image pointer = ', imgPntr)
+        if imgPntr not in mask_image_pointers:
+            print('Removing mask object with image pointer = ', imgPntr)
+            # mask_object.GetParent().RemoveChild(mask_object)
+        else:
+            print('Keeping mask object with image pointer = ', imgPntr)
+            # mask_image_pointers.remove(id)
+    return scene
+
+
+def uncompress_scene_after_loading(scene):
+    """Uncompresses a scene after loading.
+
+    It uncompresses the input scene by adding necessary objects and uncompressing the scene.
+
+    Args:
+        scene: The scene to be uncompressed.
+    Returns:
+        scene: The uncompressed scene.
+    """
+    mask_objects = get_children_as_list(scene, 'ImageMask')
+    print('Num mask objects = ', len(mask_objects))
+    for mask_object in mask_objects:
+        parent = mask_object.GetParent()
+        parent.RemoveChild(mask_object)
+        add_objects_in_mask_image_to_scene(mask_object.GetImage(), parent)
+    return scene
+
+
+@time_and_log
 def get_children_as_list(
     grp: itk.GroupSpatialObject, child_type: str = ''
 ) -> list:
@@ -290,6 +340,7 @@ def read_group(filename: str, dims: int = 3) -> itk.GroupSpatialObject:
     try:
         groupFileReader = itk.SpatialObjectReader[dims].New()
         groupFileReader.SetFileName(filename)
+        groupFileReader.SetMetaIOVersion(1)
         groupFileReader.Update()
     except RuntimeError:
         return None
@@ -314,4 +365,5 @@ def write_group(group: itk.GroupSpatialObject, filename: str):
     groupFileWriter = GroupFileWriterType.New()
     groupFileWriter.SetFileName(filename)
     groupFileWriter.SetInput(group)
+    groupFileWriter.SetMetaIOVersion(1)
     groupFileWriter.Update()

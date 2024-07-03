@@ -35,9 +35,6 @@ class View2DRenderWindowInteractor(QVTKRenderWindowInteractor):
             7: 'Crop',
         }
 
-        self.state.view2D_image_axis_order = [0, 1, 2]
-        self.state.view2D_csa_axis_order = [2, 0, 1]
-
         self.current_mouse_mode = 0
 
         self.mouse_pressed = False

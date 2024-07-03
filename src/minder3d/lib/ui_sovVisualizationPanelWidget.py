@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovVisualizationPanelWidgetRPuXNj.ui'
+## Form generated from reading UI file 'sovVisualizationPanelWidgetntFVpm.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.0
 ##
@@ -15,8 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QDoubleSpinBox, QFrame,
-    QLabel, QPushButton, QSizePolicy, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDoubleSpinBox,
+    QFrame, QLabel, QPushButton, QSizePolicy,
+    QWidget)
 
 class Ui_VisualizationPanelWidget(object):
     def setupUi(self, VisualizationPanelWidget):
@@ -80,16 +81,27 @@ class Ui_VisualizationPanelWidget(object):
         self.vizIntensityMaxLabel.setFont(font)
         self.viz3DFrame = QFrame(VisualizationPanelWidget)
         self.viz3DFrame.setObjectName(u"viz3DFrame")
-        self.viz3DFrame.setGeometry(QRect(240, 0, 151, 71))
+        self.viz3DFrame.setGeometry(QRect(240, 0, 241, 101))
         self.viz3DFrame.setFrameShape(QFrame.StyledPanel)
         self.viz3DFrame.setFrameShadow(QFrame.Raised)
         self.vizAutoUpdate3DSceneCheckBox = QCheckBox(self.viz3DFrame)
         self.vizAutoUpdate3DSceneCheckBox.setObjectName(u"vizAutoUpdate3DSceneCheckBox")
-        self.vizAutoUpdate3DSceneCheckBox.setGeometry(QRect(40, 40, 91, 20))
+        self.vizAutoUpdate3DSceneCheckBox.setGeometry(QRect(140, 40, 91, 20))
         self.vizAutoUpdate3DSceneCheckBox.setChecked(True)
         self.vizUpdate3DSceneButton = QPushButton(self.viz3DFrame)
         self.vizUpdate3DSceneButton.setObjectName(u"vizUpdate3DSceneButton")
-        self.vizUpdate3DSceneButton.setGeometry(QRect(10, 10, 121, 24))
+        self.vizUpdate3DSceneButton.setGeometry(QRect(110, 10, 121, 24))
+        self.vizView3DBackgroundComboBox = QComboBox(self.viz3DFrame)
+        self.vizView3DBackgroundComboBox.addItem("")
+        self.vizView3DBackgroundComboBox.addItem("")
+        self.vizView3DBackgroundComboBox.addItem("")
+        self.vizView3DBackgroundComboBox.addItem("")
+        self.vizView3DBackgroundComboBox.setObjectName(u"vizView3DBackgroundComboBox")
+        self.vizView3DBackgroundComboBox.setGeometry(QRect(110, 66, 121, 24))
+        self.vizView3DBackgroundComboBox.setFont(font)
+        self.vizIntensityMinLabel_2 = QLabel(self.viz3DFrame)
+        self.vizIntensityMinLabel_2.setObjectName(u"vizIntensityMinLabel_2")
+        self.vizIntensityMinLabel_2.setGeometry(QRect(20, 70, 81, 16))
 
         self.retranslateUi(VisualizationPanelWidget)
 
@@ -107,5 +119,11 @@ class Ui_VisualizationPanelWidget(object):
         self.vizIntensityMaxLabel.setText(QCoreApplication.translate("VisualizationPanelWidget", u"Max:", None))
         self.vizAutoUpdate3DSceneCheckBox.setText(QCoreApplication.translate("VisualizationPanelWidget", u"Auto Update", None))
         self.vizUpdate3DSceneButton.setText(QCoreApplication.translate("VisualizationPanelWidget", u"Update 3D Scene", None))
+        self.vizView3DBackgroundComboBox.setItemText(0, QCoreApplication.translate("VisualizationPanelWidget", u"Black", None))
+        self.vizView3DBackgroundComboBox.setItemText(1, QCoreApplication.translate("VisualizationPanelWidget", u"Grey", None))
+        self.vizView3DBackgroundComboBox.setItemText(2, QCoreApplication.translate("VisualizationPanelWidget", u"White", None))
+        self.vizView3DBackgroundComboBox.setItemText(3, QCoreApplication.translate("VisualizationPanelWidget", u"Blue-Grey", None))
+
+        self.vizIntensityMinLabel_2.setText(QCoreApplication.translate("VisualizationPanelWidget", u"Background:", None))
     # retranslateUi
 

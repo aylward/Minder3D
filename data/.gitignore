@@ -6,3 +6,7 @@
 *.nii.gz
 *.mhd
 *.raw
+test*
+CH*
+PCD*
+UNC*

@@ -7,3 +7,8 @@ __pycache__
 *.swp
 *~
 *.zip
+itk-wheels
+*.tre
+*.mha
+*.nii
+*.code-workspace

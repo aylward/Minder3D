@@ -24,6 +24,7 @@ dependencies = [
   'vtk',
   'thedicomsort',
   #'itk',  # Do not install until ITK pypi is updated
+  #'itk-tubetk',  # Do not install until ITK pypi is updated
 ]
 
 [project.scripts]

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
+    <width>1274</width>
     <height>675</height>
    </rect>
   </property>
@@ -153,20 +153,20 @@
              </size>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>2</number>
             </property>
             <property name="tabsClosable">
              <bool>true</bool>
             </property>
             <widget class="QWidget" name="welcomeTab">
              <attribute name="title">
-              <string>Welcome</string>
+              <string>Load / Save Data</string>
              </attribute>
              <layout class="QHBoxLayout" name="welcomeTabLayout"/>
             </widget>
             <widget class="QWidget" name="visualizationTab">
              <attribute name="title">
-              <string>Visualization</string>
+              <string>Advanced Visualization</string>
              </attribute>
              <layout class="QHBoxLayout" name="visualizationTabLayout"/>
             </widget>
@@ -290,7 +290,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
+     <width>1274</width>
      <height>22</height>
     </rect>
    </property>

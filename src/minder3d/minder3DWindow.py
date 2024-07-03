@@ -1,6 +1,7 @@
 import os
 
 import itk
+import itk.itkGDCMImageIOPython
 import numpy as np
 import vtk
 from PySide6.QtCore import QCoreApplication, QFileInfo
@@ -19,10 +20,12 @@ from .lib.sovObjectPanelWidget import ObjectPanelWidget
 from .lib.sovUtils import (
     LogWindow,
     add_objects_in_mask_image_to_scene,
+    compress_scene_for_saving,
     get_children_as_list,
     read_group,
     resample_overlay_to_match_image,
     time_and_log,
+    uncompress_scene_after_loading,
     write_group,
 )
 from .lib.sovView2DPanelWidget import View2DPanelWidget
@@ -50,7 +53,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
 
         self.log_window = LogWindow(self.state.logger)
         self.statusViewLogButton.pressed.connect(self.log_window.show)
-        self.log_window.logger.setLevel('INFO')
+        self.log_window.logger.setLevel('WARNING')
 
         self.state.scene.SetId(self.state.scene.GetNextAvailableId())
 
@@ -197,7 +200,16 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             if self.file_dialog.exec() == QFileDialog.Accepted:
                 filename = self.file_dialog.selectedFiles()[0]
         if filename is not None:
-            img = itk.imread(filename, self.state.image_pixel_type)
+            imageio = None
+            # info = QFileInfo(filename)
+            # if info.isDir():
+            # print("It's DICOM!")
+            # imageio = itk.GDCMImageIO.New()
+            # imageio.LoadPrivateTagsOn()
+            img = itk.imread(
+                filename, self.state.image_pixel_type, imageio=imageio
+            )
+            # print(img.GetMetaDataDictionary())
             if img is None:
                 self.log('Image could not be loaded.', 'error')
                 return
@@ -259,6 +271,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
                 self.log('Scene could not be loaded.', 'error')
                 return
 
+            self.state.scene = uncompress_scene_after_loading(self.state.scene)
             self.update_scene()
 
             self.imageTablePanel.load_scene()
@@ -365,7 +378,9 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         if filename:
             self.state.scene_filename = os.path.abspath(filename)
             self.log(f'Saving scene to {filename}')
-            write_group(self.state.scene, filename)
+            new_scene = compress_scene_for_saving(self.state.scene)
+            print(new_scene)
+            write_group(new_scene, filename)
             self.imageTablePanel.save_scene(filename)
 
     @time_and_log
@@ -520,7 +535,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
                 so.GetProperty().SetTagStringValue(
                     'Name', f'{so.GetTypeName()} {so.GetId()}'
                 )
-            print(so.GetProperty().GetTagStringValue('Name'))
 
         if self.state.view2D_overlay_auto_update:
             self.view2DPanel.update_scene()

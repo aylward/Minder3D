@@ -86,6 +86,8 @@ class ObjectPanelWidget(QWidget, Ui_ObjectPanelWidget):
         """
         self.state.highlight_selected = value
         for selected_id in self.state.selected_ids:
+            if selected_id == -1:
+                continue
             self.gui.log(f'update_highlight_selected: Id={selected_id}')
             so = self.state.scene_list[
                 self.state.scene_list_ids.index(selected_id)
@@ -245,9 +247,12 @@ class ObjectPanelWidget(QWidget, Ui_ObjectPanelWidget):
     def delete_selected_objects(self):
         """Delete the selected objects from the scene.
 
-        This function deletes the selected objects from the scene by removing them from the scene list and updating the GUI accordingly.
+        This function deletes the selected objects from the scene by removing
+        them from the scene list and updating the GUI accordingly.
         """
         for so_id in self.state.selected_ids:
+            if so_id == -1:
+                continue
             scene_idx = self.state.scene_list_ids.index(so_id)
             so = self.state.scene_list[scene_idx]
             so_parent = so.GetParent()
@@ -266,7 +271,7 @@ class ObjectPanelWidget(QWidget, Ui_ObjectPanelWidget):
 
         self.update_gui = True
 
-        self.update_scene()
+        self.gui.update_scene()
 
     @time_and_log
     def propogate_properties_to_all(self):
@@ -285,7 +290,7 @@ class ObjectPanelWidget(QWidget, Ui_ObjectPanelWidget):
         for idx in range(len(self.state.scene_list)):
             self.state.scene_list_properties[idx]['ColorBy'] = color_by
             self.state.scene_list[idx].GetProperty().SetColor(color)
-            self.redraw_object(self.state.scene_list[idx])
+            self.gui.redraw_object(self.state.scene_list[idx])
 
     @time_and_log
     def propogate_properties_to_similar(self):

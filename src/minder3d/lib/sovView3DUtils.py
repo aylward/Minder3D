@@ -166,7 +166,7 @@ def convert_masks_to_surfaces(mask_list):
     num_masks = len(mask_list)
     mask_surfaces = []
     if num_masks > 0:
-        for mask_num, mask in enumerate(mask_list):
+        for mask in mask_list:
             vtkmask = itk.vtk_image_from_image(mask.GetImage())
             SN = vtkSurfaceNets3D()
             SN.SetInputData(vtkmask)

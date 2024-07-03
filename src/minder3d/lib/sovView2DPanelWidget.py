@@ -299,13 +299,18 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
             self.update_view_plane_coronal(redraw=False)
         elif view_plane == 1:
             self.update_view_plane_sagittal(redraw=False)
-        elif view_plane == 2:
+        else:  # if view_plane == 2:
             self.update_view_plane_axial(redraw=False)
 
         # Sagittal axis is viewed in the negative direction
-        flip[self.state.view2D_csa_axis_order[-1][1]] = not flip[
-            self.state.view2D_csa_axis_order[-1][1]
-        ]
+        # flip[self.state.view2D_csa_axis_order[-1][1]] = not flip[
+        # self.state.view2D_csa_axis_order[-1][1]
+        # ]
+        # If coronal axis is data axis 2, then it is viewed in the negative direction
+        if self.state.view2D_csa_axis_order[-1][0] == 2:
+            flip[self.state.view2D_csa_axis_order[-1][0]] = not flip[
+                self.state.view2D_csa_axis_order[-1][0]
+            ]
         self.state.view2D_flip.append(flip)
 
     @time_and_log
@@ -457,6 +462,9 @@ class View2DPanelWidget(QWidget, Ui_View2DPanelWidget):
 
     @time_and_log
     def redraw_object(self, so):
+        if self.state.current_image_num < 0:
+            return
+
         if (
             self.state.highlight_selected
             and so.GetId() in self.state.selected_ids

@@ -88,10 +88,22 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         self.settings.clear_data()
         self.fill_table()
 
+    def close_expanded_table(self):
+        self.enlarged_table.close()
+        self.enlarged_table = None
+
     def expand_table(self):
         if self.enlarged_table is None:
             self.enlarged_table = ImageTablePanelWidget(self.gui, self.state)
             self.enlarged_table.setWindowTitle('Image Table')
+            self.enlarged_table.imageTableExpandButton.setText('CLOSE')
+            self.enlarged_table.imageTableExpandButton.setMinimumWidth(75)
+            self.enlarged_table.imageTableExpandButton.clicked.disconnect()
+            self.enlarged_table.imageTableExpandButton.clicked.connect(
+                self.close_expanded_table
+            )
+            self.enlarged_table.show()
+        else:
             self.enlarged_table.show()
 
     @time_and_log
